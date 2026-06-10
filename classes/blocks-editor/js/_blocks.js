@@ -306,6 +306,10 @@ class Block {
 					if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
 						BlocksEditor.selectedBlock = null;
 					}
+					// Remover de la estructura en memoria
+					if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {
+						BlocksEditor.removeInstance(this);
+					}
 					// Remover del DOM
 					if (this.$block && this.$block.parentNode) {
 						this.$block.parentNode.removeChild(this.$block);

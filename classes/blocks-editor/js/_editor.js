@@ -3991,6 +3991,27 @@ class BlocksEditor {
 		return (new BlocksEditor.classes[type]()).init(settings, html);
 	}
 
+	/**
+	 * Remove a block instance from the editor document items tree.
+	 * Recursively searches BlocksEditor.$editorDocument and splices out the instance.
+	 */
+	static removeInstance(targetInstance) {
+		function recurse(parent) {
+			if (!parent || !parent.items) return false;
+			for (let i = 0; i < parent.items.length; i++) {
+				if (parent.items[i] === targetInstance) {
+					parent.items.splice(i, 1);
+					return true;
+				}
+				// Recurse into children
+				if (recurse(parent.items[i])) return true;
+			}
+			return false;
+		}
+
+		return recurse(BlocksEditor.$editorDocument);
+	}
+
 	getClasses() {
 
 	}
