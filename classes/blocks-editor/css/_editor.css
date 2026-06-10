@@ -1,0 +1,255 @@
+#wpcontent {
+	padding-top: 20px;
+	padding-right: 20px;
+	padding: 0 !important;
+}
+@media (width > 200px) {
+	#wpcontent {
+		background-color: #c9e1f7;
+	}
+}
+.uix-page-body {
+	display: flex;
+	/*height: calc(100vh - 100px);*/
+	padding: 8px;
+	column-gap: 12px;
+	background-color: #fff;
+}
+.uix-page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px;
+	background-color: #fff;
+	border-bottom: 1px solid #bebebe;
+	border-bottom: 1px solid #a1a1a1;
+}
+.uix-page-header .page-title {
+	margin: 0;
+	font-size: 20px;
+}
+:is(.blocks-container, .blocks-sidebar) {
+	border: 1px solid #bebebe;
+	border: 1px solid #a1a1a1;
+	border-radius: 2px;
+}
+.blocks-view {
+	padding: 8px;
+	flex-grow: 1;
+	background-color: #fff;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.blocks-sidebar {
+	flex-shrink: 0;
+	width: 270px;
+}
+.blocks-container {
+	/*padding: 5px;*/
+	min-height: 650px;
+	background-color: #262c34;
+	border: none;
+}
+.blocks-toolbar {
+	display: flex;
+	padding: 8px 10px;
+	column-gap: 5px;
+	border-bottom: 1px solid #445060;
+}
+.blocks-toolbar button {
+	border: #262c34fc;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+	background-color: #484d54;
+}
+.blocks-viewport {
+	display: block;
+	width: 100%;
+	height: calc(100% - 39px);
+	background-color: #ffffff;
+	border: none;
+	margin: auto;
+}
+.blocks-list {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 10px;
+	padding: 10px;
+}
+.blocks-list button {
+	background-color: #fbfbfb;
+	border: 1px solid #b9b9b9;
+	border-radius: 4px;
+	cursor: pointer;
+	line-height: 1 !important;
+	white-space: normal !important;
+}
+.blocks-list button .block-icon {
+	font-size: 18px;
+}
+.blocks-list button .block-name {
+	margin: 6px 0px 0px;
+	font-size: 11px;
+	line-height: 1;
+}
+.blocks-view iframe {
+	width: 100%;
+	border: none;
+}
+.tabs .tab-header {
+	display: flex;
+	/*border-bottom: 1px solid #a1a1a1;*/
+}
+.tabs .tab-header .tab {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 0;
+	padding: 8px;
+	font-size: 18px;
+	background-color: #fff;
+	cursor: pointer;
+}
+.tabs .tab-header .tab:not([data-active])::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 1px;
+	background-color: #a1a1a1;
+}
+.tabs .tab-header .tab[data-active]::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 4px;
+	background-color: #2271b1;
+}
+.tabs .tab-header .tab + .tab {
+	border-left: 1px solid #a1a1a1;
+}
+.tabs .tab-header .tab p {
+	margin: 8px 0 0;
+}
+.tabs :is(.tab-body, .tab-content) .tab-panel > .ui-panel {
+	border: none !important;
+}
+:is(h1, h2, h3, h4, h5) {
+	font-family: Open Sans;
+	font-family: Rubik;
+	font-family: Source Sans Pro;
+}
+[data-block][data-block-type=content] > .block-ui-frame {
+	--border-style: solid;
+}
+[data-block][data-block-type=container] > .block-ui-frame {
+	--border-style: dashed;
+}
+.block-tools-frame, .block-ui-frame {
+	--ui-color: #848484;
+	position: absolute;
+	inset: 0;
+	border: 1px solid #23adca;
+	border: 1px var(--border-style) var(--ui-color);
+	z-index: 40;
+}
+.block-ui-frame:hover {
+	--ui-color: #23adca;
+}
+.block-ui-frame:hover :is(.block-ui-tools, .block-ui-name) {
+	z-index: 10;
+}
+.block-tools-frame .block-tools-list, .block-ui-frame .block-ui-tools {
+	display: flex;
+	top: -1px;
+	right: -1px;
+}
+.block-ui-frame .block-ui-name {
+	display: flex;
+	top: -1px;
+	left: -1px;
+	padding: 2px 6px;
+	font-family: Lato;
+	font-size: 12px;
+	line-height: 1;
+}
+.block-tools-frame button.block-tool, .block-ui-frame button.block-ui-tool {
+	border: none;
+	cursor: pointer;
+	aspect-ratio: 1 / 1;
+	padding-inline: 4px;
+	background: #23adca;
+	background: var(--ui-color);
+	font-size: 12px;
+	color: inherit;
+}
+button.block-ui-tool[disabled] {
+	cursor: auto;
+	background-color: #b4b4b4;
+	pointer-events: none;
+}
+.block-ui-frame button.block-ui-tool:hover {
+	background: #33c5e3;
+}
+.block-ui-frame :is(.block-ui-name, .block-ui-tools) {
+	position: absolute;
+	background: #23adca;
+	background-color: var(--ui-color);
+	color: #ffffff;
+}
+[data-edit-mode] {
+
+}
+[data-block] .block-items-container {
+
+}
+.uix-field + .uix-field{
+	margin-top: 10px;
+}
+.uix-field label {
+	display: block;
+	margin-bottom: 6px;
+}
+.uix-field :is(input, select, textarea) {
+	width: 100%;
+	display: block;
+}
+table thead td {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+table tbody tr:hover {
+	background-color: #c5dfef;
+}
+table tbody td {
+	padding: 5px 10px;
+}
+/*
+diseño web colores cantidad variaciones mismo color
+diseño web colores cantidad
+https://piktochart.com/es/blog/como-elegir-la-paleta-de-colores-parte-entender-el-color/
+https://www.webfx.com/blog/web-design/a-look-into-color-theory-in-web-design/
+wordpress get admin url admin.php
+https://stackoverflow.com/questions/64828762/getting-current-page-url-on-wp-admin-admin-dashboard
+wordpress gutenberg block useblockprops
+https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
+https://www.google.com/search?q=education+web+&tbm=isch&ved=2ahUKEwj4udnfl9P5AhWtRLgEHdsVBQQQ2-cCegQIABAA&oq=education+web+&gs_lcp=CgNpbWcQAzIECCMQJzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQE1CgCFigCGDPCWgAcAB4AIABgwGIAe0BkgEDMC4ymAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=p6f_YrjKKa2J4dUP26uUIA&bih=969&biw=1920#imgrc=QyfCH4OwsvmxcM&imgdii=L_SyR_V7CTFg-M
+education web
+https://www.indiatoday.in/education-today/featurephilia/story/online-learning-a-new-reality-for-schools-during-covid-19-1672523-2020-05-01
+https://dribbble.com/tags/education_website*/
+
+/* Resaltar bloque seleccionado en el editor */
+[data-block].block-selected[data-edit-mode], [data-block][data-edit-mode].block-selected {
+	outline: 3px solid #ff9800;
+	box-shadow: 0 0 0 6px rgba(255,152,0,0.08);
+	background-color: rgba(255,152,0,0.06);
+}
+
+.block-selected .block-ui-frame {
+	border-color: #ff9800;
+}
