@@ -295,6 +295,28 @@ class Block {
 			});
 		}
 
+		// Añadir botón 'Eliminar' para todos los bloques
+		uiTools.push({
+			icon: 'fa fa-trash',
+			title: 'Eliminar bloque',
+			handler: () => {
+				try {
+					if (!confirm('¿Eliminar este bloque? Esta acción no se puede deshacer.')) return;
+					// Limpiar selección si se está eliminando el bloque seleccionado
+					if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
+						BlocksEditor.selectedBlock = null;
+					}
+					// Remover del DOM
+					if (this.$block && this.$block.parentNode) {
+						this.$block.parentNode.removeChild(this.$block);
+					}
+					console.log('Bloque eliminado:', this.blockName);
+				} catch (e) {
+					console.error('Error al eliminar bloque:', e);
+				}
+			}
+		});
+
 		$uiFrame.className = 'block-ui-frame';
 		$uiTools.className = 'block-ui-tools';
 		$uiBlockName.className = 'block-ui-name';
