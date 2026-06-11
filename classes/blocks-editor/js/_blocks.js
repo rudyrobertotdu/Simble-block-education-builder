@@ -275,7 +275,7 @@ class Block {
 		if (this.blockName === 'section' || this.constructor.name === 'Section') {
 			uiTools.push({
 				icon: 'fa fa-hand-pointer-o',
-				title: 'Seleccionar',
+				title: 'Seleccionar Sección',
 				handler: () => {
 					try {
 						if (typeof BlocksEditor !== 'undefined') {
