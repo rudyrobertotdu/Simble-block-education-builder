@@ -280,11 +280,18 @@
 					BlocksEditor.$editorDocument.editBlock();
 					BlocksEditor.$editorDocument.renderBlock();
 
-					// Mostrar controles del último bloque añadido (en target o en documento)
+					// Mostrar controles del último bloque añadido solo si no insertamos dentro
+					// de la sección actualmente seleccionada (para no abrir el panel automáticamente)
 					try {
 						let list = (target && target.items && target.items.length) ? target.items : BlocksEditor.$editorDocument.items;
 						let last = list[list.length - 1];
-						last && last.showControls && last.showControls();
+						// No abrir automáticamente el panel de edición si:
+						// - insertamos dentro de la sección actualmente seleccionada
+						// - insertamos en el documento raíz (fuera de una sección)
+						// - estamos insertando una nueva sección
+						if (last && last.showControls && BlocksEditor.selectedBlock !== target && target !== BlocksEditor.$editorDocument && className !== 'Section') {
+							last.showControls();
+						}
 					} catch (e) { /* no crítico */ }
 				} catch (e) {
 					console.error('Error al insertar bloque en target:', e);
