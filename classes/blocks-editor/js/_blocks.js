@@ -219,6 +219,10 @@ class Block {
 
 		$block.dataset.block = this.blockName;
 		$block.prepend(this.createEditTools());
+		// reaplicar estado de selección si corresponde
+		if (this.isSelected) {
+			$block.classList.add('block-selected');
+		}
 		//createEditUI()
 		return $block;
 	}
@@ -229,6 +233,11 @@ class Block {
 		$block.prepend(this.createEditTools());
 		$block.setAttribute('data-block-type', this.blockType);
 		$block.setAttribute('data-edit-mode', '');
+
+		// reaplicar estado de selección si corresponde
+		if (this.isSelected) {
+			$block.classList.add('block-selected');
+		}
 
 		return $block;
 	}
@@ -273,17 +282,20 @@ class Block {
 							// Si este bloque ya está seleccionado, deseleccionarlo (toggle)
 							if (BlocksEditor.selectedBlock === this) {
 								this.$block && this.$block.classList.remove('block-selected');
+								this.isSelected = false;
 								BlocksEditor.selectedBlock = null;
 								console.log('Bloque deseleccionado via botón:', this.blockName);
 								return;
 							}
-							// Quitar selección previa
+							// Quitar selección previa (y limpiar su bandera)
 							if (BlocksEditor.selectedBlock && BlocksEditor.selectedBlock.$block) {
 								BlocksEditor.selectedBlock.$block.classList.remove('block-selected');
+								BlocksEditor.selectedBlock.isSelected = false;
 							}
 							// Marcar este bloque como seleccionado
 							BlocksEditor.selectedBlock = this;
 							this.$block && this.$block.classList.add('block-selected');
+							this.isSelected = true;
 							console.log('Bloque seleccionado via botón:', this.blockName);
 						} else {
 							console.warn('BlocksEditor no disponible para selección');
@@ -305,6 +317,7 @@ class Block {
 					// Limpiar selección si se está eliminando el bloque seleccionado
 					if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
 						BlocksEditor.selectedBlock = null;
+						this.isSelected = false;
 					}
 					// Remover de la estructura en memoria
 					if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {

@@ -3977,6 +3977,17 @@ class BlocksEditor {
 		BlocksEditor.$editorDocument.editBlock();
 		BlocksEditor.$editorDocument.renderBlock();
 
+		// Observer to ensure selection class persists after DOM mutations (adding/removing blocks)
+		try {
+			const observerRoot = BlocksEditor.$editorBlocksViewport.contentDocument.body;
+			if (observerRoot && window.MutationObserver) {
+				const mo = new MutationObserver(() => {
+					BlocksEditor.reapplySelection();
+				});
+				mo.observe(observerRoot, { childList: true, subtree: true });
+			}
+		} catch (e) { console.warn('Could not attach MutationObserver for selection persistence', e); }
+
 
 
 		//BlocksEditor.$editorBlocksContainer.append(BlocksEditor.$editorDocument.getEditBlock());
@@ -4010,6 +4021,18 @@ class BlocksEditor {
 		}
 
 		return recurse(BlocksEditor.$editorDocument);
+	}
+
+	static reapplySelection() {
+		try {
+			if (!BlocksEditor.selectedBlock) return;
+			const inst = BlocksEditor.selectedBlock;
+			if (inst.$block && inst.$block.isConnected) {
+				if (!inst.$block.classList.contains('block-selected')) {
+					inst.$block.classList.add('block-selected');
+				}
+			}
+		} catch (e) { console.warn('reapplySelection error', e); }
 	}
 
 	getClasses() {
