@@ -435,30 +435,25 @@
 						$dom->loadHTML('<?xml encoding="utf-8" ?><div>' . $processed_html . '</div>');
 						$xpath = new \DOMXPath($dom);
 						$nodes = $xpath->query("//*[@data-block='shortcode' or contains(concat(' ', normalize-space(@class), ' '), ' shortcode ')]");
-						if ($nodes && $nodes->length) {
-							foreach ($nodes as $node) {
-								$text = trim($node->textContent);
-								// remove surrounding brackets and whitespace
-								$inner = trim($text);
-								$inner = trim($inner, "[] \t\n\r");
-								if ($inner === '') {
-									$new = '';
-								} else {
-									// Ensure wrapped in single brackets
-									$new = '[' . $inner . ']';
-									// Replace dangerous characters with spaces (keep letters, numbers, underscore, hyphen, brackets and whitespace)
-									$new = preg_replace('/[^\p{L}\p{N}_\-\[\]\s]/u', ' ', $new);
-									// collapse multiple spaces
-									$new = preg_replace('/\s+/', ' ', $new);
-									$new = trim($new);
-									// ensure brackets remain
-									if ($new !== '' && $new[0] !== '[') $new = '[' . $new . ']';
+							if ($nodes && $nodes->length) {
+								foreach ($nodes as $node) {
+									$text = trim($node->textContent);
+									// remove surrounding brackets and whitespace
+									$inner = trim($text);
+									$inner = trim($inner, "[] \t\n\r");
+									// replace angle brackets with underscore to avoid HTML tag injection
+									$inner = str_replace(array('<', '>'), '_', $inner);
+									if ($inner === '') {
+										$new = '';
+									} else {
+										// Ensure wrapped in single brackets (no other sanitization)
+										$new = '[' . $inner . ']';
+									}
+									// replace node content with literal
+									while ($node->firstChild) $node->removeChild($node->firstChild);
+									$node->appendChild($dom->createTextNode($new));
 								}
-								// replace node content with sanitized literal
-								while ($node->firstChild) $node->removeChild($node->firstChild);
-								$node->appendChild($dom->createTextNode($new));
 							}
-						}
 						// extract inner HTML of wrapper div
 						$wrapper = $dom->getElementsByTagName('div')->item(0);
 						$innerHTML = '';

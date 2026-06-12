@@ -4268,22 +4268,11 @@ class Shortcode extends Block {
 
 		let { shortcode = '' } = settings || {};
 
-		// Normalize and sanitize shortcode to always be wrapped in single brackets [slug]
+		// Normalize shortcode to always be wrapped in single brackets [slug]
 		if (shortcode) {
 			let inner = shortcode.toString().trim().replace(/^\[+/, '').replace(/\]+$/, '').trim();
-			// sanitize: remove characters that are not letters, numbers, underscore, hyphen, brackets or whitespace
-			try {
-				inner = inner.replace(/[^^]/, inner); // noop to ensure try/catch for older engines
-			} catch (e) {
-				// continue
-			}
-			// Use Unicode property escapes if available, fallback to basic word chars
-			try {
-				inner = inner.replace(/[^\p{L}\p{N}_\-\s]/gu, ' ');
-			} catch (e) {
-				inner = inner.replace(/[^\w\-\s]/g, ' ');
-			}
-			inner = inner.replace(/\s+/g, ' ').trim();
+			// replace angle brackets with underscore to avoid HTML injection
+			inner = inner.replace(/<|>/g, '_');
 			let normalized = inner === '' ? '' : ('[' + inner + ']');
 			// persist normalized value in instance settings so saveConfig captures it
 			this.settings.shortcode = normalized;
