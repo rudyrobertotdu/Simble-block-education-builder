@@ -3896,6 +3896,12 @@ var parsedBlocks2 = {
 		}
 	]
 };
+// Si existe la plantilla anónima `parsedBlocks`, créale una copia nombrada
+if (typeof parsedBlocks !== 'undefined' && Array.isArray(parsedBlocks)) {
+	parsedBlocks2['content'] = parsedBlocks2['content'] || {};
+	// Registrar una copia con nombre para poder seleccionarla desde el editor
+	parsedBlocks2['content']['default-content'] = parsedBlocks.slice();
+}
 class BlocksEditor {
 
 	static classes = {

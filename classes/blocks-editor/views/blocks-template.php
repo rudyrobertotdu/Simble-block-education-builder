@@ -387,16 +387,32 @@
 
 				BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
 
+				// Support legacy `parsedBlocks` (array) as the unnamed content template.
 				// parsedBlocks2.content is an object keyed by post_name. Use selected post if available,
-				// otherwise fallback to the first defined content template.
+				// otherwise prefer explicit named templates or fallback to `parsedBlocks` if present.
 				var contentTemplates = parsedBlocks2['content'] || {};
+				var unnamedContent = (typeof parsedBlocks !== 'undefined' && Array.isArray(parsedBlocks)) ? parsedBlocks : null;
 				var postKey = $tplPost.val();
 				var selectedTemplates = null;
 				if (postKey && contentTemplates[postKey]) {
 					selectedTemplates = contentTemplates[postKey];
 				} else {
-					var keys = Object.keys(contentTemplates);
-					if (keys.length) selectedTemplates = contentTemplates[keys[0]];
+					// Prefer explicit 'default-content' (copy of anonymous template),
+					// otherwise prefer 'plana-docente', otherwise use the first key,
+					// otherwise fallback to unnamed `parsedBlocks`.
+					if (contentTemplates['default-content']) {
+						selectedTemplates = contentTemplates['default-content'];
+					} else if (contentTemplates['plana-docente']) {
+						selectedTemplates = contentTemplates['plana-docente'];
+					} else {
+						var keys = Object.keys(contentTemplates);
+						if (keys.length) {
+							selectedTemplates = contentTemplates[keys[0]];
+						} else if (unnamedContent) {
+							// wrapped as an array of templates, use it directly
+							selectedTemplates = unnamedContent;
+						}
+					}
 				}
 
 				console.log('load-template: section=', $tplSection.val(), 'postKey=', postKey);

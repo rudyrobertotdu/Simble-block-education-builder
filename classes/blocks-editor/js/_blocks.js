@@ -306,33 +306,34 @@ class Block {
 				}
 			});
 		}
-
-		// Añadir botón 'Eliminar' para todos los bloques
-		uiTools.push({
-			icon: 'fa fa-trash',
-			title: 'Eliminar bloque',
-			handler: () => {
-				try {
-					if (!confirm('¿Eliminar este bloque? Esta acción no se puede deshacer.')) return;
-					// Limpiar selección si se está eliminando el bloque seleccionado
-					if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
-						BlocksEditor.selectedBlock = null;
-						this.isSelected = false;
+		// Añadir botón 'Eliminar' para todos los bloques excepto el documento raíz (Canvas)
+		if (this.blockName !== 'canvas' && this.constructor.name !== 'Canvas') {
+			uiTools.push({
+				icon: 'fa fa-trash',
+				title: 'Eliminar bloque',
+				handler: () => {
+					try {
+						if (!confirm('¿Eliminar este bloque? Esta acción no se puede deshacer.')) return;
+						// Limpiar selección si se está eliminando el bloque seleccionado
+						if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
+							BlocksEditor.selectedBlock = null;
+							this.isSelected = false;
+						}
+						// Remover de la estructura en memoria
+						if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {
+							BlocksEditor.removeInstance(this);
+						}
+						// Remover del DOM
+						if (this.$block && this.$block.parentNode) {
+							this.$block.parentNode.removeChild(this.$block);
+						}
+						console.log('Bloque eliminado:', this.blockName);
+					} catch (e) {
+						console.error('Error al eliminar bloque:', e);
 					}
-					// Remover de la estructura en memoria
-					if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {
-						BlocksEditor.removeInstance(this);
-					}
-					// Remover del DOM
-					if (this.$block && this.$block.parentNode) {
-						this.$block.parentNode.removeChild(this.$block);
-					}
-					console.log('Bloque eliminado:', this.blockName);
-				} catch (e) {
-					console.error('Error al eliminar bloque:', e);
 				}
-			}
-		});
+			});
+		}
 
 		$uiFrame.className = 'block-ui-frame';
 		$uiTools.className = 'block-ui-tools';
