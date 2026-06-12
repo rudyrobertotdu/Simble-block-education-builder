@@ -4268,13 +4268,36 @@ class Shortcode extends Block {
 
 		let { shortcode = '' } = settings || {};
 
-		// Save text literally (no wrapping or normalization)
+		// Normalize and sanitize shortcode to always be wrapped in single brackets [slug]
 		if (shortcode) {
-			$block.setAttribute('data-shortcode', shortcode);
-			try { $content.textContent = shortcode; } catch (e) { $content.innerHTML = shortcode; }
+			let inner = shortcode.toString().trim().replace(/^\[+/, '').replace(/\]+$/, '').trim();
+			// sanitize: remove characters that are not letters, numbers, underscore, hyphen, brackets or whitespace
+			try {
+				inner = inner.replace(/[^^]/, inner); // noop to ensure try/catch for older engines
+			} catch (e) {
+				// continue
+			}
+			// Use Unicode property escapes if available, fallback to basic word chars
+			try {
+				inner = inner.replace(/[^\p{L}\p{N}_\-\s]/gu, ' ');
+			} catch (e) {
+				inner = inner.replace(/[^\w\-\s]/g, ' ');
+			}
+			inner = inner.replace(/\s+/g, ' ').trim();
+			let normalized = inner === '' ? '' : ('[' + inner + ']');
+			// persist normalized value in instance settings so saveConfig captures it
+			this.settings.shortcode = normalized;
+			$block.setAttribute('data-shortcode', normalized);
+			try { $content.textContent = normalized; } catch (e) { $content.innerHTML = normalized; }
 		} else {
 			$content.innerHTML = this.$content ? this.$content.innerHTML : '';
 		}
+
+		// Ensure saveConfig reflects updated settings (so parent containers capture normalized value)
+		try {
+			this.saveConfig = this.saveConfig || {};
+			this.saveConfig.settings = this.settings;
+		} catch (e) { /* ignore */ }
 
 		return $block;
 	}

@@ -425,6 +425,52 @@
 						_log('[TEMP] create-blocks-template incoming template_html: <not set>');
 					}
 
+					// Normalize and sanitize shortcode contents inside the submitted HTML
+					if (isset($data['template_html']) && is_string($data['template_html'])) {
+						$raw_html = stripslashes($data['template_html']);
+						$processed_html = $raw_html;
+						libxml_use_internal_errors(true);
+						$dom = new \DOMDocument();
+						// Wrap fragment to ensure valid HTML
+						$dom->loadHTML('<?xml encoding="utf-8" ?><div>' . $processed_html . '</div>');
+						$xpath = new \DOMXPath($dom);
+						$nodes = $xpath->query("//*[@data-block='shortcode' or contains(concat(' ', normalize-space(@class), ' '), ' shortcode ')]");
+						if ($nodes && $nodes->length) {
+							foreach ($nodes as $node) {
+								$text = trim($node->textContent);
+								// remove surrounding brackets and whitespace
+								$inner = trim($text);
+								$inner = trim($inner, "[] \t\n\r");
+								if ($inner === '') {
+									$new = '';
+								} else {
+									// Ensure wrapped in single brackets
+									$new = '[' . $inner . ']';
+									// Replace dangerous characters with spaces (keep letters, numbers, underscore, hyphen, brackets and whitespace)
+									$new = preg_replace('/[^\p{L}\p{N}_\-\[\]\s]/u', ' ', $new);
+									// collapse multiple spaces
+									$new = preg_replace('/\s+/', ' ', $new);
+									$new = trim($new);
+									// ensure brackets remain
+									if ($new !== '' && $new[0] !== '[') $new = '[' . $new . ']';
+								}
+								// replace node content with sanitized literal
+								while ($node->firstChild) $node->removeChild($node->firstChild);
+								$node->appendChild($dom->createTextNode($new));
+							}
+						}
+						// extract inner HTML of wrapper div
+						$wrapper = $dom->getElementsByTagName('div')->item(0);
+						$innerHTML = '';
+						if ($wrapper) {
+							foreach ($wrapper->childNodes as $child) {
+								$innerHTML .= $dom->saveHTML($child);
+							}
+						}
+						$data['template_html'] = $innerHTML;
+						_log('[TEMP] create-blocks-template processed template_html length: ' . strlen($data['template_html']));
+					}
+
 					if ($data['template_id'] == '0') {
 
 						$template_id = $db->insert('blocks_editor_templates', [
