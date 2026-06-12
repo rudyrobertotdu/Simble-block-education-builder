@@ -454,5 +454,27 @@
 				BlocksEditor.$editorDocument.renderBlock();
 			}
 		});
+
+		// Auto-initialize an empty Canvas when creating a new template (action=create with no id)
+		var pageAction = '<?php echo $action; ?>';
+		var templateId = '<?php echo $_GET['id'] ?? '0'; ?>';
+		if (pageAction === 'create' && (templateId === '' || templateId === '0')) {
+			let attempts = 0;
+			let t = setInterval(() => {
+				if (typeof BlocksEditor !== 'undefined' && BlocksEditor.$editorBlocksViewport) {
+					clearInterval(t);
+					try {
+						BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
+						BlocksEditor.$editorBlocksViewport.contentDocument.body.innerHTML = '';
+						BlocksEditor.$editorBlocksViewport.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
+						BlocksEditor.$editorDocument.editBlock();
+						BlocksEditor.$editorDocument.renderBlock();
+					} catch (e) {
+						console.error('auto-init canvas error', e);
+					}
+				}
+				if (++attempts > 50) { clearInterval(t); }
+			}, 100);
+		}
 	})(jQuery);
 </script>
