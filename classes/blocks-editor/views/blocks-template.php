@@ -99,6 +99,47 @@
 					<i class="block-icon fa fa-file-image-o"></i>
 					<p class="block-name">Grupo de Caja de Icono</p>
 				</button>
+				<!-- Botones adicionales extraídos de las plantillas -->
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="images-slider">
+					<i class="block-icon fa fa-image"></i>
+					<p class="block-name">Slider de Imágenes</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="images-gallery">
+					<i class="block-icon fa fa-th-large"></i>
+					<p class="block-name">Galería de Imágenes</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="heading">
+					<i class="block-icon fa fa-header"></i>
+					<p class="block-name">Título</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="paragraph">
+					<i class="block-icon fa fa-paragraph"></i>
+					<p class="block-name">Párrafo</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="columns">
+					<i class="block-icon fa fa-columns"></i>
+					<p class="block-name">Columnas</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="call-to-action-group">
+					<i class="block-icon fa fa-bullhorn"></i>
+					<p class="block-name">Grupo Llamada a la Acción</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="posts-grid">
+					<i class="block-icon fa fa-th"></i>
+					<p class="block-name">Grid de Posts</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="navigation">
+					<i class="block-icon fa fa-navicon"></i>
+					<p class="block-name">Navegación</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="testimonials">
+					<i class="block-icon fa fa-quote-left"></i>
+					<p class="block-name">Testimonios</p>
+				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="contact-form">
+					<i class="block-icon fa fa-envelope"></i>
+					<p class="block-name">Formulario de Contacto</p>
+				</button>
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="seccion">
 					<i class="block-icon fa fa-th-large"></i>
 					<p class="block-name">Sección</p>
