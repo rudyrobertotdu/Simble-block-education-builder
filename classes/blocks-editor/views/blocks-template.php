@@ -387,22 +387,50 @@
 
 				BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
 
-				if (parsedBlocks2[$tplSection.val()][$tplPost.val()][0].items) {
-
-					BlocksEditor.$editorDocument.addBlockItems(parsedBlocks2[$tplSection.val()][$tplPost.val()][0].items);
+				// parsedBlocks2.content is an object keyed by post_name. Use selected post if available,
+				// otherwise fallback to the first defined content template.
+				var contentTemplates = parsedBlocks2['content'] || {};
+				var postKey = $tplPost.val();
+				var selectedTemplates = null;
+				if (postKey && contentTemplates[postKey]) {
+					selectedTemplates = contentTemplates[postKey];
+				} else {
+					var keys = Object.keys(contentTemplates);
+					if (keys.length) selectedTemplates = contentTemplates[keys[0]];
 				}
+
+				console.log('load-template: section=', $tplSection.val(), 'postKey=', postKey);
+				console.log('contentTemplates keys=', Object.keys(contentTemplates));
+				console.log('selectedTemplates=', selectedTemplates);
+
+				if (selectedTemplates && selectedTemplates[0] && selectedTemplates[0].items) {
+					selectedTemplates[0].items.forEach(function(item, idx) {
+						try {
+							BlocksEditor.$editorDocument.addBlockItems([item]);
+						} catch (e) {
+							console.error('load-template: error adding content item', idx, item.type, e);
+						}
+					});
+				}
+
 				BlocksEditor.$editorBlocksViewport.contentDocument.body.innerHTML = '';
 				BlocksEditor.$editorBlocksViewport.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
 				BlocksEditor.$editorDocument.editBlock();
 				BlocksEditor.$editorDocument.renderBlock();
-				
+			
 			} else {
 
 				BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
 
-				if (parsedBlocks2[$tplSection.val()][0].items) {
-
-					BlocksEditor.$editorDocument.addBlockItems(parsedBlocks2[$tplSection.val()][0].items);
+				var sectionTemplates = parsedBlocks2[$tplSection.val()];
+				if (sectionTemplates && sectionTemplates[0] && sectionTemplates[0].items) {
+					sectionTemplates[0].items.forEach(function(item, idx) {
+						try {
+							BlocksEditor.$editorDocument.addBlockItems([item]);
+						} catch (e) {
+							console.error('load-template: error adding section item', idx, item.type, e);
+						}
+					});
 				}
 				BlocksEditor.$editorBlocksViewport.contentDocument.body.innerHTML = '';
 				BlocksEditor.$editorBlocksViewport.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
