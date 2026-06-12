@@ -261,7 +261,7 @@
 						</select>
 					</div>
 					<div class="uix-field">
-						<button class="button" id="load-template" style="width: 100%; display: block;">Cargar plantilla</button>
+						<button class="button" id="load-template" style="width: 100%; display: block;">Cargar plantilla predeterminada</button>
 					</div>
 				</div>
 			</div>

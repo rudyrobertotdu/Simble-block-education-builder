@@ -441,8 +441,11 @@
 									// remove surrounding brackets and whitespace
 									$inner = trim($text);
 									$inner = trim($inner, "[] \t\n\r");
-									// replace angle brackets with underscore to avoid HTML tag injection
-									$inner = str_replace(array('<', '>'), '_', $inner);
+									// replace problematic characters with space to avoid HTML tag injection
+									$inner = str_replace(array('&', '<', '>', '"', "'"), ' ', $inner);
+									// collapse multiple spaces and trim
+									$inner = preg_replace('/\s+/', ' ', $inner);
+									$inner = trim($inner);
 									if ($inner === '') {
 										$new = '';
 									} else {
