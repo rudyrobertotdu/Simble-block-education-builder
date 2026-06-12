@@ -30,7 +30,12 @@
 					<td><?php echo $template['ID']; ?></td>
 					<td><?php echo $template['template_name']; ?></td>
 					<td><?php echo $template['template_section']; ?></td>
-					<td><a href="<?php echo admin_url("admin.php?page=blocks-template&action=update&id=".$template['ID']); ?>"><i class="fa fa-pencil"></i>Editar</a></td>
+					<td>
+						<a href="<?php echo admin_url("admin.php?page=blocks-template&action=update&id=".$template['ID']); ?>"><i class="fa fa-pencil"></i>Editar</a>
+						|
+						<?php $del_url = admin_url('admin-post.php?action=blocks-editor-request&handler=delete-template&id=' . $template['ID'] . '&_wpnonce=' . wp_create_nonce('delete_blocks_template_' . $template['ID'])); ?>
+						<a href="<?php echo $del_url; ?>" onclick="return confirm('¿Eliminar plantilla <?php echo addslashes($template['template_name']); ?>? Esta acción no se puede deshacer.')"><i class="fa fa-trash"></i>Borrar</a>
+					</td>
 				</tr>
 				<?php
 						endforeach;

@@ -1,8 +1,18 @@
 <?php
 	$action = $_GET['action'] ?? 'create';
 	$database = new WP_Database();
-	$structure = $database->fetch('blocks_editor_templates', 'ID = '. ($_GET['id'] ?? '0'), 'ID, template_name, template_structure');
-	$structure = empty($structure) ? [] : $structure;
+	$template_id = intval($_GET['id'] ?? 0);
+
+	// Obtener template principal
+	$tpl_rows = $database->fetch('blocks_editor_templates', 'ID = '. $template_id, 'ID, template_name, template_section, template_structure, template_html');
+	$template = empty($tpl_rows) ? null : $tpl_rows[0];
+
+	// Obtener especificidad (post_page, post_type, post_name)
+	$spec_rows = $database->fetch('blocks_editor_specificity', 'template_id = '. $template_id, 'post_page, post_type, post_name');
+	$specificity = empty($spec_rows) ? ['post_page'=>'', 'post_type'=>'', 'post_name'=>''] : $spec_rows[0];
+
+	// For legacy code compatibility
+	$structure = $template ? [$template] : [];
 ?>
 <div class="uix-page blocks-editor">
 	<div class="uix-page-header">
@@ -183,26 +193,49 @@
 					<h2 style="font-family: Rubik; font-size: 15px">AJUSTES DE PLANTILLA</h2>
 				</div>
 				<div style="padding: 10px 10px">
-					<div class="uix-field">
-						<label for="">Nombre de plantilla</label>
-						<input type="text" name="data[template_name]">
-					</div>
-					<div class="uix-field">
-						<label for="">Seccion de plantilla</label>
-						<select name="data[template_section]" id="">
-							<option value="header">Encabezado de pagina</option>
-							<option value="content">Contenido de pagina</option>
-							<option value="footer">Pie de pagina</option>
-						</select>
-					</div>
-					<div class="uix-field">
-						<label for="">Pagina de publicacion (Post Template)</label>
-						<input type="text" name="data[post_page]">
-					</div>
-					<div class="uix-field">
-						<label for="">Tipo de publicacion (Post Type)</label>
-						<input type="text" name="data[post_type]">
-					</div>
+						<div class="uix-field">
+							<label for="">Nombre de plantilla</label>
+							<input type="text" name="data[template_name]" value="<?php echo esc_attr($template['template_name'] ?? ''); ?>">
+						</div>
+						<div class="uix-field">
+							<label for="">Seccion de plantilla</label>
+							<select name="data[template_section]" id="">
+								<option value="header" <?php echo (isset($template['template_section']) && $template['template_section'] == 'header') ? 'selected' : ''; ?>>Encabezado de pagina</option>
+								<option value="content" <?php echo (isset($template['template_section']) && $template['template_section'] == 'content') ? 'selected' : ''; ?>>Contenido de pagina</option>
+								<option value="footer" <?php echo (isset($template['template_section']) && $template['template_section'] == 'footer') ? 'selected' : ''; ?>>Pie de pagina</option>
+							</select>
+						</div>
+						<div class="uix-field">
+							<label for="">Pagina de publicacion (Post Template)</label>
+							<?php
+								$post_page_opts = [
+									'' => '-- Ninguno --',
+									'all' => 'all (Todas)',
+									'single' => 'single (Singular)',
+									'archive' => 'archive (Archivo)',
+									'taxonomy' => 'taxonomy (Taxonomía)',
+									'404' => '404 (Página 404)'
+								];
+							?>
+							<select name="data[post_page]">
+								<?php foreach ($post_page_opts as $val => $label): ?>
+									<option value="<?php echo esc_attr($val); ?>" <?php echo (isset($specificity['post_page']) && $specificity['post_page'] === $val) ? 'selected' : ''; ?>><?php echo esc_html($label); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						<div class="uix-field">
+							<label for="">Tipo de publicacion (Post Type)</label>
+							<?php
+								// Limit to main types 'post' and 'page' as requested
+								$post_types = [ 'post' => 'Post', 'page' => 'Page' ];
+							?>
+							<select name="data[post_type]">
+								<option value="">-- Todas las tipos --</option>
+								<?php foreach ($post_types as $pt_name => $label): ?>
+									<option value="<?php echo esc_attr($pt_name); ?>" <?php echo (isset($specificity['post_type']) && $specificity['post_type'] === $pt_name) ? 'selected' : ''; ?>><?php echo esc_html($label); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
 					<div class="uix-field">
 						<?php
 
@@ -213,12 +246,12 @@
 						<select name="data[post_name]" id="">
 							<option value="">--Todas las paginas--</option>
 							<?php
-	    						foreach ($pages as $key => $page):
-	    					?>
-	    					<option class="" value="<?php echo $page['post_name'] ?>"><?php echo $page['post_title']; ?></option>
-	    					<?php
-	    						endforeach;
-	    					?>
+								foreach ($pages as $key => $page):
+							?>
+							<option class="" value="<?php echo $page['post_name'] ?>" <?php echo (isset($specificity['post_name']) && $specificity['post_name'] == $page['post_name']) ? 'selected' : ''; ?>><?php echo $page['post_title']; ?></option>
+							<?php
+								endforeach;
+							?>
 						</select>
 					</div>
 					<div class="uix-field">
@@ -365,10 +398,10 @@
     			let $tplHTML = $(this).find("input[name='data[template_html]']"),
     				$tplStructure = $(this).find("input[name='data[template_structure]']"),
     				$tplName = $('.blocks-data').find("input[name='data[template_name]']"),
-    				$tplSection = $('.blocks-data').find("select[name='data[template_section]']"),
-    				$postPage = $('.blocks-data').find("input[name='data[post_page]']"),
-    				$postType = $('.blocks-data').find("input[name='data[post_type]']"),
-    				$postName = $('.blocks-data').find("select[name='data[post_name]']"),
+					$tplSection = $('.blocks-data').find("select[name='data[template_section]']"),
+					$postPage = $('.blocks-data').find("input[name='data[post_page]'], select[name='data[post_page]']"),
+					$postType = $('.blocks-data').find("input[name='data[post_type]'], select[name='data[post_type]']"),
+					$postName = $('.blocks-data').find("select[name='data[post_name]']"),
     				$formPostPage = $(this).find("input[name='data[post_page]']"),
     				$formPostType = $(this).find("input[name='data[post_type]']"),
     				$formPostName = $(this).find("input[name='data[post_name]']");

@@ -338,8 +338,9 @@
 		public function handle_request() {
 
 			$db = new WP_Database();
-			$data = $_POST['data'] ?? [];
-			$handler = $_POST['handler'];
+			// Accept handler and data via POST or GET (admin-post.php may send via GET)
+			$data = $_REQUEST['data'] ?? [];
+			$handler = $_REQUEST['handler'] ?? null;
 
 			switch ($handler) {
 
@@ -433,15 +434,35 @@
 
 					} else {
 
-						$response = $db->update('blocks_editor_templates', [
-							'template_structure' => stripslashes($data['template_structure']),
-							'template_html' => stripslashes($data['template_html'])
+						// Update template main fields and structure
+						$tpl_id = intval($data['template_id']);
+						$db->update('blocks_editor_templates', [
+							'template_name' => $data['template_name'] ?? '',
+							'template_section' => $data['template_section'] ?? '',
+							'template_structure' => stripslashes($data['template_structure'] ?? ''),
+							'template_html' => stripslashes($data['template_html'] ?? '')
 						], [
-							'ID' => $data['template_id']
+							'ID' => $tpl_id
 						]);
 
-						wp_redirect(admin_url("admin.php?page=blocks-template&action=update&id={$data['template_id']}"));
+						// Update specificity (if exists) otherwise insert
+						$spec_rows = $db->fetch('blocks_editor_specificity', 'template_id = '. $tpl_id, 'ID');
+						if (!empty($spec_rows)) {
+							$db->update('blocks_editor_specificity', [
+								'post_page' => $data['post_page'] ?? '',
+								'post_type' => $data['post_type'] ?? '',
+								'post_name' => $data['post_name'] ?? ''
+							], [ 'template_id' => $tpl_id ]);
+						} else {
+							$db->insert('blocks_editor_specificity', [
+								'post_page' => $data['post_page'] ?? '',
+								'post_type' => $data['post_type'] ?? '',
+								'post_name' => $data['post_name'] ?? '',
+								'template_id' => $tpl_id
+							]);
+						}
 
+						wp_redirect(admin_url("admin.php?page=blocks-template&action=update&id={$tpl_id}"));
 						exit;
 					}
 
@@ -454,6 +475,29 @@
 
 					wp_die();
 				break;
+
+				case 'delete-template':
+
+					$id = $_REQUEST['id'] ?? 0;
+					$id = intval($id);
+					if (!$id) {
+						wp_die('ID inválido');
+					}
+
+					// Verificar permisos y nonce
+					if (!current_user_can('activate_plugins') || !isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'delete_blocks_template_'. $id)) {
+						wp_die('No autorizado');
+					}
+
+					$db = new WP_Database();
+					// Eliminar plantilla y su especificidad
+					$db->query("DELETE FROM {$db->prfx}blocks_editor_templates WHERE ID = $id");
+					$db->query("DELETE FROM {$db->prfx}blocks_editor_specificity WHERE template_id = $id");
+
+					wp_redirect(admin_url('admin.php?page=site-templates&deleted=1'));
+					exit;
+
+			break;
 
 				default:
 				break;
