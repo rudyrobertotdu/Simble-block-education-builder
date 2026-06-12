@@ -226,8 +226,8 @@
 						<div class="uix-field">
 							<label for="">Tipo de publicacion (Post Type)</label>
 							<?php
-								// Limit to main types 'post' and 'page' as requested
-								$post_types = [ 'post' => 'Post', 'page' => 'Page' ];
+								// Include main types 'post', 'page' and 'attachment'
+								$post_types = [ 'post' => 'Post', 'page' => 'Page', 'attachment' => 'Attachment' ];
 							?>
 							<select name="data[post_type]">
 								<option value="">-- Todas las tipos --</option>
