@@ -271,8 +271,8 @@ class Block {
 			}
 		]
 
-		// Añadir botón 'Seleccionar' solo para bloques de tipo sección
-		if (this.blockName === 'section' || this.constructor.name === 'Section') {
+		// Añadir botón 'Seleccionar' para bloques de tipo sección y columna
+		if (this.blockName === 'section' || this.constructor.name === 'Section' || this.blockName === 'column' || this.constructor.name === 'Column') {
 			uiTools.push({
 				icon: 'fa fa-hand-pointer-o',
 				title: 'Seleccionar Sección',
