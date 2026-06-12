@@ -126,6 +126,10 @@
 					<i class="block-icon fa fa-paragraph"></i>
 					<p class="block-name">Párrafo</p>
 				</button>
+				<button class="button" style="aspect-ratio: 1 / 1" data-block="shortcode">
+					<i class="block-icon fa fa-code"></i>
+					<p class="block-name">Shortcode</p>
+				</button>
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="columns">
 					<i class="block-icon fa fa-columns"></i>
 					<p class="block-name">Columnas</p>
@@ -150,6 +154,7 @@
 					<i class="block-icon fa fa-envelope"></i>
 					<p class="block-name">Formulario de Contacto</p>
 				</button>
+
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="seccion">
 					<i class="block-icon fa fa-th-large"></i>
 					<p class="block-name">Sección</p>
@@ -316,6 +321,25 @@
 			let data = this.dataset.block || '';
 			if (!data) return;
 
+
+
+			// Helper: render canvas safely (checks iframe/document availability)
+			function renderCanvas() {
+				try {
+					var vp = BlocksEditor.$editorBlocksViewport;
+					if (vp && vp.contentDocument && vp.contentDocument.body && BlocksEditor.$editorDocument) {
+						vp.contentDocument.body.innerHTML = '';
+						vp.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
+						BlocksEditor.$editorDocument.editBlock();
+						BlocksEditor.$editorDocument.renderBlock();
+						return true;
+					}
+				} catch (e) {
+					console.warn('renderCanvas error', e);
+				}
+				return false;
+			}
+
 			const map = {
 				'image': 'Image',
 				'image-box': 'ImageBox',
@@ -330,11 +354,15 @@
 
 			let className = map[data] || data.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('');
 
+			console.log('blocks-list click:', { data, className, hasBlocksEditor: typeof BlocksEditor !== 'undefined', editorDoc: (typeof BlocksEditor !== 'undefined' ? !!BlocksEditor.$editorDocument : null) });
+
 			const insertBlock = () => {
 				if (typeof BlocksEditor === 'undefined' || !BlocksEditor.$editorDocument) {
 					console.warn('BlocksEditor no está listo para insertar bloques.');
 					return;
 				}
+
+				console.log('insertBlock: inserting', className, 'target:', BlocksEditor.selectedBlock || 'root');
 
 				// Determinar destino: bloque seleccionado (si existe) o documento raíz
 				let target = BlocksEditor.selectedBlock || BlocksEditor.$editorDocument;
@@ -348,11 +376,8 @@
 						BlocksEditor.$editorDocument.addBlockItems({type: className, settings: {}, html: ''});
 					}
 
-					// Re-renderizar el canvas para reflejar cambios
-					BlocksEditor.$editorBlocksViewport.contentDocument.body.innerHTML = '';
-					BlocksEditor.$editorBlocksViewport.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
-					BlocksEditor.$editorDocument.editBlock();
-					BlocksEditor.$editorDocument.renderBlock();
+					// Re-renderizar el canvas para reflejar cambios (safe)
+					if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (insertBlock)');
 
 					// Mostrar controles del último bloque añadido solo si no insertamos dentro
 					// de la sección actualmente seleccionada (para no abrir el panel automáticamente)
@@ -417,9 +442,33 @@
     			$formPostName.val($postName.val());
     			$formTplName.val($tplName.val());
     			$formTplSection.val($tplSection.val());
-    			$tplName.val($tplName.val());
-    			$tplSection.val($tplSection.val());
-    			$tplHTML.val(BlocksEditor.$editorDocument.getSaveBlock().outerHTML);
+				$tplName.val($tplName.val());
+				$tplSection.val($tplSection.val());
+				// Debug: inspect saved HTML for shortcodes
+				try {
+					// EXTRA DEBUG: log each Shortcode block state before serialization
+					try {
+						console.log('[BlocksEditor][Save] items settings snapshot:', BlocksEditor.$editorDocument.items.map(b => ({ type: b.constructor.name, settings: b.settings })) );
+						// collect DOM-based info for shortcode blocks
+						let scNodes = [];
+						try {
+							const clone = BlocksEditor.$editorDocument.getBlock().cloneNode(true);
+							clone.querySelectorAll('[data-block="shortcode"]').forEach(n => {
+								scNodes.push({ attr: n.getAttribute('data-shortcode'), text: (n.textContent||'').trim().slice(0,200) });
+							});
+						} catch (e) {
+							console.warn('Could not clone DOM for shortcode inspection', e);
+						}
+						console.log('[BlocksEditor][Save] shortcode DOM snapshot:', scNodes);
+					} catch (e) { console.warn('Shortcode pre-save snapshot failed', e); }
+
+					const saved = BlocksEditor.$editorDocument.getSaveBlock().outerHTML;
+					console.log('[BlocksEditor][Save] savedHTML length:', saved.length, 'snippet:', saved.slice(0,200));
+					$tplHTML.val(saved);
+				} catch (e) {
+					console.error('Error serializing save block:', e);
+					$tplHTML.val('');
+				}
     			$tplStructure.val(JSON.stringify([BlocksEditor.$editorDocument.saveConfig]));
     			
     			//throw new Error('The number is low');
@@ -503,10 +552,7 @@
 					});
 				}
 
-				BlocksEditor.$editorBlocksViewport.contentDocument.body.innerHTML = '';
-				BlocksEditor.$editorBlocksViewport.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
-				BlocksEditor.$editorDocument.editBlock();
-				BlocksEditor.$editorDocument.renderBlock();
+					if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (load-template content)');
 			
 			} else {
 
@@ -522,10 +568,7 @@
 						}
 					});
 				}
-				BlocksEditor.$editorBlocksViewport.contentDocument.body.innerHTML = '';
-				BlocksEditor.$editorBlocksViewport.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
-				BlocksEditor.$editorDocument.editBlock();
-				BlocksEditor.$editorDocument.renderBlock();
+				if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (load-template section)');
 			}
 		});
 

@@ -3917,6 +3917,7 @@ class BlocksEditor {
 		Heading,
 		Image,
 		Paragraph,
+		Shortcode,
 		Navigation,
 		IconBox,
 		IconBoxGroup,

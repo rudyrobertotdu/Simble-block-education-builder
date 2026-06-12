@@ -33,8 +33,8 @@
 					<td>
 						<a href="<?php echo admin_url("admin.php?page=blocks-template&action=update&id=".$template['ID']); ?>"><i class="fa fa-pencil"></i>Editar</a>
 						|
-						<?php $del_url = admin_url('admin-post.php?action=blocks-editor-request&handler=delete-template&id=' . $template['ID'] . '&_wpnonce=' . wp_create_nonce('delete_blocks_template_' . $template['ID'])); ?>
-						<a href="<?php echo $del_url; ?>" onclick="return confirm('¿Eliminar plantilla <?php echo addslashes($template['template_name']); ?>? Esta acción no se puede deshacer.')"><i class="fa fa-trash"></i>Borrar</a>
+						<?php $nonce_url = wp_nonce_url( admin_url('admin-post.php?action=blocks-editor-request&handler=delete-blocks-template&template_id='.$template['ID']), 'delete_blocks_template_'.$template['ID'], 'nonce' ); ?>
+						<a href="<?php echo esc_url($nonce_url); ?>" onclick="return confirm('¿Borrar plantilla <?php echo esc_js($template['template_name']); ?> ? Esta acción no se puede deshacer.')"><i class="fa fa-trash"></i>Borrar</a>
 					</td>
 				</tr>
 				<?php

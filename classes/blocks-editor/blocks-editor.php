@@ -29,6 +29,9 @@
 			add_action('wp_ajax_blocks-editor-request', [$this, 'handle_request']);
 			add_action('wp_ajax_nopriv_blocks-editor-request', [$this, 'handle_request']);
 
+			add_action('wp_ajax_blocks_editor_render_shortcode', [$this, 'ajax_render_shortcode']);
+			add_action('wp_ajax_nopriv_blocks_editor_render_shortcode', [$this, 'ajax_render_shortcode']);
+
 			add_action('admin_post_blocks-editor-request', [$this, 'handle_request']);
 			add_action('admin_post_nopriv_blocks-editor-request', [$this, 'handle_request']);
 
@@ -304,7 +307,8 @@
 				wp_enqueue_script('blocks-editor-start', $this->path .'/js/_start.js', [], $this->ver, true);
 
 				wp_localize_script('blocks-editor-scripts', 'editor_vars', [
-					'editor_path' => $this->path
+					'editor_path' => $this->path,
+					'ajax_url' => admin_url('admin-ajax.php')
 				]);
 				wp_localize_script('blocks-editor_uix_scripts', 'uix_vars', [
 					'nav_menus' => wp_get_nav_menus()
@@ -410,6 +414,17 @@
 					/*_log('CREATE');
 					_log($data);*/
 
+					// TEMPORARY LOG: record incoming template_html for debugging persistence issues
+					if (isset($data['template_html'])) {
+						$tpl_in = $data['template_html'];
+						$len = is_string($tpl_in) ? strlen($tpl_in) : 0;
+						_log('[TEMP] create-blocks-template incoming template_html length: '. $len);
+						// log a snippet (max 2000 chars) to avoid huge logs
+						_log('[TEMP] snippet: '. substr(is_string($tpl_in) ? $tpl_in : '', 0, 2000));
+					} else {
+						_log('[TEMP] create-blocks-template incoming template_html: <not set>');
+					}
+
 					if ($data['template_id'] == '0') {
 
 						$template_id = $db->insert('blocks_editor_templates', [
@@ -476,33 +491,60 @@
 					wp_die();
 				break;
 
-				case 'delete-template':
+				case 'delete-blocks-template':
 
-					$id = $_REQUEST['id'] ?? 0;
-					$id = intval($id);
-					if (!$id) {
-						wp_die('ID inválido');
+					$template_id = intval($_REQUEST['template_id'] ?? 0);
+					if ($template_id <= 0) {
+						wp_die('Invalid template id');
 					}
 
-					// Verificar permisos y nonce
-					if (!current_user_can('activate_plugins') || !isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'delete_blocks_template_'. $id)) {
-						wp_die('No autorizado');
+					// Verify nonce
+					$nonce = $_REQUEST['nonce'] ?? '';
+					if (!wp_verify_nonce($nonce, 'delete_blocks_template_'. $template_id)) {
+						wp_die('Nonce verification failed');
 					}
 
+					// Capability check
+					if (!current_user_can('edit_posts')) {
+						wp_die('Insufficient permissions');
+					}
+
+					// Delete specificity then template
 					$db = new WP_Database();
-					// Eliminar plantilla y su especificidad
-					$db->query("DELETE FROM {$db->prfx}blocks_editor_templates WHERE ID = $id");
-					$db->query("DELETE FROM {$db->prfx}blocks_editor_specificity WHERE template_id = $id");
+					$db->query("DELETE FROM {$db->prfx}blocks_editor_specificity WHERE template_id = " . $template_id);
+					$db->query("DELETE FROM {$db->prfx}blocks_editor_templates WHERE ID = " . $template_id);
 
-					wp_redirect(admin_url('admin.php?page=site-templates&deleted=1'));
+					wp_redirect(admin_url('admin.php?page=site-templates'));
 					exit;
 
-			break;
+				break;
+
+
 
 				default:
 				break;
 			}
 		}
+
+		public function ajax_render_shortcode() {
+
+			if (!current_user_can('edit_posts')) {
+				echo 'Permission denied';
+				wp_die();
+			}
+
+			$shortcode = wp_unslash($_POST['shortcode'] ?? '');
+			$shortcode = trim($shortcode);
+
+			if ($shortcode === '') {
+				echo '';
+				wp_die();
+			}
+
+			echo do_shortcode($shortcode);
+			wp_die();
+		}
+
 		public static function parse_template($template) {
 
 			return preg_replace_callback('/\[\[(.*)\]\]/', function($matches) {
@@ -569,9 +611,11 @@
 			_log($post_type);
 			
 			if (!empty($tpl_html)){
-			    return self::parse_template($tpl_html[0]['template_html']);
+				$parsed = self::parse_template($tpl_html[0]['template_html']);
+				// Process WordPress shortcodes present in the template HTML
+				return do_shortcode($parsed);
 			} else {
-			    return 'vacio';
+				return 'vacio';
 			}
 			//return $tpl_html[0]['template_html'];
 			//return json_decode($tpl_areas[0]['layout_areas'], true);
