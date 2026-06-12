@@ -47,6 +47,7 @@
 				<button type="submit" class="uix-button button save">
 					<i class="icon fa fa-save" style="margin-right: 2px;"></i>
 					<span class="text"><?php echo ($action == 'create' ? 'Guardar' : 'Actualizar'); ?></span>
+				</button>
 			</form>
 		</div>
 		<!--<a href="<?php //echo admin_url('?page=blocks-template&action=create'); ?>" class="uix-button button save">

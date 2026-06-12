@@ -4239,65 +4239,22 @@ class Shortcode extends Block {
 
 		this.addControl('shortcode', '', {
 				type: 'textarea',
-			label: 'Shortcode',
-			default: '[shortcode]',
-			listeners: {
-				input: ($this) => {
-					let raw = ($this.getValue() || '').toString().trim();
-					// normalize: extract inner text and wrap with single brackets
-					let inner = raw.replace(/^\[+/, '').replace(/\]+$/, '').trim();
-					if (inner === '') {
-						this.applySettings({ shortcode: '' }, true);
-						return;
+				label: 'Shortcode',
+				default: '[shortcode]',
+				listeners: {
+					input: ($this) => {
+						this.applySettings({ shortcode: $this.getValue() }, true);
 					}
-					let normalized = '[' + inner + ']';
-					console.log('[BlocksEditor][Shortcode] input raw:', raw, 'normalized:', normalized);
-					this.applySettings({ shortcode: normalized }, true);
 				}
-			}
-		});
+			});
 	}
 	edit(settings) {
 
-		let {
-			shortcode = ''
-		} = settings || {};
+		let { shortcode = '' } = settings || {};
 
-		// Try to detect shortcode from saved settings or from HTML/DOM
-		if (!shortcode) {
-			try {
-				const raw = (this.blockHTML || '').replace(/<!--([\s\S]*?)-->/g, '');
-				const fromRaw = raw.match(/\[[^\]]+\]/);
-				if (fromRaw) shortcode = fromRaw[0];
-			} catch (e) { /* ignore */ }
-		}
-
-		if (!shortcode) {
-			try {
-				const domText = (this.$content && this.$content.textContent) ? this.$content.textContent.trim() : '';
-				const fromDom = domText.match(/\[[^\]]+\]/);
-				if (fromDom) shortcode = fromDom[0];
-			} catch (e) { /* ignore */ }
-		}
-
-		if (shortcode && typeof editor_vars !== 'undefined' && editor_vars.ajax_url) {
-			this.$content.innerHTML = '<div class="loading">Cargando shortcode…</div>';
-			fetch(editor_vars.ajax_url, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-				body: 'action=blocks_editor_render_shortcode&shortcode=' + encodeURIComponent(shortcode)
-			}).then(r => r.text()).then(html => {
-				try { this.$content.innerHTML = html; } catch (e) { this.$content.textContent = html; }
-				// store shortcode value in settings
-				this.applySettings({ shortcode: shortcode }, true);
-			}).catch(e => {
-				console.error('Error fetching shortcode render:', e);
-				this.$content.textContent = shortcode;
-				this.applySettings({ shortcode: shortcode }, true);
-			});
-
-		} else {
-			// no shortcode detected; leave content as-is
+		// Show stored text (no validation, no server rendering)
+		if (shortcode) {
+			try { this.$content.textContent = shortcode; } catch (e) { this.$content.innerHTML = shortcode; }
 		}
 
 		return this.$block;
@@ -4309,23 +4266,13 @@ class Shortcode extends Block {
 			$content
 		} = this.getBlockElements();
 
-		let {
-			shortcode = ''
-		} = settings || {};
+		let { shortcode = '' } = settings || {};
 
+		// Save text literally (no wrapping or normalization)
 		if (shortcode) {
 			$block.setAttribute('data-shortcode', shortcode);
-		}
-
-
-		// When saving, store the literal shortcode wrapped in WP comment markers
-		if (shortcode) {
-			// normalize
-			let inner = shortcode.replace(/^\[+/, '').replace(/\]+$/, '').trim();
-			let literal = '[' + inner + ']';
-			$content.innerHTML = "<!-- wp:shortcode -->\n" + literal + "\n<!-- /wp:shortcode -->";
+			try { $content.textContent = shortcode; } catch (e) { $content.innerHTML = shortcode; }
 		} else {
-			// Keep current DOM content if no shortcode
 			$content.innerHTML = this.$content ? this.$content.innerHTML : '';
 		}
 
