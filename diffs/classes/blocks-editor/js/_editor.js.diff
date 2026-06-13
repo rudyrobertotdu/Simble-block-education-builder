@@ -1,0 +1,12 @@
+diff --git a/classes/blocks-editor/js/_editor.js b/classes/blocks-editor/js/_editor.js
+index 5afb016..68bb6e5 100755
+--- a/classes/blocks-editor/js/_editor.js
++++ b/classes/blocks-editor/js/_editor.js
+@@ -3917,6 +3917,7 @@ class BlocksEditor {
+ 		Heading,
+ 		Image,
+ 		Paragraph,
++		Shortcode,
+ 		Navigation,
+ 		IconBox,
+ 		IconBoxGroup,

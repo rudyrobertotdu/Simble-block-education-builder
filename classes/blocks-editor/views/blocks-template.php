@@ -289,6 +289,23 @@
 		let $mediaButtons = $('.blocks-toolbar button');
 		let $blocksViewport = $('.blocks-viewport');
 
+		// Helper: render canvas safely (checks iframe/document availability)
+		function renderCanvas() {
+			try {
+				var vp = BlocksEditor.$editorBlocksViewport;
+				if (vp && vp.contentDocument && vp.contentDocument.body && BlocksEditor.$editorDocument) {
+					vp.contentDocument.body.innerHTML = '';
+					vp.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
+					BlocksEditor.$editorDocument.editBlock();
+					BlocksEditor.$editorDocument.renderBlock();
+					return true;
+				}
+			} catch (e) {
+				console.warn('renderCanvas error', e);
+			}
+			return false;
+		}
+
 		console.log($mediaButtons);
 		$mediaButtons.on('click', function() {
 
@@ -324,22 +341,7 @@
 
 
 
-			// Helper: render canvas safely (checks iframe/document availability)
-			function renderCanvas() {
-				try {
-					var vp = BlocksEditor.$editorBlocksViewport;
-					if (vp && vp.contentDocument && vp.contentDocument.body && BlocksEditor.$editorDocument) {
-						vp.contentDocument.body.innerHTML = '';
-						vp.contentDocument.body.appendChild(BlocksEditor.$editorDocument.getEditBlock());
-						BlocksEditor.$editorDocument.editBlock();
-						BlocksEditor.$editorDocument.renderBlock();
-						return true;
-					}
-				} catch (e) {
-					console.warn('renderCanvas error', e);
-				}
-				return false;
-			}
+            
 
 			const map = {
 				'image': 'Image',
