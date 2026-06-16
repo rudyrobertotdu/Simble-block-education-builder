@@ -1,6 +1,7 @@
 Simditor.locale = 'en-US';
 class Block {
 	
+	// Static reference to main document for UI queries
 	static mainDocument = document;
 
 	$block = null;
@@ -8,9 +9,9 @@ class Block {
 	blockSave = null;
 	blockName = '!?';
 	blockTitle = '';
-	blockHTML = '<div data-block=""></div>';
-	blockElements = [];
-	blockParts = [];
+	blockHTML = '<div data-block=""></div>'; //in edit or save return a tag template literal ?
+	blockElements = []; //Tal vez aca debe ir todos los selectores del bloque sean o no sean opcionales
+	blockParts = []; //Tal vez cada vez que se acceda a esto se le tiene que devolver un nuevo elemento ?
 	blockChildren = [];
 	blockAttributes = {
 		id: '',
@@ -90,6 +91,7 @@ class Block {
 				for (let attr of attrs) {
 
 					this.elementsAttrs[element]['value'][attr] = this.blockEdit[element].getAttribute(attr);
+					//this.elementsAttrs[element][attr] = this.blockEdit[element].getAttribute(attr);
 				}
 			}
 		}
@@ -98,6 +100,7 @@ class Block {
 
 		for (let name in attrs)
 			this.elementsAttrs[element][type][name] = attrs[name];
+			//this.elementsAttrs[element][type][name] = this.elementsAttrs[element]['value'][attr];
 	}
 	getElementAttribute(element, attribute) {
 
@@ -200,11 +203,9 @@ class Block {
 
 		$block.dataset.block = this.blockName;
 		$block.prepend(this.createEditTools());
-
 		if (this.isSelected) {
 			$block.classList.add('block-selected');
 		}
-
 		return $block;
 	}
 	getEditBlock() {
@@ -222,7 +223,6 @@ class Block {
 		return $block;
 	}
 	getSaveBlock() { 
-
 		this.saveConfig = {
 			type: this.constructor.name,
 			settings: this.settings
@@ -242,6 +242,7 @@ class Block {
 				handler: () => {
 					console.log('Block edit handler called for:', this.blockName);
 					this.showControls(); 
+				}
 			}
 		]
 
@@ -252,7 +253,6 @@ class Block {
 				handler: () => {
 					try {
 						if (typeof BlocksEditor !== 'undefined') {
-							// Si este bloque ya está seleccionado, deseleccionarlo (toggle)
 							if (BlocksEditor.selectedBlock === this) {
 								this.$block && this.$block.classList.remove('block-selected');
 								this.isSelected = false;
@@ -334,16 +334,6 @@ class Block {
 			$uiTools.append($toolButton);
 		}
 
-		/*$tool.className = 'block-tool edit-tool';
-		$frame.className = 'block-tools-frame';
-		$frame.append($tool);
-
-		$tool.onclick = () => {
-
-			this.showControls();
-			console.log(this);
-		}*/
-
 		return $uiFrame;
 	}
 	showControls() {
@@ -380,11 +370,6 @@ class Block {
 		$controlsPanel.style.display = 'block';
 		$blocksListPanel.style.display = 'none';
 		$blocksDataPanel.style.display = 'none';
-		/*} else {
-
-			$controlsPanel.style.display = 'none';
-			$blocksListPanel.style.display = 'grid';
-		}*/
 
 		$blockName.textContent = this.blockTitle;
 
@@ -398,9 +383,7 @@ class Block {
 			items: this.createControls('styles'),
 			renderTo: $tabStylesPanel //si no se define no renderiza
 		});
-		//$tabContent.append($formControls.$dom);
 
-		// Añadir botón visible "Eliminar bloque" dentro de la pestaña General (si aplica)
 		try {
 			if (this.blockName !== 'canvas' && this.constructor.name !== 'Canvas') {
 				var $delWrap = document.createElement('div');
@@ -3427,12 +3410,7 @@ class ImagesCarousel extends Block {
 							let index = Array.from($this.$dom.closest('.field-body').firstElementChild.children).indexOf($this.$dom.closest('.repeater-item'));
 							let settings = this.settings.images[index]['image'] = { alt, url, width, height };
 
-							//this.applySettings(settings, true);
 							this.edit(this.settings);
-							/*let index = Array.from($this.$dom.closest('.field-body').firstElementChild.children).indexOf($this.$dom.closest('.repeater-item'));
-							this.settings.elements[index]['icon'] = value;
-
-							this.edit(this.settings);*/
 						}
 					}
 				},
@@ -3471,15 +3449,9 @@ class ImagesCarousel extends Block {
 					link: '',
 				}
 			],
-			/*listeners: {
-				append: ($this) => {
-					console.log($this);
-				}
-			}*/
 			listeners: {
 				append: ($this) => {
 				    console.log('called from event append');
-					//console.log();
 					this.applySettings({images: $this.getValue()}, true);
 				},
 				remove: ($this) => {
@@ -3487,7 +3459,7 @@ class ImagesCarousel extends Block {
 				    this.applySettings({images: $this.getValue()}, true);
 				}
 			}
-		});//http://localhost/wordpress_5/wp-content/uploads/2022/05/Tulips.jpg
+		});
 
 		super.registerControls();
 	}
@@ -3512,7 +3484,6 @@ class ImagesCarousel extends Block {
 						<img style="display: block; width: 100%; height: 100%; object-fit: cover" src="${src}" width="${width}" height="${height}" alt="">
 					 </a>`
 				);
-			//a.push(slide);
 			this.$slider.append(slide);
 		}
 
@@ -3544,7 +3515,6 @@ class ImagesCarousel extends Block {
 						<img style="display: block; width: 100%; height: 100%; object-fit: cover" src="${src}" width="${width}" height="${height}" alt="">
 					 </a>`
 				);
-			//a.push(slide);
 			$slider.append(slide);
 		}
 
@@ -3671,12 +3641,6 @@ class File extends Block {
 
 		console.log(multipleType);
 
-		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-			frame: 'post',
-			state: 'insert',
-			multiple: multipleType
-		});*/
-
 		fileFrame = wp.media({
 			multiple: multipleType,
 			library: {
@@ -3692,7 +3656,7 @@ class File extends Block {
 		fileFrame.on('select', function() {
 
 			var selection = fileFrame.state().get('selection');
-			if (!!multipleType) { //Force to convert in true or false
+			if (!!multipleType) { 
 
 				var images = [];
 
@@ -3954,7 +3918,6 @@ class Panel extends ContainerBlock {
 		} = settings;
 		
         this.$title.textContent = title;
-		//classes && this.$block.classList.add(...classes.split(' '));
 		this.editBlocksItems(this.$body);
 
 		return this.$block;
@@ -3974,7 +3937,6 @@ class Panel extends ContainerBlock {
 		} = this.getBlockElements();
 
         $title.textContent = title;
-		//classes && $block.classList.add(...classes.split(' '));
 		this.saveBlocksItems($body);
 
 		return $block;
@@ -4014,11 +3976,6 @@ class PanelsGroup extends ContainerBlock {
 				}
 			}
 		});
-
-		/*this.addControl('columns', '', {
-			type: '',
-			label: 'Columnas por fila'
-		})*/
 
 		super.registerControls();
 	}
@@ -4293,7 +4250,7 @@ class Shortcode extends Block {
 		try {
 			this.saveConfig = this.saveConfig || {};
 			this.saveConfig.settings = this.settings;
-		} catch (e) { }
+		} catch (e) {  }
 
 		return $block;
 	}
