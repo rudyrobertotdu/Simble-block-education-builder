@@ -2,7 +2,6 @@
 	<div class="uix-page-header">
 		<h2 class="page-title" style="margin: 0">Listado de plantillas</h2>
 		<a href="<?php echo admin_url('admin.php?page=blocks-template&action=create'); ?>" class="uix-button button save">
-			<!--<i class="fas fa-file-circle-plus"></i>-->
 			<i class="fa fa-file-o" style="margin-right: 3px"></i>
 			<span class="text">CREAR</span>
 		</a>

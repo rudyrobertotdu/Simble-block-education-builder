@@ -1,7 +1,6 @@
 Simditor.locale = 'en-US';
 class Block {
 	
-	// Static reference to main document for UI queries
 	static mainDocument = document;
 
 	$block = null;
@@ -9,9 +8,9 @@ class Block {
 	blockSave = null;
 	blockName = '!?';
 	blockTitle = '';
-	blockHTML = '<div data-block=""></div>'; //in edit or save return a tag template literal ?
-	blockElements = []; //Tal vez aca debe ir todos los selectores del bloque sean o no sean opcionales
-	blockParts = []; //Tal vez cada vez que se acceda a esto se le tiene que devolver un nuevo elemento ?
+	blockHTML = '<div data-block=""></div>';
+	blockElements = [];
+	blockParts = [];
 	blockChildren = [];
 	blockAttributes = {
 		id: '',
@@ -91,7 +90,6 @@ class Block {
 				for (let attr of attrs) {
 
 					this.elementsAttrs[element]['value'][attr] = this.blockEdit[element].getAttribute(attr);
-					//this.elementsAttrs[element][attr] = this.blockEdit[element].getAttribute(attr);
 				}
 			}
 		}
@@ -100,7 +98,6 @@ class Block {
 
 		for (let name in attrs)
 			this.elementsAttrs[element][type][name] = attrs[name];
-			//this.elementsAttrs[element][type][name] = this.elementsAttrs[element]['value'][attr];
 	}
 	getElementAttribute(element, attribute) {
 
@@ -179,15 +176,6 @@ class Block {
 	}
 	getBlock() {
 
-		/*let $block = this.edit(this.settings);
-
-		$block.dataset.block = this.blockName;
-		$block.prepend(this.createEditTools());*/
-
-		/*$block.style.position = 'relative';
-		$block.dataset.block = this.blockName;
-		$block.prepend(this.create('<div style="position: absolute; inset: 0; border: 1px solid red; pointer-events: none"></div>'));*/
-
 		return this.$block;
 	}
 	getBlockElements(clone) {
@@ -195,12 +183,6 @@ class Block {
 		let $block = null,
 			$elements = {},
 			elements = [];
-
-		/*elements.push({
-			name: '$block',
-			html: this.blockHTML,
-			children: this.blockChildren
-		});*/
 
 		$block = this.create(this.blockHTML);
 		$elements = { $block };
@@ -215,15 +197,14 @@ class Block {
 	getEditBlock() {
 
 		let $block = this.edit(this.settings);
-		//let borderWidth = $block.offsetWidth - $block;
 
 		$block.dataset.block = this.blockName;
 		$block.prepend(this.createEditTools());
-		// reaplicar estado de selección si corresponde
+
 		if (this.isSelected) {
 			$block.classList.add('block-selected');
 		}
-		//createEditUI()
+
 		return $block;
 	}
 	getEditBlock() {
@@ -234,20 +215,14 @@ class Block {
 		$block.setAttribute('data-block-type', this.blockType);
 		$block.setAttribute('data-edit-mode', '');
 
-		// reaplicar estado de selección si corresponde
 		if (this.isSelected) {
 			$block.classList.add('block-selected');
 		}
 
 		return $block;
 	}
-	getSaveBlock() { /**/
+	getSaveBlock() { 
 
-		/*return {
-			type: this.constructor.name,
-			//html: this.save(this.settings),
-			settings: this.getSettings(),
-		}*/
 		this.saveConfig = {
 			type: this.constructor.name,
 			settings: this.settings
@@ -266,12 +241,10 @@ class Block {
 				title: 'Editar bloque',
 				handler: () => {
 					console.log('Block edit handler called for:', this.blockName);
-					this.showControls(); //Show block controls panel 
-				}
+					this.showControls(); 
 			}
 		]
 
-		// Añadir botón 'Seleccionar' para bloques de tipo sección y columna
 		if (this.blockName === 'section' || this.constructor.name === 'Section' || this.blockName === 'column' || this.constructor.name === 'Column') {
 			uiTools.push({
 				icon: 'fa fa-hand-pointer-o',
@@ -4290,7 +4263,6 @@ class Shortcode extends Block {
 
 		let { shortcode = '' } = settings || {};
 
-		// Show stored text (no validation, no server rendering)
 		if (shortcode) {
 			try { this.$content.textContent = shortcode; } catch (e) { this.$content.innerHTML = shortcode; }
 		}
@@ -4306,15 +4278,11 @@ class Shortcode extends Block {
 
 		let { shortcode = '' } = settings || {};
 
-		// Normalize shortcode to always be wrapped in single brackets [slug]
 		if (shortcode) {
 			let inner = shortcode.toString().trim().replace(/^\[+/, '').replace(/\]+$/, '').trim();
-			// replace problematic characters with space to avoid HTML injection
 			inner = inner.replace(/[&<>"']/g, ' ');
-			// collapse multiple whitespace
 			inner = inner.replace(/\s+/g, ' ').trim();
 			let normalized = inner === '' ? '' : ('[' + inner + ']');
-			// persist normalized value in instance settings so saveConfig captures it
 			this.settings.shortcode = normalized;
 			$block.setAttribute('data-shortcode', normalized);
 			try { $content.textContent = normalized; } catch (e) { $content.innerHTML = normalized; }
@@ -4322,11 +4290,10 @@ class Shortcode extends Block {
 			$content.innerHTML = this.$content ? this.$content.innerHTML : '';
 		}
 
-		// Ensure saveConfig reflects updated settings (so parent containers capture normalized value)
 		try {
 			this.saveConfig = this.saveConfig || {};
 			this.saveConfig.settings = this.settings;
-		} catch (e) { /* ignore */ }
+		} catch (e) { }
 
 		return $block;
 	}

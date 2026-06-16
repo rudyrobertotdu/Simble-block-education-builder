@@ -11,15 +11,12 @@
     --text-color: #3a8307;
     --dark-color: #1c2c33;
     --dark-color: #234352;
-    /*--text-color: #00a5cd;*/
 }
 body {
 	margin: 0;
 	overflow-x: hidden;
 }
-/*:is(main, .document) .section:first-child {
-	padding: 0;
-}*/
+
 .systems-links .icon-box {
     padding: 10px;
     background-color: #1f272b;
@@ -104,15 +101,6 @@ footer .heading :is(h1, h2, h3, h4, h5, h6) {
 	color: #fff;
 	font-size: 20px;
 }
-/*.header-top .icons-list {
-	padding-block: 10px;
-}
-.header-top .icons-list .icons-list_item {
-	color: #e8af17;
-}*/
-/*.header-navigation {
-	background-color: #fff;
-}*/
 header {
 	display: unset;
 }
@@ -122,7 +110,6 @@ header .canvas {
 header .header-navigation {
 	position: sticky;
 	top: 0;
-	/*border-bottom: 1px solid #dadada;*/
 	box-shadow: 0 -1px 4px 0px #000;
 	z-index: 100;
 }
@@ -171,11 +158,6 @@ footer .icons-list .text {
 	right: 0;
 	font-size: 280px;
 }
-/*.navigation ul li:hover ul {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0px);
-}*/
 .mask {
     position: fixed;
     inset: 0;
@@ -247,7 +229,7 @@ footer .icons-list .text {
 .navigation ul ul a {
 	color: #fff;
 	font-weight: 300;
-	font-size: 16px; /*mod luego*/
+	font-size: 16px; 
 }
 .our-values .icon-box {
 	background-color: #a12c2f;
@@ -304,11 +286,6 @@ footer .paragraph * {
         text-align: center;
     }
 }
-/*.header-top .icons-list .icons-list_items {
-	display: flex;
-	flex-direction: row;
-	color: #f5aa35;
-}*/
 .width-85 {
     width: 85px;
 }
@@ -438,6 +415,7 @@ footer .heading {
     .breadcrumb :is(a, span) {
         display: -webkit-box;
         -webkit-line-clamp: 1;
+        line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -598,6 +576,7 @@ footer .heading {
 .posts-grid_slider .post .title {
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -956,20 +935,3 @@ footer .section {
 .bolsa h2 {
     color: #fff;
 }
-/*:is(main, .document) .section:nth-child(4) {
-	background-color: #1f272b;
-}*/
-/*https://wordpress.stackexchange.com/questions/177076/post-form-request-with-admin-post
-php json_encode without slashes
-https://developer.wordpress.org/reference/functions/wp_redirect/#description
-https://wordpress.stackexchange.com/questions/378453/why-wp-die-doesnt-work-with-wp-redirect-but-exit-works
-wordpress wp_redirect wp_die
-https://stackoverflow.com/questions/1576018/how-to-get-last-inserted-row-id-from-wordpress-database
-wordpress wpdb get last insert id
-https://wordpress.stackexchange.com/questions/294543/redirect-to-page-after-post-submit
-wordpress redirect after admin_post
-wordpress admin_post
-https://www.sitepoint.com/handling-post-requests-the-wordpress-way/
-wordpress handle post request
-https://stackoverflow.com/questions/15231283/php-submit-form-data-with-anchor-tag
-php send form from anchor link*/

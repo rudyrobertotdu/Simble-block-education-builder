@@ -64,7 +64,6 @@ $('.section-experiencias .testimonials-slider').slick({
 		this.remove();
 	});
 	
-	/*Conservar esta forma de seleccionar los a (Solo se seleccionara aquellos a que esten previos a un ul (ES DECIR SOLO AQUELLOS ITEMS DE MENU QUE TENGAN UN SUBMENU))*/
 	$navMenu.find('ul').prev('a').on('click', function(evt) {
 
 		evt.preventDefault();
@@ -72,8 +71,8 @@ $('.section-experiencias .testimonials-slider').slick({
 
 		if (window.innerWidth < 992) {
 
-			$(this).next('ul').slideToggle(250); /* show | hide the nested list */
-			return false; /* prevent scrolling */ /*Previene accion por defecto de los a cuando estos tenga submenu*/
+			$(this).next('ul').slideToggle(250);
+			return false;
 		}
 	});
 	$navToggler.on('click', function() {

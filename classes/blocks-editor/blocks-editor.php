@@ -17,7 +17,6 @@
 
 					$src = urldecode($src);
 					$src = preg_replace('/\[[^\]]*\]/', '', $src);
-					//$src = urlencode($src);
 				}
 
 				return $src;
@@ -34,26 +33,12 @@
 
 			add_action('admin_post_blocks-editor-request', [$this, 'handle_request']);
 			add_action('admin_post_nopriv_blocks-editor-request', [$this, 'handle_request']);
-
-
-			/*Ejecutar justo antes de renderizar los soportes - Remueve algunos metaboxes*/
-			//add_action('edit_form_top', [$this, 'remove_post_supports']);
-
-			/*Añadir items personalizados al sidebar menu del administrador*/
 			add_action('admin_menu', [$this, 'add_admin_menu_items']);
-			
-			/*Oculta la barra del administrador cuando se esta logueado en el frontend*/
-			//add_filter('show_admin_bar', [$this, 'hide_admin_bar_frontend']);
-			
 			add_filter('use_block_editor_for_post', '__return_false', 10);
-
 			add_action('init', function() {
-
 				add_rewrite_rule('^blocks-edit/?$', 'index.php?blocks-edit-mode=1', 'top');
-				//flush_rewrite_rules();
 			});
 
-			/*Remueve los mensajes de actualizacion*/
 			add_action('admin_head', function() {
 				
 				remove_action('admin_notices', 'update_nag', 3);
@@ -64,20 +49,16 @@
 
 				$vars[] = 'blocks-edit-mode';
 				$vars[] = 'post-type';
-				$vars[] = 'post-name'; //page-name
+				$vars[] = 'post-name';
 				$vars[] = 'post-template';
 
 				return $vars;
 			});
 			add_action('pre_get_posts', function($wp_query) {
 
-				/*function str_starts_with($haystack, $needle) {
-					return $haystack[0] === $needle[0] ? strncmp($haystack, $needle, strlen($needle)) === 0 : false;
-				}*/
-
 				$is_tags = (function() use ($wp_query) {
 
-					$all_props = get_object_vars($wp_query); //get_class_vars
+					$all_props = get_object_vars($wp_query);
 					$tags_props = array_filter($all_props, function($prop) {
 
 						return str_starts_with($prop, 'is_');
@@ -94,8 +75,6 @@
 					$post_template = get_query_var('post-template') ?? 'single';
 
 					if ($post_template == '404') {
-
-						//$wp_query->set('pagename', get_query_var('page-name'));
 
 						$wp_query->set_404();
 						$wp_query->set('p', -1);
@@ -138,38 +117,13 @@
 						$wp_query->is_singular = true;
 						$wp_query->is_single = true;
 					}
-					//$wp_query->is_home = false;
 				}
 
 			});
 
-			/*add_filter('template_include', [$this, 'filter_template_include']); <----*/
-
 			add_filter('request', function($qv) {
-
-
-				/*if (isset($qv['blocks-edit-mode'])) {
-
-					_log('isset blocks-edit-mode page-name ->'. get_query_var('page-name'));
-
-					$post_template = $qv['post-template'] ?? 'single';
-
-					if ($post_template == '404') {
-
-						$qv['p'] = -1;
-						$qv['name'] = '--';
-						//$qv['post_type'] = 'any';
-
-					} else {
-
-						$qv['pagename'] = $qv['page-name'];
-					}
-					//$wp_query->set('pagename', get_query_var('page-name'));
-					//$wp_query->is_home = false;
-				}*/
 				return $qv;
 			});
-			//apply_filters( 'request', $this->query_vars )
 
 			add_filter('posts_request', function($sql) {
 
@@ -194,16 +148,6 @@
 				PRIMARY KEY (`ID`)
 			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
 
-			/*$table_templates = "CREATE TABLE IF NOT EXISTS `wp_blocks_templates` (
-				`ID` int(11) NOT NULL AUTO_INCREMENT,
-				`template_name` varchar(50) NOT NULL,
-				`template_section` varchar(20) NOT NULL,
-				`template_structure` text NOT NULL,
-				`template_html` text NOT NULL,
-				PRIMARY KEY (`ID`)
-			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";*/
-
-			/*wp_blocks_editor_templates*/
 			$table_templates = "CREATE TABLE IF NOT EXISTS `wp_blocks_editor_templates` (
 				`ID` int(11) NOT NULL AUTO_INCREMENT,
 				`template_name` varchar(50) NOT NULL,
@@ -253,8 +197,6 @@
 			$hook_parts = explode('_page_', $hook);
 			$menu_slug = array_pop($hook_parts);
 
-			/*Se le coloca null en el ultimo parametro para evitar que al pasar por la funcion _css_href de class.wp-styles.php se le añada el argumento "ver" y por lo tanto se modifique la url borrandole los parametros con nombres repetidos como family*/
-			//wp_enqueue_style('blocks-editor_google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600&family=Lato:wght@300;400;700&family=Open+Sans:wght@300;400;500;600&display=swap', [], null);
 			wp_enqueue_style('blocks-editor_google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600&family=Lato:wght@300;400;700&family=Open+Sans:wght@300;400;500;600&family=Albert+Sans:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Roboto+Flex:wght@400;500;600&family=Poppins:wght@300;400;500&family=Rubik:wght@300;400;500;600&family=Arimo:wght@400;500;600&display=swap', [], null);
 
 			wp_enqueue_style('blocks-editor_font-awesome', $this->path .'/css/font-awesome/font-awesome.css', false, $this->ver);
@@ -317,13 +259,8 @@
 
 			$id = (function() {
 
-				//$db = new WP_Database();
-				//$result = $db->query("SELECT * FROM wp_blocks_beta ORDER BY ID DESC LIMIT 1");
-				
-				//return $result[0];
 			})();
 
-			/*AQUI VAN LOS SCRIPTS (PLACE)*/
 
 			wp_localize_script('blocks-editor_blocks', 'js_vars', [
 				'admin_url' => admin_url('admin.php'),
@@ -336,13 +273,11 @@
 			wp_enqueue_script('simditor-module-scripts', $this->path .'/lib/simditor/js/module.js', array('jquery'), $this->ver, false);
 			wp_enqueue_script('simditor-hotkeys-scripts', $this->path .'/lib/simditor/js/hotkeys.js', array('jquery'), $this->ver, false);
 			wp_enqueue_script('simditor-scripts', $this->path .'/lib/simditor/js/simditor.js', array('jquery'), $this->ver, false);
-			//wp_enqueue_style('blocks_editor-admin', $this->path .'/css/blocks-editor-ui.css', [], $this->ver);
 		}
 
 		public function handle_request() {
 
 			$db = new WP_Database();
-			// Accept handler and data via POST or GET (admin-post.php may send via GET)
 			$data = $_REQUEST['data'] ?? [];
 			$handler = $_REQUEST['handler'] ?? null;
 
@@ -374,8 +309,6 @@
 				
 				case 'save-blocks':
 
-					/*wp_send_json_success($_POST);
-					return false;*/
 
 					if (!$data['blocks_id']) {
 
@@ -449,15 +382,12 @@
 									if ($inner === '') {
 										$new = '';
 									} else {
-										// Ensure wrapped in single brackets (no other sanitization)
 										$new = '[' . $inner . ']';
 									}
-									// replace node content with literal
 									while ($node->firstChild) $node->removeChild($node->firstChild);
 									$node->appendChild($dom->createTextNode($new));
 								}
 							}
-						// extract inner HTML of wrapper div
 						$wrapper = $dom->getElementsByTagName('div')->item(0);
 						$innerHTML = '';
 						if ($wrapper) {
@@ -493,7 +423,6 @@
 
 					} else {
 
-						// Update template main fields and structure
 						$tpl_id = intval($data['template_id']);
 						$db->update('blocks_editor_templates', [
 							'template_name' => $data['template_name'] ?? '',
@@ -504,7 +433,6 @@
 							'ID' => $tpl_id
 						]);
 
-						// Update specificity (if exists) otherwise insert
 						$spec_rows = $db->fetch('blocks_editor_specificity', 'template_id = '. $tpl_id, 'ID');
 						if (!empty($spec_rows)) {
 							$db->update('blocks_editor_specificity', [
@@ -542,18 +470,15 @@
 						wp_die('Invalid template id');
 					}
 
-					// Verify nonce
 					$nonce = $_REQUEST['nonce'] ?? '';
 					if (!wp_verify_nonce($nonce, 'delete_blocks_template_'. $template_id)) {
 						wp_die('Nonce verification failed');
 					}
 
-					// Capability check
 					if (!current_user_can('edit_posts')) {
 						wp_die('Insufficient permissions');
 					}
 
-					// Delete specificity then template
 					$db = new WP_Database();
 					$db->query("DELETE FROM {$db->prfx}blocks_editor_specificity WHERE template_id = " . $template_id);
 					$db->query("DELETE FROM {$db->prfx}blocks_editor_templates WHERE ID = " . $template_id);
@@ -604,17 +529,11 @@
 		}
 		public static function get_template($section) {
 
-			/*$db = new WP_Database();
-			$template = $db->fetch('blocks_editor_templates', 'ID = 1', 'ID, template_html');
-
-			return $template[0]['template_html'];*/
-
 			if (!$section)
 				return false;
 
 			$db = new WP_Database();
 
-			// current page
 			$template = $post_type = $page_name = '';
 
 			if (is_singular()) {
@@ -656,13 +575,10 @@
 			
 			if (!empty($tpl_html)){
 				$parsed = self::parse_template($tpl_html[0]['template_html']);
-				// Process WordPress shortcodes present in the template HTML
 				return do_shortcode($parsed);
 			} else {
 				return 'vacio';
 			}
-			//return $tpl_html[0]['template_html'];
-			//return json_decode($tpl_areas[0]['layout_areas'], true);
 		}
 		
 		public function add_folded_admin_menu() {
@@ -677,7 +593,6 @@
 		
 	public function add_admin_menu_items() {
 
-		// Menú principal
 		add_menu_page(
 			'Plantillas del sitio',
 			'Plantillas del sitio',
@@ -687,7 +602,6 @@
 			'dashicons-layout'
 		);
 
-		// Página oculta para editar plantillas
 		$template_editor = add_submenu_page(
 			null,
 			'Editar plantilla',

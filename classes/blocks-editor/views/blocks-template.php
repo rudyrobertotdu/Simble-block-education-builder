@@ -3,15 +3,12 @@
 	$database = new WP_Database();
 	$template_id = intval($_GET['id'] ?? 0);
 
-	// Obtener template principal
 	$tpl_rows = $database->fetch('blocks_editor_templates', 'ID = '. $template_id, 'ID, template_name, template_section, template_structure, template_html');
 	$template = empty($tpl_rows) ? null : $tpl_rows[0];
 
-	// Obtener especificidad (post_page, post_type, post_name)
 	$spec_rows = $database->fetch('blocks_editor_specificity', 'template_id = '. $template_id, 'post_page, post_type, post_name');
 	$specificity = empty($spec_rows) ? ['post_page'=>'', 'post_type'=>'', 'post_name'=>''] : $spec_rows[0];
 
-	// For legacy code compatibility
 	$structure = $template ? [$template] : [];
 ?>
 <div class="uix-page blocks-editor">
@@ -19,8 +16,6 @@
 		<h2 class="page-title"><?php echo ($action == 'create' ? 'Crear plantilla' : 'Actualizar plantilla'); ?></h2>
 		<div style="display: flex; column-gap: 8px">
 	    <?php
-	        //$user = wp_get_current_user();
-	        //if ($user->user_nicename == 'edu_admin'):
 	    ?>
 			<button id="show-blocks" class="button">
 				<i class="fa fa-cubes"></i>
@@ -31,7 +26,6 @@
 				<span class="text">Ajustes</span>
 			</button>
 		<?php
-		    //endif;
 		?>
 			<form id="template-form" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="POST">
 				<input type="hidden" name="action" value="blocks-editor-request">
@@ -50,12 +44,6 @@
 				</button>
 			</form>
 		</div>
-		<!--<a href="<?php //echo admin_url('?page=blocks-template&action=create'); ?>" class="uix-button button save">
-			<i class="icon fa fa-save" style="margin-right: 2px;"></i>
-			<span class="text">
-				<?php //echo $action == 'create' ? 'Guardar' : 'Actualizar'; ?>
-			</span>
-		</a>-->
 	</div>
 	<div class="uix-page-body">
 		<div class="uix-container blocks-container" style="min-width: 0; flex-grow: 1;">
@@ -74,8 +62,6 @@
 		</div>
 		<div class="uix-container blocks-sidebar">
 		    <?php
-    	        /*$user = wp_get_current_user();
-    	        if ($user->user_nicename == 'edu_admin'):*/
     	    ?>
 			<div class="blocks-list" style="display: grid;">
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="image">
@@ -98,7 +84,6 @@
 					<i class="block-icon fa fa-file-image-o"></i>
 					<p class="block-name">Carousel</p>
 				</button>
-				<!-- Removed duplicate 'Slider' entry to keep only 'Slider de Imágenes' -->
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="image-box-group">
 					<i class="block-icon fa fa-file-image-o"></i>
 					<p class="block-name">Grupo de Caja de Imagen</p>
@@ -107,7 +92,6 @@
 					<i class="block-icon fa fa-file-image-o"></i>
 					<p class="block-name">Grupo de Caja de Icono</p>
 				</button>
-				<!-- Botones adicionales extraídos de las plantillas -->
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="images-slider">
 					<i class="block-icon fa fa-image"></i>
 					<p class="block-name">Slider de Imágenes</p>
@@ -159,13 +143,11 @@
 				</button>
 			</div>
 			<?php
-			    //else:
 			?>
 			<div>
 			    <h2>Haga click en el botón <i class="fa fa-wrench"></i> de un bloque</h2>
 			</div>
 			<?php
-			    //endif;
 			?>
 			<div class="blocks-controls" style="display: none;">
 				<div class="header" style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #a1a1a1">
@@ -229,7 +211,6 @@
 						<div class="uix-field">
 							<label for="">Tipo de publicacion (Post Type)</label>
 							<?php
-								// Include main types 'post', 'page' and 'attachment'
 								$post_types = [ 'post' => 'Post', 'page' => 'Page', 'attachment' => 'Attachment' ];
 							?>
 							<select name="data[post_type]">
@@ -270,7 +251,6 @@
 </script>
 <script>
 	(function($) {
-		//template-blocks-settings
 
 		let $settingsBtn = $('#edit-settings');
 		let $showBlocksBtn = $('#show-blocks');
@@ -286,7 +266,6 @@
 		let $mediaButtons = $('.blocks-toolbar button');
 		let $blocksViewport = $('.blocks-viewport');
 
-		// Helper: render canvas safely (checks iframe/document availability)
 		function renderCanvas() {
 			try {
 				var vp = BlocksEditor.$editorBlocksViewport;
@@ -330,7 +309,6 @@
 			$blocksControlsPanel.get(0).style.display = 'none';
 		});
 
-		// Reactivar: insertar bloque al hacer click en la lista de bloques (mapeo seguro data-block -> clase)
 		$('.blocks-list').on('click', 'button[data-block]', function() {
 
 			let data = this.dataset.block || '';
@@ -364,34 +342,25 @@
 
 				console.log('insertBlock: inserting', className, 'target:', BlocksEditor.selectedBlock || 'root');
 
-				// Determinar destino: bloque seleccionado (si existe) o documento raíz
 				let target = BlocksEditor.selectedBlock || BlocksEditor.$editorDocument;
 				try {
 					if (target && typeof target.addBlockItems === 'function') {
 						target.addBlockItems({type: className, settings: {}, html: ''});
 					} else if (target && Array.isArray(target.items)) {
-						// fallback: insertar directamente en el array de items
 						target.items.push(BlocksEditor.create(className, {}, ''));
 					} else {
 						BlocksEditor.$editorDocument.addBlockItems({type: className, settings: {}, html: ''});
 					}
 
-					// Re-renderizar el canvas para reflejar cambios (safe)
 					if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (insertBlock)');
 
-					// Mostrar controles del último bloque añadido solo si no insertamos dentro
-					// de la sección actualmente seleccionada (para no abrir el panel automáticamente)
 					try {
 						let list = (target && target.items && target.items.length) ? target.items : BlocksEditor.$editorDocument.items;
 						let last = list[list.length - 1];
-						// No abrir automáticamente el panel de edición si:
-						// - insertamos dentro de la sección actualmente seleccionada
-						// - insertamos en el documento raíz (fuera de una sección)
-						// - estamos insertando una nueva sección
 						if (last && last.showControls && BlocksEditor.selectedBlock !== target && target !== BlocksEditor.$editorDocument && className !== 'Section') {
 							last.showControls();
 						}
-					} catch (e) { /* no crítico */ }
+					} catch (e) {}
 				} catch (e) {
 					console.error('Error al insertar bloque en target:', e);
 				}
@@ -444,12 +413,9 @@
     			$formTplSection.val($tplSection.val());
 				$tplName.val($tplName.val());
 				$tplSection.val($tplSection.val());
-				// Debug: inspect saved HTML for shortcodes
 				try {
-					// EXTRA DEBUG: log each Shortcode block state before serialization
 					try {
 						console.log('[BlocksEditor][Save] items settings snapshot:', BlocksEditor.$editorDocument.items.map(b => ({ type: b.constructor.name, settings: b.settings })) );
-						// collect DOM-based info for shortcode blocks
 						let scNodes = [];
 						try {
 							const clone = BlocksEditor.$editorDocument.getBlock().cloneNode(true);
@@ -470,9 +436,7 @@
 					$tplHTML.val('');
 				}
     			$tplStructure.val(JSON.stringify([BlocksEditor.$editorDocument.saveConfig]));
-    			
-    			//throw new Error('The number is low');
-    			
+
 		    } catch (e) {
 		        
 		        $UI.dialog.alert(
@@ -482,8 +446,6 @@
 		        return false;
 		    }
 			return true;
-			//e.preventDefault();
-			//console.log('Saving...', BlocksEditor);
 		});
 
 		$tabsButtons.on('click', function() {
@@ -510,9 +472,6 @@
 
 				BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
 
-				// Support legacy `parsedBlocks` (array) as the unnamed content template.
-				// parsedBlocks2.content is an object keyed by post_name. Use selected post if available,
-				// otherwise prefer explicit named templates or fallback to `parsedBlocks` if present.
 				var contentTemplates = parsedBlocks2['content'] || {};
 				var unnamedContent = (typeof parsedBlocks !== 'undefined' && Array.isArray(parsedBlocks)) ? parsedBlocks : null;
 				var postKey = $tplPost.val();
@@ -520,9 +479,6 @@
 				if (postKey && contentTemplates[postKey]) {
 					selectedTemplates = contentTemplates[postKey];
 				} else {
-					// Prefer explicit 'default-content' (copy of anonymous template),
-					// otherwise prefer 'plana-docente', otherwise use the first key,
-					// otherwise fallback to unnamed `parsedBlocks`.
 					if (contentTemplates['default-content']) {
 						selectedTemplates = contentTemplates['default-content'];
 					} else if (contentTemplates['plana-docente']) {
@@ -532,7 +488,6 @@
 						if (keys.length) {
 							selectedTemplates = contentTemplates[keys[0]];
 						} else if (unnamedContent) {
-							// wrapped as an array of templates, use it directly
 							selectedTemplates = unnamedContent;
 						}
 					}
@@ -572,7 +527,6 @@
 			}
 		});
 
-		// Auto-initialize an empty Canvas when creating a new template (action=create with no id)
 		var pageAction = '<?php echo $action; ?>';
 		var templateId = '<?php echo $_GET['id'] ?? '0'; ?>';
 		if (pageAction === 'create' && (templateId === '' || templateId === '0')) {

@@ -1,6 +1,6 @@
 <?php
 
-	class WP_Database { //WP_DataBase Alternative name
+	class WP_Database {
 
 		protected static $wpdb;
 		protected static $table_prefix;
@@ -29,7 +29,6 @@
 				$query .= " WHERE $where";
 
 			$result = self::$wpdb->get_results($query, ARRAY_A);
-			// log_it(self::$wpdb->last_query);
 
 			return $result;
 		}
@@ -45,7 +44,6 @@
 		public function update($table, $data, $where) {
 
 			$response = self::$wpdb->update(self::$table_prefix.$table, $data, $where);
-			// log_it(self::$wpdb->last_query);
 			
 			return $response;
 		}

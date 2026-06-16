@@ -50,7 +50,7 @@
 	
 	function education_register_post_types() {
 
-		register_post_type('education-careers', array( //CARRERAS
+		register_post_type('education-careers', array(
 			'labels' => array(
 				'name'           => __('Programa de estudios'),
 				'all_items'      => __('Todos los programas de estudios'),
@@ -67,7 +67,7 @@
 			'supports'    => array('title', 'thumbnail', 'editor')
 		));
 
-		register_post_type('education-news', array( //NOTICIAS
+		register_post_type('education-news', array(
 			'labels' => array(
 				'name'           => __('Noticias'),
 				'all_items'      => __('Todas las noticias'),
@@ -84,7 +84,7 @@
 			'supports'    => array('title', 'editor', 'thumbnail')
 		));
 
-		register_post_type('education-events', array( //EVENTOS
+		register_post_type('education-events', array(
 			'labels' => array(
 				'name'           => __('Eventos'),
 				'all_items'      => __('Todos los eventos'),
@@ -101,7 +101,7 @@
 			'supports'    => array('title', 'editor', 'thumbnail')
 		));
 
-		register_post_type('education-documents', array( //TRANSPARENCIA DOCUMENTOS
+		register_post_type('education-documents', array(
 			'labels' => array(
 				'name'           => __('Pagina de transparencia'),
 				'all_items'      => __('Todas las paginas de transparencia'),
@@ -121,7 +121,6 @@
 
 	function education_add_meta_boxes() {
 
-		// $id // $title // $callback // $page // $context // $priority
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
 
 		add_meta_box('education-career-data', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
@@ -207,12 +206,6 @@
 
 				console.log(multipleType);
 
-				/*fileFrame = wp.media.frames.fileFrame = wp.media({
-					frame: 'post',
-					state: 'insert',
-					multiple: multipleType
-				});*/
-
 				fileFrame = wp.media({
 					multiple: multipleType,
 					library: {
@@ -228,7 +221,7 @@
 				fileFrame.on('select', function() {
 
 					var selection = fileFrame.state().get('selection');
-					if (!!multipleType) { //Force to convert in true or false
+					if (!!multipleType) { 
 
 						var images = [];
 
@@ -274,7 +267,6 @@
 	}
 
 	function render_career_data_metabox($post) {
-		//var_dump($post);
 ?>
 		<style>
 			.uix-field label {
@@ -364,13 +356,7 @@
             		}
             
             		console.log(multipleType);
-            
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
+
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -386,7 +372,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) {
             
             				var images = [];
             
@@ -414,32 +400,14 @@
             	
             	$(btn).on('click', function() {
             	    
-            	    //$(edit1).find('.');
             	    openLibrary(function(file) {
             	        
-            	        //$(edit1).find('.panel[data-name="file"] iframe').get(0).src = file.url;
             	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
             	    }, false);
             	});
-                /*$(edit1).find('button').on('click', function() {
-                    
-                    var target = $(this).data('target');
-                    
-                    $(edit1).find('.panel:not([data-name="'+target+'"])').css('display', 'none');
-                    $(edit1).find('.panel[data-name="'+target+'"]').css('display', 'block');
-                });*/
             })(jQuery);
         </script>
 <?php
-		/*$ambito_laboral = get_post_meta($post->ID, '_career-ambito-laboral', true);
-
-		wp_editor(htmlspecialchars($ambito_laboral), 'career-ambito-laboral', [
-			'textarea_name' => 'career-ambito-laboral',
-			'textarea_rows' => 10,
-			'media_buttons' => false,
-			'editor_height' => 200,
-			'quicktags' => false
-		]);*/
 ?>
 		<br>
 		<div class="uix-field">
@@ -509,12 +477,6 @@
             
             		console.log(multipleType);
             
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -530,7 +492,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) {
             
             				var images = [];
             
@@ -558,20 +520,11 @@
             	
             	$(btn).on('click', function() {
             	    
-            	    //$(edit1).find('.');
             	    openLibrary(function(file) {
             	        
-            	        //$(edit1).find('.panel[data-name="file"] iframe').get(0).src = file.url;
             	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
             	    }, false);
             	});
-                /*$(edit1).find('button').on('click', function() {
-                    
-                    var target = $(this).data('target');
-                    
-                    $(edit1).find('.panel:not([data-name="'+target+'"])').css('display', 'none');
-                    $(edit1).find('.panel[data-name="'+target+'"]').css('display', 'block');
-                });*/
             })(jQuery);
         </script>
 		<br>
@@ -580,26 +533,15 @@
 		</div>
 		<div class="editor-6">
     		<div style="display: flex; gap: 10px; padding-block: 10px">
-    		    <!--<button data-target="editor" data-active type="button"><i class="fa fa-file-text-o"></i>Texto</button>-->
     		    <button data-target="file" type="button"><i class="fa fa-file-pdf-o"></i>PDF</button>
     		</div>
     		<div>
     		    <div class="panel" data-name="editor">
 <?php
-                    
-                    /*wp_editor(htmlspecialchars($certificaciones), 'career-certificaciones', [
-                    	'textarea_name' => 'career-certificaciones',
-                    	'textarea_rows' => 10,
-                    	'media_buttons' => false,
-                    	'editor_height' => 200,
-                    	'quicktags' => false
-                    ]);*/
+
 ?>
                     <textarea name="career-certificaciones"><?php echo ($certificaciones = get_post_meta($post->ID, '_career-certificaciones', true)); ?></textarea>
                 </div>
-                <!--<div class="panel" data-name="file" style="display: none">
-                    <iframe src="" style="display: block; width: 100%"></iframe>
-                </div>-->
             </div>
         </div>
         <script>
@@ -656,13 +598,7 @@
             		}
             
             		console.log(multipleType);
-            
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
+
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -678,7 +614,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) { 
             
             				var images = [];
             
@@ -706,20 +642,11 @@
             	
             	$(btn).on('click', function() {
             	    
-            	    //$(edit1).find('.');
             	    openLibrary(function(file) {
             	        
-            	        //$(edit1).find('.panel[data-name="file"] iframe').get(0).src = file.url;
             	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
             	    }, false);
             	});
-                /*$(edit1).find('button').on('click', function() {
-                    
-                    var target = $(this).data('target');
-                    
-                    $(edit1).find('.panel:not([data-name="'+target+'"])').css('display', 'none');
-                    $(edit1).find('.panel[data-name="'+target+'"]').css('display', 'block');
-                });*/
             })(jQuery);
         </script>
 		<br>
@@ -728,7 +655,6 @@
 		</div>
 		<div class="editor-1">
     		<div style="display: flex; gap: 10px; padding-block: 10px">
-    		    <!--<button data-target="editor" data-active type="button"><i class="fa fa-file-text-o"></i>Texto</button>-->
     		    <button data-target="file" type="button"><i class="fa fa-file-pdf-o"></i>PDF</button>
     		</div>
     		<div>
@@ -736,22 +662,10 @@
 <?php
             		$plan_estudios = get_post_meta($post->ID, '_career-plan-estudios', true);
             		
-            		/*wp_editor(htmlspecialchars($plan_estudios), 'career-plan-estudios', [
-            			'textarea_name' => 'career-plan-estudios',
-            			'textarea_rows' => 10,
-            			'media_buttons' => false,
-            			'editor_height' => 200,
-            			'quicktags' => false
-            		]);*/
-            		/*$content = $plan_estudios ? $plan_estudios->content : $plan_estudios;*/
 ?>
                     <textarea name="career-plan-estudios"><?php echo $plan_estudios; ?></textarea>
                 </div>
-                <!--<div class="panel" data-name="file" style="display: none">
-                    <iframe src="" style="display: block; width: 100%"></iframe>
-                </div>-->
             </div>
-            <!--<input type="hidden" name="career-plan-estudios" value="">-->
         </div>
         <script>
             
@@ -807,13 +721,7 @@
             		}
             
             		console.log(multipleType);
-            
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
+
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -829,7 +737,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) {
             
             				var images = [];
             
@@ -856,20 +764,11 @@
             	}
             	$(btn).on('click', function() {
             	    
-            	    //$(edit1).find('.');
             	    openLibrary(function(file) {
             	        
-            	        //$(edit1).find('.panel[data-name="file"] iframe').get(0).src = file.url;
             	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
             	    }, false);
             	});
-                /*$(edit1).find('button').on('click', function() {
-                    
-                    var target = $(this).data('target');
-                    
-                    $(edit1).find('.panel:not([data-name="'+target+'"])').css('display', 'none');
-                    $(edit1).find('.panel[data-name="'+target+'"]').css('display', 'block');
-                });*/
             })(jQuery);
         </script>
 		<br>
@@ -878,7 +777,6 @@
 		</div>
 		<div class="editor-2">
     		<div style="display: flex; gap: 10px; padding-block: 10px">
-    		    <!--<button data-target="editor" data-active type="button"><i class="fa fa-file-text-o"></i>Texto</button>-->
     		    <button data-target="file" type="button"><i class="fa fa-file-pdf-o"></i>PDF</button>
     		</div>
     		<div>
@@ -886,14 +784,6 @@
 <?php
                     $horario = get_post_meta($post->ID, '_career-horario-clases', true);
                     
-                    /*$horario = get_post_meta($post->ID, '_career-horario-clases', true);
-                    wp_editor(htmlspecialchars($horario), 'career-horario-clases', [
-                        'textarea_name' => 'career-horario-clases',
-                        'textarea_rows' => 10,
-                        'media_buttons' => false,
-                        'editor_height' => 200,
-                        'quicktags' => false
-                    ]);*/
 ?>
 		            <textarea name="career-horario-clases"><?php echo $horario; ?></textarea>
                 </div>
@@ -953,12 +843,6 @@
             
             		console.log(multipleType);
             
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -974,7 +858,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) {
             
             				var images = [];
             
@@ -1001,20 +885,11 @@
             	}
             	$(btn).on('click', function() {
             	    
-            	    //$(edit1).find('.');
             	    openLibrary(function(file) {
             	        
-            	        //$(edit1).find('.panel[data-name="file"] iframe').get(0).src = file.url;
             	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
             	    }, false);
             	});
-                /*$(edit1).find('button').on('click', function() {
-                    
-                    var target = $(this).data('target');
-                    
-                    $(edit1).find('.panel:not([data-name="'+target+'"])').css('display', 'none');
-                    $(edit1).find('.panel[data-name="'+target+'"]').css('display', 'block');
-                });*/
             })(jQuery);
         </script>
 		<br>
@@ -1023,7 +898,6 @@
 		</div>
         <div class="editor-3">
     		<div style="display: flex; gap: 10px; padding-block: 10px">
-    		    <!--<button data-target="editor" data-active type="button"><i class="fa fa-file-text-o"></i>Texto</button>-->
     		    <button data-target="file" type="button"><i class="fa fa-file-pdf-o"></i>PDF</button>
     		</div>
     		<div>
@@ -1031,14 +905,6 @@
 <?php
                     $matricula = get_post_meta($post->ID, '_career-matricula', true);
                     
-                    /*$horario = get_post_meta($post->ID, '_career-horario-clases', true);
-                    wp_editor(htmlspecialchars($horario), 'career-horario-clases', [
-                        'textarea_name' => 'career-horario-clases',
-                        'textarea_rows' => 10,
-                        'media_buttons' => false,
-                        'editor_height' => 200,
-                        'quicktags' => false
-                    ]);*/
 ?>
 		            <textarea name="career-matricula"><?php echo $matricula; ?></textarea>
                 </div>
@@ -1098,12 +964,6 @@
             
             		console.log(multipleType);
             
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -1119,7 +979,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) {
             
             				var images = [];
             
@@ -1223,12 +1083,6 @@
             
             		console.log(multipleType);
             
-            		/*fileFrame = wp.media.frames.fileFrame = wp.media({
-            			frame: 'post',
-            			state: 'insert',
-            			multiple: multipleType
-            		});*/
-            
             		fileFrame = wp.media({
             			multiple: multipleType,
             			library: {
@@ -1244,7 +1098,7 @@
             		fileFrame.on('select', function() {
             
             			var selection = fileFrame.state().get('selection');
-            			if (!!multipleType) { //Force to convert in true or false
+            			if (!!multipleType) {
             
             				var images = [];
             
@@ -1281,13 +1135,6 @@
             })(jQuery);
         </script>
 <?php
-		/*wp_editor(htmlspecialchars($matricula), 'career-matricula', [
-			'textarea_name' => 'career-matricula',
-			'textarea_rows' => 10,
-			'media_buttons' => false,
-			'editor_height' => 200,
-			'quicktags' => false
-		]);*/
 	}
 
 	add_action('add_meta_boxes', 'education_add_meta_boxes');
@@ -1344,7 +1191,6 @@
 	function save_post_education_document($post_id) {
 
 		if (!empty($_POST['transparency_documents'])) {
-			//_log('savee');
 			update_post_meta($post_id, '_transparency_documents', json_encode($_POST['transparency_documents']));
 		}
 	}
@@ -1356,7 +1202,6 @@
             #login h1 a, .login h1 a {
                 
                 background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/img/5_150x150.png);
-                /*background-image: url(https://edukate.pe/tru3-iestpmgp/wp-content/uploads/2022/09/logo-MGP.png);*/
                 height: 150px;
                 width: 150px;
                 background-size: contain;
@@ -1392,8 +1237,7 @@
     <style type="text/css">
         #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
             background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/img/5_150x150.png) !important;
-            /*background-image: url(https://edukate.pe/tru3-iestpmgp/wp-content/uploads/2022/09/logo-MGP.png) !important;*/
-            background-position: 0 0;
+           background-position: 0 0;
             background-size: cover;
             color:rgba(0, 0, 0, 0);
         }
@@ -1408,6 +1252,5 @@
     </style>
 <?php
     }
-    //hook into the administrative header output
     add_action('wp_before_admin_bar_render', 'wpb_custom_logo');
 ?>

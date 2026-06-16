@@ -236,19 +236,6 @@ table tbody tr:hover {
 table tbody td {
 	padding: 5px 10px;
 }
-/*
-diseño web colores cantidad variaciones mismo color
-diseño web colores cantidad
-https://piktochart.com/es/blog/como-elegir-la-paleta-de-colores-parte-entender-el-color/
-https://www.webfx.com/blog/web-design/a-look-into-color-theory-in-web-design/
-wordpress get admin url admin.php
-https://stackoverflow.com/questions/64828762/getting-current-page-url-on-wp-admin-admin-dashboard
-wordpress gutenberg block useblockprops
-https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/
-https://www.google.com/search?q=education+web+&tbm=isch&ved=2ahUKEwj4udnfl9P5AhWtRLgEHdsVBQQQ2-cCegQIABAA&oq=education+web+&gs_lcp=CgNpbWcQAzIECCMQJzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQEzIECAAQE1CgCFigCGDPCWgAcAB4AIABgwGIAe0BkgEDMC4ymAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=p6f_YrjKKa2J4dUP26uUIA&bih=969&biw=1920#imgrc=QyfCH4OwsvmxcM&imgdii=L_SyR_V7CTFg-M
-education web
-https://www.indiatoday.in/education-today/featurephilia/story/online-learning-a-new-reality-for-schools-during-covid-19-1672523-2020-05-01
-https://dribbble.com/tags/education_website*/
 
 /* Resaltar bloque seleccionado en el editor */
 [data-block].block-selected[data-edit-mode], [data-block][data-edit-mode].block-selected {

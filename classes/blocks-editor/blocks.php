@@ -28,7 +28,6 @@
 			if ($settings['postType']) {
 				
 				$db = new WP_Database();
-				/*$posts = $db->fetch("posts", "post_type IN ('post') AND post_status = 'publish'", "ID, post_name, post_title");*/
 				$posts = $db->query("SELECT thumb.ID AS thumb_ID, thumb.guid AS thumb_url, post.post_ID, post.post_title, post.post_name, post.post_date, post.post_excerpt
 				FROM {$db->prfx}posts AS thumb
 				RIGHT JOIN (
@@ -42,7 +41,7 @@
 				$count = 1;
 				$length = count($posts);
 				$post_html = ""; 
-				$uri = get_template_directory_uri(); //provisional
+				$uri = get_template_directory_uri(); 
 				$path = $uri .'/classes/blocks-editor';
 				$slider_html = "";
 				$format = get_option('date_format');
@@ -71,7 +70,6 @@
 						$post_html = "";
 					}
 					$count++;
-					//$posts[$key]['post_date'] = $date;
 				}
 
 				return $slider_html;
@@ -98,22 +96,12 @@
 			$breadcrumb_trail = '';
 			$category_links   = '';
 
-			/** 
-			 * Set our own $wp_the_query variable. Do not use the global variable version due to 
-			 * reliability
-			 */
 			$wp_the_query   = $GLOBALS['wp_the_query'];
 			$queried_object = $wp_the_query->get_queried_object();
 
-			// Handle single post requests which includes single pages, posts and attatchments
 			if ( is_singular() ) {
-			    /** 
-			     * Set our own $post variable. Do not use the global variable version due to 
-			     * reliability. We will set $post_object variable to $GLOBALS['wp_the_query']
-			     */
 			    $post_object = sanitize_post( $queried_object );
 
-			    // Set variables 
 			    $title          = apply_filters( 'the_title', $post_object->post_title );
 			    $parent         = $post_object->post_parent;
 			    $post_type      = $post_object->post_type;
@@ -124,13 +112,10 @@
 
 			    if ( 'post' === $post_type ) 
 			    {
-			        // Get the post categories
 			        $categories = get_the_category( $post_id );
 			        if ( $categories ) {
-			            // Lets grab the first category
 			            $category  = $categories[0];
-
-			            $category_links = get_category_parents( $category, true, $delimiter );
+						$category_links = get_category_parents( $category, true, $delimiter );
 			            $category_links = str_replace( '<a',   $link_before . '<a' . $link_attr, $category_links );
 			            $category_links = str_replace( '</a>', '</a>' . $link_after,             $category_links );
 			        }
@@ -144,7 +129,6 @@
 			        $post_type_link   = sprintf( $link, $archive_link, $post_type_object->labels->singular_name );
 			    }
 
-			    // Get post parents if $parent !== 0
 			    if ( 0 !== $parent ) 
 			    {
 			        $parent_links = [];
@@ -161,7 +145,6 @@
 			        $parent_string = implode( $delimiter, $parent_links );
 			    }
 
-			    // Lets build the breadcrumb trail
 			    if ( $parent_string ) {
 			        $breadcrumb_trail = $parent_string . $delimiter . $post_link;
 			    } else {
@@ -175,14 +158,12 @@
 			        $breadcrumb_trail = $category_links . $breadcrumb_trail;
 			}
 
-			// Handle archives which includes category-, tag-, taxonomy-, date-, custom post type archives and author archives
 			if( is_archive() )
 			{
 			    if (    is_category()
 			         || is_tag()
 			         || is_tax()
 			    ) {
-			        // Set the variables for this section
 			        $term_object        = get_term( $queried_object );
 			        $taxonomy           = $term_object->taxonomy;
 			        $term_id            = $term_object->term_id;
@@ -194,7 +175,6 @@
 
 			        if ( 0 !== $term_parent )
 			        {
-			            // Get all the current term ancestors
 			            $parent_term_links = [];
 			            while ( $term_parent ) {
 			                $term = get_term( $term_parent, $taxonomy );
@@ -219,12 +199,10 @@
 			        $breadcrumb_trail = __( 'Author archive for ') .  $before . $queried_object->data->display_name . $after;
 
 			    } elseif ( is_date() ) {
-			        // Set default variables
 			        $year     = $wp_the_query->query_vars['year'];
 			        $monthnum = $wp_the_query->query_vars['monthnum'];
 			        $day      = $wp_the_query->query_vars['day'];
 
-			        // Get the month name if $monthnum has a value
 			        if ( $monthnum ) {
 			            $date_time  = DateTime::createFromFormat( '!m', $monthnum );
 			            $month_name = $date_time->format( 'F' );
@@ -258,17 +236,14 @@
 			    }
 			}   
 
-			// Handle the search page
 			if ( is_search() ) {
 			    $breadcrumb_trail = __( 'Search query for: ' ) . $before . get_search_query() . $after;
 			}
 
-			// Handle 404's
 			if ( is_404() ) {
 			    $breadcrumb_trail = $before . __( 'Error 404' ) . $after;
 			}
 
-			// Handle paged pages
 			if ( is_paged() ) {
 			    $current_page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : get_query_var( 'page' );
 			    $page_addon   = $before . sprintf( __( ' ( Page %s )' ), number_format_i18n( $current_page ) ) . $after;
@@ -278,14 +253,12 @@
 			$breadcrumb_output_link .= '<div class="breadcrumb">';
 
 			if (is_home() || is_front_page()) {
-			    // Do not show breadcrumbs on page one of home and frontpage
 			    if ( is_paged() ) {
 			        $breadcrumb_output_link .= $here_text . $delimiter;
 			        $breadcrumb_output_link .= '<a href="' . $home_link . '">' . $home_text . '</a>';
 			        $breadcrumb_output_link .= $page_addon;
 			    }
 			} else {
-			    //$breadcrumb_output_link .= $here_text . $delimiter;
 			    $breadcrumb_output_link .= $here_text;
 			    $breadcrumb_output_link .= '<a href="' . $home_link . '" rel="v:url" property="v:title">' . $home_text . '</a>';
 			    $breadcrumb_output_link .= $delimiter;
