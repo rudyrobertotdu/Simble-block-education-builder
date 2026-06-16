@@ -943,11 +943,7 @@ class Columns extends ContainerBlock {
 				{ idx: '3', name: '3' },
 				{ idx: '4', name: '4' },
 				{ idx: '5', name: '5' },
-				{ idx: '6', name: '6' },
-				{ idx: '7', name: '7' },
-				{ idx: '8', name: '8' },
-				{ idx: '9', name: '9' },
-				{ idx: '10', name: '10' }
+				{ idx: '6', name: '6' }
 			],
 			default: '3',
 			valueKey: 'idx',
