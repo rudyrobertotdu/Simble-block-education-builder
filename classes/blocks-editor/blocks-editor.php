@@ -675,18 +675,33 @@
             }
 		}
 		
-		public function add_admin_menu_items() {
+	public function add_admin_menu_items() {
 
-			add_menu_page('Editor de sitio', 'Editor de sitio', 'activate_plugins', 'blocks-editor', [$this, 'render_blocks_editor_view'], 'dashicons-layout');
-			 
-			/*add_submenu_page('blocks-editor', 'Crear plantilla', 'Crear plantilla', 'activate_plugins', 'create-blocks-template', [$this, 'render_create_template_view']); //render_edit_blocks_page
-			add_submenu_page('blocks-editor', 'Listar plantillas', 'Listar plantillas', 'activate_plugins', 'list-blocks-templates', [$this, 'render_blocks_templates_list_view']); //render_edit_blocks_page*/
+		// Menú principal
+		add_menu_page(
+			'Plantillas del sitio',
+			'Plantillas del sitio',
+			'activate_plugins',
+			'site-templates',
+			[$this, 'render_blocks_templates_list_view'],
+			'dashicons-layout'
+		);
 
-			$template_editor = add_submenu_page(null, 'Editar plantilla', 'Editar plantilla', 'activate_plugins', 'blocks-template', [$this, 'render_blocks_template_view']); // design-section
-			add_action('load-'. $template_editor, [$this, 'add_folded_admin_menu']); //add action when this subpage loads
-			
-			add_submenu_page('blocks-editor', 'Plantillas del sitio', 'Plantillas del sitio', 'activate_plugins', 'site-templates', [$this, 'render_blocks_templates_list_view']); // design-section
-		}
+		// Página oculta para editar plantillas
+		$template_editor = add_submenu_page(
+			null,
+			'Editar plantilla',
+			'Editar plantilla',
+			'activate_plugins',
+			'blocks-template',
+			[$this, 'render_blocks_template_view']
+		);
+
+		add_action(
+			'load-' . $template_editor,
+			[$this, 'add_folded_admin_menu']
+		);
+	}
 		public function render_create_template_view() {
 
 			include 'views/blocks-create-template.php';

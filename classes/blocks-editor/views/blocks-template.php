@@ -98,10 +98,7 @@
 					<i class="block-icon fa fa-file-image-o"></i>
 					<p class="block-name">Carousel</p>
 				</button>
-				<button class="button" style="aspect-ratio: 1 / 1" data-block="images-slider">
-					<i class="block-icon fa fa-file-image-o"></i>
-					<p class="block-name">Slider</p>
-				</button>
+				<!-- Removed duplicate 'Slider' entry to keep only 'Slider de Imágenes' -->
 				<button class="button" style="aspect-ratio: 1 / 1" data-block="image-box-group">
 					<i class="block-icon fa fa-file-image-o"></i>
 					<p class="block-name">Grupo de Caja de Imagen</p>

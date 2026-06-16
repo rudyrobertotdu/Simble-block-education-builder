@@ -427,6 +427,48 @@ class Block {
 		});
 		//$tabContent.append($formControls.$dom);
 
+		// Añadir botón visible "Eliminar bloque" dentro de la pestaña General (si aplica)
+		try {
+			if (this.blockName !== 'canvas' && this.constructor.name !== 'Canvas') {
+				var $delWrap = document.createElement('div');
+				$delWrap.className = 'block-delete-wrap';
+				$delWrap.style.cssText = 'padding:8px;border-top:1px solid #e1e1e1;margin-top:8px;text-align:left;';
+				var $delBtn = document.createElement('button');
+				$delBtn.type = 'button';
+				$delBtn.className = 'button block-delete-button';
+				$delBtn.textContent = 'Eliminar bloque';
+				$delBtn.addEventListener('click', (ev) => {
+					ev.preventDefault();
+					if (!confirm('¿Eliminar este bloque? Esta acción no se puede deshacer.')) return;
+					try {
+						// Limpiar selección si se está eliminando el bloque seleccionado
+						if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
+							BlocksEditor.selectedBlock = null;
+							this.isSelected = false;
+						}
+						// Remover de la estructura en memoria
+						if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {
+							BlocksEditor.removeInstance(this);
+						}
+						// Remover del DOM
+						if (this.$block && this.$block.parentNode) {
+							this.$block.parentNode.removeChild(this.$block);
+						}
+						// Cerrar panel de controles y mostrar lista de bloques
+						if (mainDoc) {
+							var $controlsPanel2 = mainDoc.querySelector('.blocks-controls');
+							var $blocksListPanel2 = mainDoc.querySelector('.blocks-list');
+							if ($controlsPanel2) $controlsPanel2.style.display = 'none';
+							if ($blocksListPanel2) $blocksListPanel2.style.display = 'grid';
+						}
+						console.log('Bloque eliminado (desde General):', this.blockName);
+					} catch (e) { console.error('Error al eliminar bloque (desde General):', e); }
+				});
+				$delWrap.appendChild($delBtn);
+				$tabGeneralPanel.appendChild($delWrap);
+			}
+		} catch (e) { console.warn('No se pudo añadir el botón Eliminar bloque:', e); }
+
 		console.log(this.controls, $formControls);
 	}
 	createControls(name) {
