@@ -3628,10 +3628,9 @@ ColorButton = (function(superClass) {
           return;
         }
         range = _this.editor.selection.range();
-        if (!$link.hasClass('font-color-default') && range.collapsed) {
-          textNode = document.createTextNode(_this._t('coloredText'));
-          range.insertNode(textNode);
-          range.selectNodeContents(textNode);
+        // If there's no selection (caret only), do nothing when a color is clicked.
+        if (!range || range.collapsed) {
+          return;
         }
         _this.editor.selection.range(range);
         document.execCommand('styleWithCSS', false, true);
