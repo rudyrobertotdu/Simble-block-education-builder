@@ -1,3 +1,35 @@
+/**
+ * _editor.js
+ *
+ * Datos de ejemplo y estructuras serializadas de bloques usadas por el
+ * editor durante la edición. Contiene plantillas `parsedBlocks` que
+ * representan layouts iniciales para header/content/footer.
+ *
+ * Propósito:
+ * - Servir como fixtures de diseño que facilitan la inserción de bloques
+ *   desde la UI del editor
+ */
+// Ensure Simditor toolbar includes a 'color' button for htmleditor fields
+(function(){
+	function wrapSimditor(){
+		if(!window.Simditor){
+			return setTimeout(wrapSimditor,50);
+		}
+		if(window.Simditor.__color_wrapped) return;
+		var Old = window.Simditor;
+		function SimditorWrapper(opts){
+			if(opts && Array.isArray(opts.toolbar) && !opts.toolbar.includes('color')){
+				opts.toolbar = opts.toolbar.concat(['color']);
+			}
+			return new Old(opts);
+		}
+		Object.keys(Old).forEach(function(k){ SimditorWrapper[k]=Old[k]; });
+		SimditorWrapper.prototype = Old.prototype;
+		SimditorWrapper.__color_wrapped = true;
+		window.Simditor = SimditorWrapper;
+	}
+	wrapSimditor();
+})();
 var parsedBlocks = [
 	{
 		type: 'Canvas',

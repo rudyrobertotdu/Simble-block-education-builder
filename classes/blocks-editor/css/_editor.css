@@ -1,3 +1,13 @@
+/*
+ * _editor.css
+ *
+ * Estilos para la interfaz administrativa del editor de bloques.
+ * Objetivo:
+ * - Definir layout del panel de administración: contenedores, toolbar,
+ *   sidebar y vista previa (viewport).
+ * - Estos estilos solo afectan a la UI del editor en el admin y al iframe
+ *   de previsualización; no forman parte del CSS público del frontend.
+ */
 #wpcontent {
 	padding-top: 20px;
 	padding-right: 20px;

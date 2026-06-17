@@ -1,5 +1,17 @@
 	<footer style="border-top: 8px solid var(--primary-color)">
-	    <?php echo Blocks_Editor::get_template('footer'); ?>
+    <?php
+    /**
+     * footer.php
+     *
+     * Pie de página del tema. Se apoya en `Blocks_Editor::get_template('footer')`
+     * para delegar la composición del contenido (permitiendo plantillas
+     * administrables desde el editor de bloques propio).
+     *
+     * Notas:
+     * - Mantiene una plantilla simple y proporciona un `template id="tpl"`
+     *   que se utiliza como patrón reutilizable en el DOM.
+     */
+    echo Blocks_Editor::get_template('footer'); ?>
 	</footer>
 	<template id="tpl">
     	<section class="theme-bg no-padding-y">

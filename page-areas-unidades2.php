@@ -1,4 +1,21 @@
-<?php get_header(); ?>
+<?php
+/**
+ * page-areas-unidades2.php
+ *
+ * Plantilla de página dedicada a mostrar las áreas y unidades.
+ * Propósito:
+ * - Renderizar la cabecera del tema y la lista de entradas relevantes
+ * - Contiene estilos inline para presentación específica de esta plantilla
+ *
+ * Responsabilidad:
+ * - Delegar la estructura del contenido al sistema de templates de WordPress
+ * - Mantener estilos locales que afectan únicamente a la vista de listados
+ *
+ * Notas de integración:
+ * - Esta plantilla utiliza `get_header()` y debe integrarse con los
+ *   templates de bloques (Blocks_Editor) cuando corresponda.
+ */
+get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 <style>

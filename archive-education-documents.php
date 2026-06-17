@@ -1,4 +1,14 @@
-<?php get_header(); ?>
+<?php
+/**
+ * archive-education-documents.php
+ *
+ * Archivo de archivo para `education-documents` (transparencia).
+ * Propósito:
+ * - Mostrar listados de páginas de transparencia con estilos propios
+ * - Reusar la función `get_breadcrumbs()` definida localmente para la
+ *   navegación dentro de la sección.
+ */
+get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 <style>

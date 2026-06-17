@@ -1,3 +1,15 @@
+/**
+ * _frontend.js
+ *
+ * Código de inicialización y comportamiento del frontend público relacionado
+ * con los bloques (carousels, navegación responsiva, lightbox, etc.).
+ *
+ * Responsabilidad:
+ * - Inicializar sliders y comportamiento interactivo que se aplica en el
+ *   frontend, no en el editor administrativo.
+ * - Mantener llamadas seguras a jQuery y dependencia de plugins externos
+ *   (slick, SimpleLightbox) que están excluidos de la documentación.
+ */
 $ = jQuery;
 $('.images-slider_slides').on('init', function($slider, $currentSlide, $$) {
 		

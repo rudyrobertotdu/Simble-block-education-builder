@@ -1,5 +1,18 @@
 <?php
-	Blocks_Editor::register_server_block('navigation', [
+/**
+ * blocks.php
+ *
+ * Registro de bloques "server-side" que exponen callbacks PHP para ser
+ * renderizados desde el servidor. Cada bloque registrado aquí devuelve
+ * HTML ya procesado por PHP (útil para listados, menús y componentes
+ * dependientes de consultas a la base de datos).
+ *
+ * Responsabilidad:
+ * - Registrar `navigation`, `posts-grid`, `breadcrumb` y otros bloques
+ *   con `Blocks_Editor::register_server_block`
+ * - Mantener la lógica de renderizado que requiere acceso a DB o WP APIs
+ */
+Blocks_Editor::register_server_block('navigation', [
 		'server_render_callback' => function($settings) {
 
 			_log($settings);

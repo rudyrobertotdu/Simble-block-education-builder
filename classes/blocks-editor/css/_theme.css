@@ -1,3 +1,11 @@
+/*
+ * _theme.css
+ *
+ * Variables y estilos temáticos compartidos por el tema y el editor.
+ * Contiene variables CSS (colores, tipografías) y reglas globales que
+ * impactan la apariencia del frontend y, en parte, la previsualización
+ * dentro del editor de bloques.
+ */
 :root {
     --primary-color: #14b7e0;
     --primary-color: #f69946;
@@ -926,7 +934,6 @@ footer .image {
     background: var(--primary-color);
 }
 footer .section {
-    background-color: #2f6907;
     background-color: #12621d;
 }
 .heading :is(h1, h2, h3, h4, h5, h6) {

@@ -1,5 +1,14 @@
+/*
+ * _blocks.css
+ *
+ * Reglas base y composición visual de los bloques usados por el editor.
+ * Propósito:
+ * - Definir estilos de bloques (secciones, cajas, grids) que se usan tanto
+ *   en el editor como en la previsualización.
+ * - Mantener la coherencia visual entre edición y frontend cuando sea posible.
+ */
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 [data-block] {
 	position: relative;

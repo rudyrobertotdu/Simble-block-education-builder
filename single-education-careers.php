@@ -1,4 +1,15 @@
-<?php get_header(); ?>
+<?php
+/**
+ * single-education-careers.php
+ *
+ * Plantilla singular para mostrar un programa de estudios (`education-careers`).
+ * Propósito:
+ * - Renderizar un hero con la imagen destacada y secciones tabuladas con
+ *   información del programa (perfil, ámbito, certificaciones, etc.).
+ * - Utiliza estilos inline que priorizan la presentación del contenido
+ *   educativo.
+ */
+get_header(); ?>
 <main> 
 	<style>
 		.tabs {

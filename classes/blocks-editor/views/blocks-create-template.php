@@ -1,3 +1,18 @@
+<?php
+/**
+ * views/blocks-create-template.php
+ *
+ * Script que crea un conjunto de páginas predeterminadas (helper de creación).
+ * Propósito:
+ * - Proveer un listado de páginas de ejemplo y crear las que no existan.
+ * - Utilizado por el administrador para poblar contenido inicial.
+ *
+ * Notas de seguridad:
+ * - Realiza inserciones con `wp_insert_post()` y debe ejecutarse en contexto
+ *   administrativo; no contiene protección CSRF porque es un helper previsto
+ *   para uso controlado.
+ */
+?>
 <h1>Crear plantilla</h1>
 <?php
 

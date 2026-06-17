@@ -1,4 +1,14 @@
 /**
+ * style.css
+ *
+ * Hoja de estilo principal del tema. Además de los metadatos del tema
+ * (nombre, autor, versión), este archivo sirve como punto de referencia
+ * para la información del tema usada por WordPress.
+ *
+ * Nota: Los estilos específicos de bloques residen en
+ * `classes/blocks-editor/css/_*.css` para separar concernimientos.
+ */
+/**
 	Theme name: Editor Simple de Educación
 	Theme URI: -
 	Author: RRTD

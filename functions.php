@@ -1,6 +1,19 @@
 <?php
 
-	if (!function_exists('_log')) {
+/**
+ * functions.php
+ *
+ * Punto central de inicialización del tema: registra post types, colabora
+ * con la inicialización del editor de bloques (`Blocks_Editor`) y define
+ * utilidades auxiliares como `_log()`.
+ *
+ * Responsabilidades:
+ * - Registrar tipos de contenido personalizado (`education-*`)
+ * - Iniciar la clase `Blocks_Editor` que administra el editor propio
+ * - Encolar scripts del admin relacionados con el editor
+ */
+
+if (!function_exists('_log')) {
 
 		function _log($log) {
 
@@ -18,7 +31,9 @@
 
 	require_once(__DIR__ .'/classes/wp-database/database.php');
 	require_once(__DIR__ .'/classes/blocks-editor/blocks-editor.php');
-	
+    
+	// Inicializa el editor de bloques del tema. Blocks_Editor se encarga de
+	// registrar tablas, endpoints y scripts necesarios.
 	new Blocks_Editor();
 
 	register_nav_menus([
@@ -1210,7 +1225,7 @@
                 position: relative;
             }
             #login h1 a::after {
-                content: 'IESTP "Laredo"';
+                content: 'C.P.P.E "SABER"';
                 width: 100%;
                 text-align: center;
                 position: absolute;

@@ -1,3 +1,23 @@
+/**
+ * _blocks.js
+ *
+ * Definiciones de clases que representan bloques editables en el editor
+ * visual (Block, Canvas, Section, etc.).
+ *
+ * Propósito:
+ * - Proveer la abstracción en memoria de la estructura de bloques
+ * - Exponer métodos para renderizar el bloque en modo edición y en modo
+ *   guardado (save)
+ *
+ * Interacción con el sistema:
+ * - Se integran con `BlocksEditor` (global) y el DOM del editor para
+ *   operaciones CRUD sobre bloques, renderizado en el iframe y persistencia
+ *   a través de handlers AJAX.
+ *
+ * Notas:
+ * - Este archivo supone la presencia de utilidades auxiliares como
+ *   `$createUI` y del entorno global `editor_vars`/`ajaxurl`.
+ */
 Simditor.locale = 'en-US';
 class Block {
 	

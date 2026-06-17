@@ -1,4 +1,17 @@
-<?php get_header(); ?>
+<?php
+/**
+ * archive-education-news.php
+ *
+ * Archivo de archivo (archive) para el custom post type `education-news`.
+ * Propósito:
+ * - Mostrar la lista de noticias publicadas con estilos locales para el listado
+ * - Mantener la presentación compacta de tarjetas de noticia
+ *
+ * Interacciones:
+ * - Respeta el loop de WordPress (`have_posts()` / `the_post()`)
+ * - Diseñado para integrarse con bloques y plantillas del editor cuando sea necesario
+ */
+get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 <style>

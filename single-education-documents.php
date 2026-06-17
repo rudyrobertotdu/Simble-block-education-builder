@@ -1,4 +1,16 @@
-<?php get_header(); ?>
+<?php
+/**
+ * single-education-documents.php
+ *
+ * Plantilla singular para contenidos del tipo `education-documents` (páginas
+ * de transparencia). Muestra un hero con la imagen destacada y despliega
+ * archivos adjuntos asociados.
+ *
+ * Responsabilidades:
+ * - Renderizar el contenido principal y la lista de archivos
+ * - Proveer una función local `get_breadcrumbs()` para navegación
+ */
+get_header(); ?>
 <main>
 	<?php the_post(); ?>
 	<style>

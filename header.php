@@ -1,15 +1,25 @@
 <!DOCTYPE html>
+<!--
+	header.php
+
+	Cabecera global del tema: incluye meta tags, `wp_head()` y estilos
+	básicos para la presentación del hero y page-hero.
+
+	Notas:
+	- Evitar añadir lógica pesada aquí; `Blocks_Editor::get_template('header')`
+		se encarga de la composición dinámica del header.
+-->
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="https://istelaredo.edu.pe/wp-content/themes/educacion-editor/img/5_150x150.png">
+    <link rel="icon" type="image/x-icon" href="/wp-content/themes/educacion-editor/img/5_150x150.png">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Instituto Superior Tecnologico "Laredo"</title>
+	<title>CENTRO PROFESIONAL Y PROMOCIÓN EDUCATIVA "SABER"</title>
 	<?php wp_head(); ?>
 	<style>
 		.hero {
 			background-image: url(<?php echo get_template_directory_uri(). '/img/hero2.jpg'; ?>);
-			background-image: url(https://istelaredo.edu.pe/wp-content/themes/educacion-editor/img/5_150x150.png);
+			background-image: url(/wp-content/themes/educacion-editor/img/5_150x150.png);
 			min-height: 180px;
 			background-position: center;
 			background-size: cover;
@@ -23,7 +33,7 @@
 		    display: flex;
 		    flex-direction: column;
 		    background-image: url(<?php echo get_template_directory_uri(). '/img/page-hero.jpeg'; ?>);
-		    background-image: url(https://istelaredo.edu.pe/wp-content/uploads/2022/09/Interior-IESTEL-A-scaled.jpg);
+		    background-image: url(/wp-content/themes/educacion-editor/img/page-hero.jpeg);
 			min-height: 250px;
 			background-position: center;
 			background-size: cover;

@@ -1,3 +1,17 @@
+<?php
+/**
+ * views/blocks-template-list.php
+ *
+ * Vista administrativa: listado de plantillas de bloques.
+ * Responsabilidad:
+ * - Mostrar plantillas persistidas en la tabla `blocks_editor_templates`
+ * - Proveer acciones de crear/editar/borrar que delegan a handlers admin-post
+ *
+ * Interacciones:
+ * - Utiliza `WP_Database` para obtener las filas y `wp_nonce_url` para
+ *   proteger enlaces de borrado.
+ */
+?>
 <div class="uix-page blocks-editor">
 	<div class="uix-page-header">
 		<h2 class="page-title" style="margin: 0">Listado de plantillas</h2>

@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * WP_Database
+ *
+ * Pequeña capa ligera para operaciones de base de datos centrada en este
+ * theme. Encapsula llamadas a `$wpdb` para consultas comunes (query, fetch,
+ * insert, update) y añade un prefijo automático de tabla.
+ *
+ * Responsabilidad:
+ * - Proveer métodos reutilizables para persistencia sencilla desde el tema
+ * - Aislar el uso de `$wpdb` y centralizar prefijo de tablas
+ *
+ * Notas de diseño:
+ * - No altera las estructuras de WordPress; utiliza la API `$wpdb`
+ * - Devuelve arrays asociativos para facilitar su uso en vistas
+ */
 	class WP_Database {
 
 		protected static $wpdb;

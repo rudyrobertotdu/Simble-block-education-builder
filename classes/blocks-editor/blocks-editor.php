@@ -1,4 +1,22 @@
 <?php
+/**
+ * Blocks_Editor
+ *
+ * Núcleo del editor de bloques del tema. Provee:
+ * - Registro de bloques server-side
+ * - Carga de scripts y estilos (frontend y backend)
+ * - Handlers AJAX/admin para persistencia de plantillas y blocks
+ * - Mecanismos para crear entradas 'fake' y previsualizar plantillas
+ *
+ * Responsabilidades principales:
+ * - Inicializar tablas necesarias en la base de datos
+ * - Exponer `load_frontend_scripts`, `load_backend_scripts` y `handle_request`
+ * - Mantener compatibilidad con la UI administrable del editor
+ *
+ * Notas de diseño:
+ * - Opera como un adaptador entre la UI JavaScript del editor y la
+ *   persistencia en tablas (`wp_blocks_editor_templates`, etc.).
+ */
 	class Blocks_Editor {
 
 		private static $server_blocks = [];

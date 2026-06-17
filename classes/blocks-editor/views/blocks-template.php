@@ -1,4 +1,22 @@
+
 <?php
+/**
+ * views/blocks-template.php
+ *
+ * Vista del editor de plantillas de bloques (crear/editar plantilla).
+ * Variables esperadas en este scope:
+ * - $_GET['action'] -> 'create' | 'update'
+ * - $_GET['id'] -> ID de la plantilla cuando se edita
+ * - $database -> instancia de `WP_Database`
+ *
+ * Responsabilidad:
+ * - Mostrar la UI de gestión de plantillas (herramientas, sidebar, iframe)
+ * - Preparar el formulario que envía los datos hacia el handler admin-post
+ *
+ * Interacción con Blocks_Editor:
+ * - El iframe `blocks-viewport` es el área de render donde se monta
+ *   la representación editable mediante la lógica JS del editor.
+ */
 	$action = $_GET['action'] ?? 'create';
 	$database = new WP_Database();
 	$template_id = intval($_GET['id'] ?? 0);

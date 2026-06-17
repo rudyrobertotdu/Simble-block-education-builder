@@ -1,4 +1,13 @@
-<?php get_header(); ?>
+<?php
+/**
+ * archive-education-careers.php
+ *
+ * Archivo de archivo para el custom post type `education-careers`.
+ * Propósito:
+ * - Mostrar programas de estudio en un layout de tarjetas
+ * - Utiliza estilos inline para controlar la presentación localmente
+ */
+get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 <style>

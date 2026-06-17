@@ -1,4 +1,12 @@
-<?php get_header(); ?>
+<?php
+/**
+ * page-link-institucionales.php
+ *
+ * Plantilla para listar enlaces institucionales en una disposición de
+ * tarjetas. Mantiene estilos locales y reutiliza la función de migas
+ * `get_breadcrumbs()` para navegación.
+ */
+get_header(); ?>
 
 <?php if ( have_posts() ) : ?>
 <style>

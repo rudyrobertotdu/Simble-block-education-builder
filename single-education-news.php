@@ -1,4 +1,19 @@
-<?php get_header(); ?>
+<?php
+/**
+ * single-education-news.php
+ *
+ * Plantilla singular para mostrar una `education-news` (Noticia) individual.
+ * Propósito:
+ * - Mostrar encabezado visual (hero) y el contenido completo de la noticia
+ * - Incluye una función local `get_breadcrumbs()` para generar migas de pan
+ *
+ * Notas de diseño:
+ * - Se emplean estilos inline para controlar la apariencia del hero
+ * - La función `get_breadcrumbs()` está definida localmente para evitar
+ *   dependencias fuera de este contexto; puede coexistir con otras
+ *   implementaciones de breadcrumb en `footer.php`.
+ */
+get_header(); ?>
 <style>
     h1 {
 		font-family: Roboto Flex;

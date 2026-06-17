@@ -1,3 +1,10 @@
+/*
+ * _viewport.css
+ *
+ * Reglas aplicadas a la vista de previsualización (viewport) del editor.
+ * Estas reglas buscan reproducir el comportamiento del frontend dentro del
+ * iframe del editor para que la edición WYSIWYG sea más fiel.
+ */
 body {
 	margin: 0;
 }
