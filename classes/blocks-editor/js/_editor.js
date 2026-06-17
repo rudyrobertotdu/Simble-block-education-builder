@@ -18,8 +18,32 @@
 		if(window.Simditor.__color_wrapped) return;
 		var Old = window.Simditor;
 		function SimditorWrapper(opts){
-			if(opts && Array.isArray(opts.toolbar) && !opts.toolbar.includes('color')){
-				opts.toolbar = opts.toolbar.concat(['color']);
+			if(!opts) opts = {};
+			try {
+				var ta = opts.textarea;
+				var taEl = null;
+				if (window.jQuery && ta instanceof window.jQuery) taEl = ta[0];
+				else if (typeof ta === 'string') taEl = document.querySelector(ta);
+				else if (ta && ta.nodeType) taEl = ta;
+
+				var isParagraphControls = false;
+				if (taEl) {
+					var controlsPanel = taEl.closest ? taEl.closest('.blocks-controls') : (function(el){ while(el){ if (el.classList && el.classList.contains && el.classList.contains('blocks-controls')) return el; el = el.parentNode } return null })(taEl.parentNode);
+					if (controlsPanel && controlsPanel.getAttribute && controlsPanel.getAttribute('data-current-block') === 'paragraph') {
+						isParagraphControls = true;
+					}
+				}
+
+				if (!isParagraphControls) {
+					if (opts && Array.isArray(opts.toolbar) && !opts.toolbar.includes('color')){
+						opts.toolbar = opts.toolbar.concat(['color']);
+					}
+				}
+			} catch(e){
+				// fallback: ensure toolbar contains color by default
+				if (opts && Array.isArray(opts.toolbar) && !opts.toolbar.includes('color')){
+					opts.toolbar = opts.toolbar.concat(['color']);
+				}
 			}
 			return new Old(opts);
 		}

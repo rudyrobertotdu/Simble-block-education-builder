@@ -364,6 +364,13 @@ class Block {
 		var $blocksListPanel = mainDoc.querySelector('.blocks-list');
 		var $blocksDataPanel = mainDoc.querySelector('.blocks-data');
 		var $blockName = mainDoc.querySelector('.header > .block-name');
+
+		// Mark the controls panel with the currently edited block name
+		try {
+			if ($controlsPanel) {
+				$controlsPanel.setAttribute('data-current-block', this.blockName);
+			}
+		} catch (e) { console.warn('Could not set current block attribute on controls panel', e); }
 		var $tabGeneralPanel = mainDoc.querySelector('.tab-panel[data-name="general"]');
 		var $tabStylesPanel = mainDoc.querySelector('.tab-panel[data-name="styles"]');
 		
@@ -2240,6 +2247,28 @@ class Paragraph extends Block {
 		// Preserve the shortcode as a data attribute so the server can process it if needed
 		if (shortcode) {
 			$block.setAttribute('data-shortcode', shortcode);
+		}
+
+		// Try to retrieve the freshest HTML from any active Simditor instance
+		// in the controls panel (this will call Simditor.sync() via getValue()).
+		try {
+			var mainDoc = Block.mainDocument || document;
+			var textareas = mainDoc.querySelectorAll('textarea');
+			for (var i = 0; i < textareas.length; i++) {
+				var ta = textareas[i];
+				if (window.jQuery) {
+					var inst = window.jQuery(ta).data && window.jQuery(ta).data('simditor');
+					if (inst && typeof inst.getValue === 'function') {
+						var v = inst.getValue();
+						if (v !== undefined && v !== null && String(v).trim() !== '') {
+							text = v;
+							break;
+						}
+					}
+				}
+			}
+		} catch (e) {
+			console.warn('Paragraph.save: could not sync Simditor instance', e);
 		}
 
 		$content.innerHTML = text || '';
