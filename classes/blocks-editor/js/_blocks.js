@@ -2297,7 +2297,9 @@ class Image extends Block {
 				{ idx: 'width-115', name: '115px' },
 				{ idx: 'width-125', name: '125px' },
 				{ idx: 'width-135', name: '135px' },
-				{ idx: 'width-150', name: '150px' }
+				{ idx: 'width-150', name: '150px' },
+				{ idx: 'width-165', name: '165px' },
+				{ idx: 'width-180', name: '180px' }
 			],
 			valueKey: 'idx',
 			displayKey: 'name',

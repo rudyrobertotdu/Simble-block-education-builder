@@ -790,6 +790,12 @@ footer .icons-list .icons-list_items {
 .width-150 {
     width: 150px;
 }
+.width-165 {
+    width: 165px;
+}
+.width-180 {
+    width: 180px;
+}
 .posts-grid_slider .post::before {
     background-image: linear-gradient(0deg, var(--dark-color) -30%, transparent 80%);
 }
