@@ -228,6 +228,27 @@ class Block {
 		}
 		return $block;
 	}
+
+	render() {
+
+		// Initialize slider behaviour using Slick (same approach as ImagesSlider)
+		try {
+			if (this.$slider && this.$slider.slick) {
+				jQuery(this.$slider).slick('unslick');
+			}
+			// Basic slider settings; adjust as needed
+			jQuery(this.$slider).slick({
+				slidesToShow: 1,
+				slidesToScroll: 1,
+				arrows: true,
+				dots: true,
+				adaptiveHeight: true
+			});
+		} catch (e) {
+			console.warn('Testimonials.render: could not initialize slider', e);
+		}
+
+	}
 	getEditBlock() {
 
 		let $block = this.getBlock();
@@ -827,7 +848,53 @@ class Section extends ContainerBlock {
 			},
 			default: 'no'
 		});
-		super.registerControls();
+
+			this.addControl('sectionVariant', 'general', {
+				type: 'combobox',
+				label: 'Tipo de sección',
+				store: [
+					{ idx: '', name: 'Por defecto' },
+					{ idx: 'section-valores', name: 'Valores' },
+					{ idx: 'section-why-choose-us', name: 'Why Choose Us' },
+					{ idx: 'section-contact-us', name: 'Contacto' },
+					{ idx: 'section-plana-docente', name: 'Plana docente' },
+					{ idx: 'section-campus', name: 'Campus' },
+					{ idx: 'section-palabras', name: 'Palabras' },
+					{ idx: 'section-mision-vision', name: 'Misión y Visión' },
+					{ idx: 'section-noticias-eventos', name: 'Noticias y Eventos' },
+					{ idx: 'section-experiencias', name: 'Experiencias' }
+				],
+				valueKey: 'idx',
+				displayKey: 'name',
+				default: '',
+				listeners: {
+					select: (value) => {
+						this.applySettings({ sectionVariant: value }, true);
+					}
+				}
+			});
+
+			this.addControl('sectionBg', 'general', {
+				type: 'combobox',
+				label: 'Fondo de sección',
+				store: [
+					{ idx: '', name: 'Por defecto' },
+					{ idx: 'dark-bg', name: 'Fondo oscuro' },
+					{ idx: 'gray-bg', name: 'Fondo gris' },
+					{ idx: 'red-bg', name: 'Fondo rojo' },
+					{ idx: 'theme-bg', name: 'Fondo tema' }
+				],
+				valueKey: 'idx',
+				displayKey: 'name',
+				default: '',
+				listeners: {
+					select: (value) => {
+						this.applySettings({ sectionBg: value }, true);
+					}
+				}
+			});
+
+			super.registerControls();
 	}
 
 	edit(settings) {
@@ -845,6 +912,20 @@ class Section extends ContainerBlock {
 		this.applyElementAttributes('edit', '$block', {
 			class: (this.getElementAttribute('$block', 'class') + ' ' + classes).trim()
 		});
+
+		// Normalize and apply selected section variant and background
+		try {
+			const variants = ['section-valores','section-why-choose-us','section-contact-us','section-plana-docente','section-campus','section-palabras','section-mision-vision','section-noticias-eventos','section-experiencias'];
+			const bgs = ['dark-bg','gray-bg','red-bg','theme-bg'];
+			// remove existing variant/bg classes
+			for (let v of variants) this.$block.classList.remove(v);
+			for (let b of bgs) this.$block.classList.remove(b);
+
+			if (settings.sectionVariant) this.$block.classList.add(settings.sectionVariant);
+			if (settings.sectionBg) this.$block.classList.add(settings.sectionBg);
+		} catch (e) {
+			console.warn('Could not apply section variant/bg', e);
+		}
 		this.$content.className = (isFluid == 'yes' ? 'content-fluid' : 'content') ;
 
 
@@ -870,6 +951,19 @@ class Section extends ContainerBlock {
 
 		$content.className = (isFluid == 'yes' ? 'content-fluid' : 'content');
 		classes && $block.classList.add(...classes.split(' '));
+
+		// Apply variant and background classes to saved block
+		try {
+			const variants = ['section-valores','section-why-choose-us','section-contact-us','section-plana-docente','section-campus','section-palabras','section-mision-vision','section-noticias-eventos','section-experiencias'];
+			const bgs = ['dark-bg','gray-bg','red-bg','theme-bg'];
+			for (let v of variants) $block.classList.remove(v);
+			for (let b of bgs) $block.classList.remove(b);
+
+			settings.sectionVariant && settings.sectionVariant.length && $block.classList.add(settings.sectionVariant);
+			settings.sectionBg && settings.sectionBg.length && $block.classList.add(settings.sectionBg);
+		} catch (e) {
+			console.warn('Could not set section classes on save', e);
+		}
 
 		this.saveBlocksItems($content);
 

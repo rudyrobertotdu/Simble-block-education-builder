@@ -17,3 +17,8 @@
 	Version: 1.0.0
 	Text domain: -
 **/
+
+/* Canvas background variable for document block */
+.canvas, .canvas.document {
+  background-color: var(--canvas-bg, transparent);
+}
