@@ -515,6 +515,15 @@ class Block {
 			this.settings.noPaddingY = cls.includes('no-padding-y') ? 'yes' : 'no';
 			this.settings.xDirection = cls.includes('x-direction') ? 'yes' : 'no';
 			this.settings.xItemsSpace = cls.includes('x-items-space') ? 'yes' : 'no';
+
+			// Derive section variant and background from classes if not explicitly provided
+			const variants = ['section-valores','section-why-choose-us','section-contact-us','section-plana-docente','section-campus','section-palabras','section-mision-vision','section-noticias-eventos','section-experiencias'];
+			const bgs = ['dark-bg','gray-bg','red-bg','theme-bg'];
+			const clsList = cls.split(/\s+/).filter(Boolean);
+			const foundVariant = variants.find(v => clsList.includes(v)) || '';
+			const foundBg = bgs.find(b => clsList.includes(b)) || '';
+			this.settings.sectionVariant = (settings && typeof settings.sectionVariant !== 'undefined') ? settings.sectionVariant : (this.settings.sectionVariant || foundVariant);
+			this.settings.sectionBg = (settings && typeof settings.sectionBg !== 'undefined') ? settings.sectionBg : (this.settings.sectionBg || foundBg);
 		}
 		if (render)
 			this.edit(this.settings);
