@@ -54,6 +54,11 @@
 	}
 	wrapSimditor();
 })();
+// Provide a site-root-relative editor path to avoid absolute URLs in placeholders
+window.editor_path_relative = (typeof editor_vars !== 'undefined' && editor_vars.editor_path)
+	? String(editor_vars.editor_path).replace(/^https?:\/\/[^/]+/, '')
+	: '/wp-content/themes/educacion-editor/classes/blocks-editor';
+
 var parsedBlocks = [
 	{
 		type: 'Canvas',
@@ -2799,17 +2804,17 @@ class BlocksEditor {
 		BlocksEditor.$editorBlocksViewport.contentDocument.head.insertAdjacentHTML('beforeend', 
 			`<meta charset="UTF-8">
 			 <meta name="viewport" content="width=device-width, initial-scale=1">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/css/_editor.css?v=1">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/css/_viewport.css?v=1">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/css/_blocks.css?v=1">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/css/_theme.css?v=1">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/css/font-awesome/font-awesome.css">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/css/_editor.css?v=1">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/css/_viewport.css?v=1">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/css/_blocks.css?v=1">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/css/_theme.css?v=1">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/css/font-awesome/font-awesome.css">
 			 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@300;400;600&family=Lato:wght@300;400;700&family=Open+Sans:wght@300;400;500;600&family=Albert+Sans:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Roboto+Flex:wght@400;500;600&family=Poppins:wght@300;400;500&family=Rubik:wght@300;400;500;600&family=Arimo:wght@400;500;600&display=swap">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/lib/slick/slick.css">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/lib/slick/slick-theme.css">
-			 <link rel="stylesheet" href="${editor_vars.editor_path}/lib/slick/slick-theme.css">
-			 <script src="${editor_vars.editor_path}/lib/jquery-2.js"></script>
-			 <script src="${editor_vars.editor_path}/lib/slick/slick.min.js"></script>`
+			 <link rel="stylesheet" href="${window.editor_path_relative}/lib/slick/slick.css">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/lib/slick/slick-theme.css">
+			 <link rel="stylesheet" href="${window.editor_path_relative}/lib/slick/slick-theme.css">
+			 <script src="${window.editor_path_relative}/lib/jquery-2.js"></script>
+			 <script src="${window.editor_path_relative}/lib/slick/slick.min.js"></script>`
 		);
 
 		BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');

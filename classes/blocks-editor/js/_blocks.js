@@ -19,6 +19,8 @@
  *   `$createUI` y del entorno global `editor_vars`/`ajaxurl`.
  */
 Simditor.locale = 'en-US';
+// editor path relative to site root (strip protocol+host if present)
+var _editor_path_rel = (window.editor_path_relative) ? window.editor_path_relative : ((typeof editor_vars !== 'undefined' && editor_vars.editor_path) ? String(editor_vars.editor_path).replace(/^https?:\/\/[^/]+/, '') : '/wp-content/themes/educacion-editor/classes/blocks-editor');
 class Block {
 	
 	// Static reference to main document for UI queries
@@ -1239,7 +1241,7 @@ class ImageBox extends Block {
 			type: 'imagefield',
 			label: 'Imagen',
 			default: {
-				url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+				url: (_editor_path_rel || window.editor_path_relative || (typeof editor_vars !== 'undefined' && editor_vars.editor_path ? editor_vars.editor_path.replace(/^https?:\/\/[^/]+/, '') : '/wp-content/themes/educacion-editor/classes/blocks-editor')) + '/img/image-placeholder.jpg',
 				width: 800,
 				height: 540
 			},
@@ -1823,7 +1825,7 @@ class ImagesSlider extends Block {
 					name: 'image',
 					index: 'image',
 					value: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -1881,7 +1883,7 @@ class ImagesSlider extends Block {
 			default: [
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -1889,7 +1891,7 @@ class ImagesSlider extends Block {
 				},
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -2032,7 +2034,7 @@ class CallToAction extends Block { //Siempre tiene boton
 			type: 'imagefield',
 			label: 'Imagen de fondo',
 			default: {
-				url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+				url: _editor_path_rel + '/img/image-placeholder.jpg',
 				width: 800,
 				height: 540
 			},
@@ -2256,7 +2258,7 @@ class Image extends Block {
 			type: 'imagefield',
 			label: 'Imagen',
 			default: {
-				url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+				url: _editor_path_rel + '/img/image-placeholder.jpg',
 				width: 800,
 				height: 540
 			},
@@ -3079,7 +3081,7 @@ class Testimonials extends Block {
 					name: 'image',
 					index: 'image',
 					value: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -3124,7 +3126,7 @@ class Testimonials extends Block {
 			default: [
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -3132,7 +3134,7 @@ class Testimonials extends Block {
 				},
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -3485,7 +3487,7 @@ class ImagesGallery extends Block {
 					name: 'image',
 					index: 'image',
 					value: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -3515,14 +3517,14 @@ class ImagesGallery extends Block {
 			default: [
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					}
 				},
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					}
@@ -3634,7 +3636,7 @@ class ImagesCarousel extends Block {
 					name: 'image',
 					index: 'image',
 					value: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -3675,7 +3677,7 @@ class ImagesCarousel extends Block {
 			default: [
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
@@ -3683,7 +3685,7 @@ class ImagesCarousel extends Block {
 				},
 				{
 					image: {
-						url: editor_vars.editor_path + '/img/image-placeholder.jpg',
+						url: _editor_path_rel + '/img/image-placeholder.jpg',
 						width: 800,
 						height: 540
 					},
