@@ -294,9 +294,7 @@ footer .paragraph * {
         text-align: center;
     }
 }
-.width-85 {
-    width: 85px;
-}
+
 .icons-list a {
     color: inherit;
 }
@@ -770,6 +768,27 @@ footer .icons-list .icons-list_items {
 }
 .width-80 {
     width: 80px;
+}
+.width-85 {
+    width: 85px;
+}
+.width-95 {
+    width: 95px;
+}
+.width-105 {
+    width: 105px;
+}
+.width-115 {
+    width: 115px;
+}
+.width-125 {
+    width: 125px;
+}
+.width-135 {
+    width: 135px;
+}
+.width-150 {
+    width: 150px;
 }
 .posts-grid_slider .post::before {
     background-image: linear-gradient(0deg, var(--dark-color) -30%, transparent 80%);

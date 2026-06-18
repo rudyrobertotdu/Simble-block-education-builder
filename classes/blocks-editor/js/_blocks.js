@@ -507,6 +507,15 @@ class Block {
 				this.settings[prop] = settings[prop] ?? this.controls[key][prop].default;
 			}
 		}
+
+		// For Section: derive checkbox values from classes string if present
+		if (this.blockName === 'section') {
+			let cls = (settings && settings.classes) ? settings.classes : this.settings.classes || '';
+			cls = String(cls);
+			this.settings.noPaddingY = cls.includes('no-padding-y') ? 'yes' : 'no';
+			this.settings.xDirection = cls.includes('x-direction') ? 'yes' : 'no';
+			this.settings.xItemsSpace = cls.includes('x-items-space') ? 'yes' : 'no';
+		}
 		if (render)
 			this.edit(this.settings);
 	}
@@ -847,6 +856,59 @@ class Section extends ContainerBlock {
 				}
 			},
 			default: 'no'
+		});
+
+		// Section utility classes as checkboxes (implemented as combobox yes/no)
+		this.addControl('noPaddingY', 'general', {
+			type: 'combobox',
+			label: 'No padding vertical',
+			store: [ { idx: 'no', name: 'No' }, { idx: 'yes', name: 'Sí' } ],
+			valueKey: 'idx',
+			displayKey: 'name',
+			default: 'no',
+			listeners: {
+				select: (value) => {
+					// rebuild classes
+					let classes = (this.settings.classes || '').split(/\s+/).filter(Boolean);
+					classes = classes.filter(c => c !== 'no-padding-y');
+					if (value === 'yes') classes.push('no-padding-y');
+					this.applySettings({ classes: classes.join(' ').trim() }, true);
+				}
+			}
+		});
+
+		this.addControl('xDirection', 'general', {
+			type: 'combobox',
+			label: 'Dirección X',
+			store: [ { idx: 'no', name: 'No' }, { idx: 'yes', name: 'Sí' } ],
+			valueKey: 'idx',
+			displayKey: 'name',
+			default: 'no',
+			listeners: {
+				select: (value) => {
+					let classes = (this.settings.classes || '').split(/\s+/).filter(Boolean);
+					classes = classes.filter(c => c !== 'x-direction');
+					if (value === 'yes') classes.push('x-direction');
+					this.applySettings({ classes: classes.join(' ').trim() }, true);
+				}
+			}
+		});
+
+		this.addControl('xItemsSpace', 'general', {
+			type: 'combobox',
+			label: 'Espaciado X',
+			store: [ { idx: 'no', name: 'No' }, { idx: 'yes', name: 'Sí' } ],
+			valueKey: 'idx',
+			displayKey: 'name',
+			default: 'no',
+			listeners: {
+				select: (value) => {
+					let classes = (this.settings.classes || '').split(/\s+/).filter(Boolean);
+					classes = classes.filter(c => c !== 'x-items-space');
+					if (value === 'yes') classes.push('x-items-space');
+					this.applySettings({ classes: classes.join(' ').trim() }, true);
+				}
+			}
 		});
 
 			this.addControl('sectionVariant', 'general', {
@@ -2206,6 +2268,33 @@ class Image extends Block {
 			listeners: {
 				input: ($this, value) => {
 					this.applySettings( { link: $this.getValue() }, true );
+				}
+			}
+		});
+
+		// Width class selector for the image (optional)
+		this.addControl('imageWidth', '', {
+			type: 'combobox',
+			label: 'Ancho de imagen (clase)',
+			store: [
+				{ idx: '', name: 'Sin clase (mostrar original)' },
+				{ idx: 'width-80', name: '80px' },
+				{ idx: 'width-85', name: '85px' },
+				{ idx: 'width-95', name: '95px' },
+				{ idx: 'width-100', name: '100px' },
+				{ idx: 'width-105', name: '105px' },
+				{ idx: 'width-115', name: '115px' },
+				{ idx: 'width-125', name: '125px' },
+				{ idx: 'width-135', name: '135px' },
+				{ idx: 'width-150', name: '150px' }
+			],
+			valueKey: 'idx',
+			displayKey: 'name',
+			default: '',
+			listeners: {
+				select: (value) => {
+					// Update the generic `classes` setting so template_structure/template_html include it
+					this.applySettings({ classes: value }, true);
 				}
 			}
 		});
