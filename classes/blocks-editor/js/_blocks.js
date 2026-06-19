@@ -527,6 +527,15 @@ class Block {
 			this.settings.sectionVariant = (settings && typeof settings.sectionVariant !== 'undefined') ? settings.sectionVariant : (this.settings.sectionVariant || foundVariant);
 			this.settings.sectionBg = (settings && typeof settings.sectionBg !== 'undefined') ? settings.sectionBg : (this.settings.sectionBg || foundBg);
 		}
+
+		// For Image: derive imageWidth from classes string if present
+		if (this.blockName === 'image') {
+			let cls = (settings && settings.classes) ? settings.classes : this.settings.classes || '';
+			cls = String(cls);
+			const clsList = cls.split(/\s+/).filter(Boolean);
+			const widthClass = clsList.find(c => /^width-\d+$/.test(c)) || '';
+			this.settings.imageWidth = (settings && typeof settings.imageWidth !== 'undefined') ? settings.imageWidth : (this.settings.imageWidth || widthClass);
+		}
 		if (render)
 			this.edit(this.settings);
 	}
@@ -2312,8 +2321,11 @@ class Image extends Block {
 			default: '',
 			listeners: {
 				select: (value) => {
-					// Update the generic `classes` setting so template_structure/template_html include it
-					this.applySettings({ classes: value }, true);
+					// Preserve other classes and replace any existing width-* class
+					let classes = (this.settings.classes || '').split(/\s+/).filter(Boolean);
+					classes = classes.filter(c => !/^width-\d+$/.test(c));
+					if (value && value.length) classes.push(value);
+					this.applySettings({ classes: classes.join(' ').trim(), imageWidth: value }, true);
 				}
 			}
 		});
