@@ -2300,7 +2300,6 @@ class Image extends Block {
 				{ idx: 'width-150', name: '150px' },
 				{ idx: 'width-165', name: '165px' },
 				{ idx: 'width-180', name: '180px' },
-				{ idx: 'width-180', name: '180px' },
 				{ idx: 'width-200', name: '200px' },
 				{ idx: 'width-300', name: '300px' },
 				{ idx: 'width-400', name: '400px' },
