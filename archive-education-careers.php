@@ -317,30 +317,30 @@ get_header(); ?>
 	    <div class="content">
 	        <div class="call-to-action-group" data-block="call-to-action-group" style="--columns-number:3;"><div class="call-to-action" data-block="call-to-action">
 			<div class="cta-image">
-				<img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/08/agropecuar-2020_01_27_221544@2x.jpg" alt="" width="626" height="417">
+				<img src="/wp-content/uploads/2022/08/agropecuar-2020_01_27_221544@2x.jpg" alt="" width="626" height="417">
 				<div class="overlay"></div>
 			</div>
 			<div class="cta-content">
 				<h2 class="title">Producción Agropecuaria</h2>
-				<a class="button" href="https://edukate.pe/otz21-iestpo/programas-estudio/produccion-agropecuaria/">VER MÁS</a>
+				<a class="button" href="/programas-estudio/produccion-agropecuaria/">VER MÁS</a>
 			</div>
 		 </div><div class="call-to-action" data-block="call-to-action">
 			<div class="cta-image">
-				<img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/08/contabilidad-una-aproximacion-conceptual.jpg" alt="" width="900" height="400">
+				<img src="/wp-content/uploads/2022/08/contabilidad-una-aproximacion-conceptual.jpg" alt="" width="900" height="400">
 				<div class="overlay"></div>
 			</div>
 			<div class="cta-content">
 				<h2 class="title">Contabilidad</h2>
-				<a class="button" href=" https://edukate.pe/otz21-iestpo/programas-estudio/contabilidad/">VER MÁS</a>
+				<a class="button" href=" /programas-estudio/contabilidad/">VER MÁS</a>
 			</div>
 		 </div><div class="call-to-action" data-block="call-to-action">
 			<div class="cta-image">
-				<img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/08/tecnica-enfermeria-1.jpg" alt="" width="1600" height="900">
+				<img src="/wp-content/uploads/2022/08/tecnica-enfermeria-1.jpg" alt="" width="1600" height="900">
 				<div class="overlay"></div>
 			</div>
 			<div class="cta-content">
 				<h2 class="title">Enfermería Técnica</h2>
-				<a class="button" href="https://edukate.pe/otz21-iestpo/programas-estudio/enfermeria-tecnica/">VER MÁS</a>
+				<a class="button" href="/programas-estudio/enfermeria-tecnica/">VER MÁS</a>
 			</div>
 		 </div></div>
         </div>

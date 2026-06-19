@@ -746,7 +746,7 @@ var parsedBlocks2 = {
 			                    "settings": {
 			                      "image": {
 			                        "alt": "",
-			                        "url": "http://edukate.pe/iestpcab/wp-content/uploads/2022/08/thumbs-up-3.png",
+			                        "url": "/wp-content/uploads/2022/08/thumbs-up-3.png",
 			                        "width": 509,
 			                        "height": 339
 			                      },

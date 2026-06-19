@@ -432,7 +432,7 @@ get_header(); ?>
 	                <h1>ÁREA DE SECRETARÍA ACADÉMICA</h1>
 	                <div class="header">
 	                    <div class="profile">
-	                        <img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/09/teacher.png">
+	                        <img src="/wp-content/uploads/2022/09/teacher.png">
 	                    </div>
 	                    <div class="data">
 	                        <h3 class="title">Ing. Martín Giancarlo Arteaga Sebastián</h3>
@@ -450,7 +450,7 @@ get_header(); ?>
 	                <h1>UNIDAD ACADÉMICA</h1>
 	                <div class="header">
 	                    <div class="profile">
-	                        <img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/09/teacher.png">
+	                        <img src="/wp-content/uploads/2022/09/teacher.png">
 	                    </div>
 	                    <div class="data">
 	                        <h3 class="title">Ing. Zoila Elizabeth Salazar Vigo</h3>
@@ -475,7 +475,7 @@ get_header(); ?>
 	                <h1>UNIDAD ADMINISTRATIVA</h1>
 	                <div class="header">
 	                    <div class="profile">
-	                        <img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/09/teacher.png">
+	                        <img src="/wp-content/uploads/2022/09/teacher.png">
 	                    </div>
 	                    <div class="data">
 	                        <h3 class="title"> CPC Segundo Ricardo Gutiérrez De La Cruz</h3>
@@ -492,7 +492,7 @@ get_header(); ?>
 	                <h1>UNIDAD DE BIENESTAR Y EMPLEABILIDAD</h1>
 	                <div class="header">
 	                    <div class="profile">
-	                        <img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/09/teacher.png">
+	                        <img src="/wp-content/uploads/2022/09/teacher.png">
 	                    </div>
 	                    <div class="data">
 	                        <h3 class="title"> Ing. Helberth Segundo Tirado Hernández</h3>
@@ -513,7 +513,7 @@ get_header(); ?>
 	                <h1>UNIDAD DE INVESTIGACIÓN</h1>
 	                <div class="header">
 	                    <div class="profile">
-	                        <img src="https://edukate.pe/otz21-iestpo/wp-content/uploads/2022/09/teacher.png">
+	                        <img src="/wp-content/uploads/2022/09/teacher.png">
 	                    </div>
 	                    <div class="data">
 	                        <h3 class="title"> Ing. Diego Eduardo Reyes Beltrán</h3>

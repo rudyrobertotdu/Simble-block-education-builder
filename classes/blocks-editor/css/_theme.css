@@ -796,6 +796,24 @@ footer .icons-list .icons-list_items {
 .width-180 {
     width: 180px;
 }
+.width-200 {
+    width: 200px;
+}
+.width-300 {
+    width: 300px;
+}
+.width-400 {
+    width: 400px;
+}
+.width-500 {
+    width: 500px;
+}
+.width-700 {
+    width: 700px;
+}
+.width-1000 {
+    width: 1000px;
+}
 .posts-grid_slider .post::before {
     background-image: linear-gradient(0deg, var(--dark-color) -30%, transparent 80%);
 }
