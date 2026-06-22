@@ -12,7 +12,7 @@
  * - La función `get_breadcrumbs()` está definida localmente para evitar
  *   dependencias fuera de este contexto; puede coexistir con otras
  *   implementaciones de breadcrumb en `footer.php`.
- */
+ **/
 get_header(); ?>
 <style>
     h1 {
