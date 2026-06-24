@@ -2939,6 +2939,7 @@ function $createUI(component) {
                 					{icon: 'fa-file-text-o', name: 'Archivo'},
                 					{icon: 'fa-search', name: 'Lupa'},
                 					{icon: 'fa-facebook-square', name: 'Facebook'},
+									{icon: 'fa-whatsapp', name: 'WhatsApp'},
                 					{icon: 'fa-twitter', name: 'Twitter'},
                 					{icon: 'fa-youtube', name: 'Youtube'},
                 					{icon: 'fa-heart', name: 'Corazon'},
