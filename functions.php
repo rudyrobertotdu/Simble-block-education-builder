@@ -99,23 +99,6 @@ if (!function_exists('_log')) {
 			'supports'    => array('title', 'editor', 'thumbnail')
 		));
 
-		register_post_type('education-events', array(
-			'labels' => array(
-				'name'           => __('Eventos'),
-				'all_items'      => __('Todos los eventos'),
-				'singular_name'  => __('Evento'),
-				'add_new'        => __('Nuevo evento'),
-				'add_new_item'   => __('Añadir nuevo evento'),
-				'edit_item'      => __('Editar evento'),
-				'featured_image' => __('Imagen destacada del evento')
-			),
-			'public'      => true,
-			'has_archive' => true,
-			'menu_icon'   => 'dashicons-megaphone',
-			'rewrite'     => ['slug' => 'eventos'],
-			'supports'    => array('title', 'editor', 'thumbnail')
-		));
-
 		register_post_type('education-documents', array(
 			'labels' => array(
 				'name'           => __('Pagina de transparencia'),
@@ -131,6 +114,22 @@ if (!function_exists('_log')) {
 			'rewrite'     => ['slug' => 'transparencia'],
 			'supports'    => array('title', 'editor')
 		));
+
+		register_post_type('education-books', array(
+			'labels' => array(
+				'name'           => __('Libros de educación'),
+				'all_items'      => __('Todos los libros de educación'),
+				'singular_name'  => __('Libro de educación'),
+				'add_new'        => __('Nuevo libro de educación'),
+				'add_new_item'   => __('Añadir nuevo libro de educación'),
+				'edit_item'      => __('Editar libro de educación')
+			),
+			'public'      => true,
+			'has_archive' => true,
+			'menu_icon'   => 'dashicons-media-spreadsheet',
+			'rewrite'     => ['slug' => 'libros'],
+			'supports'    => array('title', 'editor')
+		));
 	}
 	add_action('init', 'education_register_post_types');
 
@@ -139,6 +138,8 @@ if (!function_exists('_log')) {
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
 
 		add_meta_box('education-career-data', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
+
+		add_meta_box('education-career-data', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-books', 'normal', 'high');
 	}
 	function render_transparency_files_metabox($post) {
 
@@ -1210,6 +1211,7 @@ if (!function_exists('_log')) {
 		}
 	}
 	add_action('save_post_education-documents', 'save_post_education_document');
+	add_action('save_post_education-books', 'save_post_education_document');
 	function my_login_logo() {
 ?>
         <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
