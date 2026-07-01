@@ -126,7 +126,7 @@ if (!function_exists('_log')) {
 			),
 			'public'      => true,
 			'has_archive' => true,
-			'menu_icon'   => 'dashicons-media-spreadsheet',
+			'menu_icon'   => 'dashicons-book',
 			'rewrite'     => ['slug' => 'libros'],
 			'supports'    => array('title', 'editor')
 		));

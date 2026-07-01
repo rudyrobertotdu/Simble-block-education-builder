@@ -33,8 +33,19 @@ get_header(); ?>
 			display: flex;
 			flex-direction: row;
 			text-decoration: none;
-			height: 100%;
+			height: auto;
 			border-radius: 8px;
+			overflow: hidden;
+			border: 1px solid rgba(255,255,255,0.22);
+			margin-bottom: 20px;
+			background: rgba(255,255,255,0.08);
+		}
+		.attachment .title {
+			padding: 20px;
+			font-size: 16px;
+			color: #fff;
+			flex: 1;
+			background: rgba(0,0,0,0.16);
 		}
 		h1 {
 			font-family: Roboto Flex;
@@ -53,7 +64,7 @@ get_header(); ?>
     ">
 		<div class="overlay" style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.4)"></div>
 		<div class="content" style="align-items: flex-start; justify-content: center; height: 100%; min-height: inherit; position: relative;">
-			<h1 class="" style="font-size: clamp(28px, 6vw, 40px)"><?php echo get_the_title(); ?></h1>
+			<h1 class="" style="font-size: clamp(28px, 6vw, 40px); letter-spacing: 2px;">LIBROS</h1>
 		</div>
 	</section>
 	<section class="theme-bg no-padding-y">
@@ -255,12 +266,21 @@ get_header(); ?>
 		    ?>
 		</div>
 	</section>
-	<section class="dark-bg">
+	<section>
 		<div class="content">
-		    <div class="heading" data-block="heading">
-		        <h2>Listado de libros</h2>
-		    </div>
-			<div class="attachments">
+            <div class="image" data-block="image" style="margin-bottom: 15px">
+	            <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px">
+	        </div>
+            <div class="heading" style="margin-bottom: 10px">
+                <h2><?php the_title(); ?></h2>
+            </div>
+            <div class="paragraph" data-block="paragraph">
+                <?php the_content(); ?>
+            </div>
+            <div class="heading" data-block="heading">
+                <h3>Listado de libros</h3>
+            </div>
+            <div class="attachments">
 			<?php 
 				$ids = json_decode(get_post_meta(get_the_ID(), '_transparency_documents', true));
 				
@@ -277,7 +297,7 @@ get_header(); ?>
 					</div>";
 				}
 			?>
-			</div>
+            </div>
 		</div>
 	</section>
 </main>
