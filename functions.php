@@ -1206,8 +1206,21 @@ if (!function_exists('_log')) {
 
 	function save_post_education_document($post_id) {
 
-		if (!empty($_POST['transparency_documents'])) {
-			update_post_meta($post_id, '_transparency_documents', json_encode($_POST['transparency_documents']));
+		// Guardado de archivos de transparencia.
+		// Si el campo existe en el POST lo guardamos (incluso si está vacío).
+		if (isset($_POST['transparency_documents'])) {
+			$docs = $_POST['transparency_documents'];
+			// Normalizar: quitar valores vacíos y reindexar
+			if (is_array($docs)) {
+				$docs = array_values(array_filter($docs, function($v) { return $v !== '' && $v !== null; }));
+			} else {
+				$docs = array();
+			}
+			update_post_meta($post_id, '_transparency_documents', json_encode($docs));
+		} else {
+			// Si el campo no viene en el POST significa que el usuario borró todos
+			// los inputs en el editor; eliminamos la meta para reflejarlo.
+			delete_post_meta($post_id, '_transparency_documents');
 		}
 	}
 	add_action('save_post_education-documents', 'save_post_education_document');

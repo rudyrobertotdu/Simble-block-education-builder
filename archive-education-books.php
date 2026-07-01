@@ -333,9 +333,12 @@ get_header(); ?>
                 	    </div>
                 	    <div class="description">
                 	        <?php 
-                	            $amount = count(json_decode(get_post_meta(get_the_ID(), '_transparency_documents', true)));
-                	        ?>
-                	        <?php echo $amount ?> libros en total.
+                 	            $documents = get_post_meta(get_the_ID(), '_transparency_documents', true);
+                 	            $documents = json_decode($documents, true);
+                 	            $amount = is_array($documents) ? count($documents) : 0;
+                 	            $label = $amount === 1 ? 'libro en total' : 'libros en total';
+                 	        ?>
+                 	        <?php echo $amount . ' ' . $label; ?>
                 	    </div>
                 	    <div class="button" data-block="button">
                 	        <a class="link" href="<?php echo $link ?>" target="_blank">Ver los documentos</a>
