@@ -137,9 +137,24 @@ if (!function_exists('_log')) {
 
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
 
-		add_meta_box('education-career-data', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
+		add_meta_box('education-document-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
 
-		add_meta_box('education-career-data', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-books', 'normal', 'high');
+		add_meta_box('education-book-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-books', 'normal', 'high');
+
+		add_meta_box('education-book-availability', 'DISPONIBILIDAD', 'render_book_availability_metabox', 'education-books', 'normal', 'high');
+	}
+
+	function render_book_availability_metabox($post) {
+		$availability = get_post_meta($post->ID, '_book_availability', true);
+		$checked = ($availability === 'available');
+		?>
+		<div class="uix-field">
+			<label style="display:flex; align-items:center; gap:8px;">
+				<input type="checkbox" id="book-available" name="book_availability" value="available" <?php checked( $checked ); ?> />
+				<span>Disponible</span>
+			</label>
+		</div>
+		<?php
 	}
 	function render_transparency_files_metabox($post) {
 
@@ -159,8 +174,10 @@ if (!function_exists('_log')) {
 			<div>
 				<ul class="files"></ul>
 			</div>
-			<button id="add-files"type="button">Añadir documentos</button>
+			<button id="add-files" type="button">Añadir documentos</button>
+
 		</div>
+		
 		<script>
 
 			var files = JSON.parse('<?php echo $documents ?>');
@@ -1221,6 +1238,17 @@ if (!function_exists('_log')) {
 			// Si el campo no viene en el POST significa que el usuario borró todos
 			// los inputs en el editor; eliminamos la meta para reflejarlo.
 			delete_post_meta($post_id, '_transparency_documents');
+		}
+
+		// Guardado de disponibilidad para libros de educación.
+		if (isset($_POST['book_availability'])) {
+			$availability = sanitize_text_field($_POST['book_availability']);
+			if (!in_array($availability, ['available', 'unavailable'], true)) {
+				$availability = 'available';
+			}
+			update_post_meta($post_id, '_book_availability', $availability);
+		} else {
+			delete_post_meta($post_id, '_book_availability');
 		}
 	}
 	add_action('save_post_education-documents', 'save_post_education_document');
