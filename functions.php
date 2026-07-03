@@ -146,6 +146,10 @@ if (!function_exists('_log')) {
 
 	function render_book_availability_metabox($post) {
 		$availability = get_post_meta($post->ID, '_book_availability', true);
+		// Por defecto, al crear un nuevo post queremos que esté disponible.
+		if ($availability === '' || $availability === null) {
+			$availability = 'available';
+		}
 		$checked = ($availability === 'available');
 		?>
 		<div class="uix-field">
