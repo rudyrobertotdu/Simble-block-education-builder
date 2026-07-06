@@ -354,7 +354,9 @@ if (!function_exists('_log')) {
     						'ul',
     						'ol',
     						'alignment',
-    						'table'
+    						'table',
+							'link',
+							'image'
     					],
     					allowedTags: ['p', 'table', 'iframe'],
     					allowedAttributes: {iframe: ['src', 'style']},
@@ -474,7 +476,9 @@ if (!function_exists('_log')) {
     						'ul',
     						'ol',
     						'alignment',
-    						'table'
+    						'table',
+							'link',
+							'image'
     					],
     					allowedTags: ['p', 'table', 'iframe'],
     					allowedAttributes: {iframe: ['src', 'style']},
@@ -596,7 +600,9 @@ if (!function_exists('_log')) {
     						'ul',
     						'ol',
     						'alignment',
-    						'table'
+    						'table',
+							'link',
+							'image'
     					],
     					allowedTags: ['p', 'table', 'iframe'],
     					allowedAttributes: {iframe: ['src', 'style']},
@@ -719,7 +725,9 @@ if (!function_exists('_log')) {
     						'ul',
     						'ol',
     						'alignment',
-    						'table'
+    						'table',
+							'link',
+							'image'
     					],
     					allowedTags: ['p', 'table', 'iframe'],
     					allowedAttributes: {iframe: ['src', 'style']},
@@ -840,7 +848,9 @@ if (!function_exists('_log')) {
 						'ul',
 						'ol',
 						'alignment',
-						'table'
+						'table',
+						'link',
+						'image'
 					],
 					allowedTags: ['p', 'table', 'iframe'],
 					allowedAttributes: {iframe: ['src', 'style']},
@@ -961,7 +971,9 @@ if (!function_exists('_log')) {
 						'ul',
 						'ol',
 						'alignment',
-						'table'
+						'table',
+						'link',
+						'image'
 					],
 					allowedTags: ['p', 'table', 'iframe'],
 					allowedAttributes: {iframe: ['src', 'style']},
@@ -1080,7 +1092,9 @@ if (!function_exists('_log')) {
 						'ul',
 						'ol',
 						'alignment',
-						'table'
+						'table',
+						'link',
+						'image'
 					],
 					allowedTags: ['p', 'table', 'iframe'],
 					allowedAttributes: {iframe: ['src', 'style']},
