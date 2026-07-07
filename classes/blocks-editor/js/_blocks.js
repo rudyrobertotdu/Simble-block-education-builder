@@ -3153,7 +3153,7 @@ class Testimonials extends Block {
 				append: ($this) => {
 					this.applySettings({elements: $this.getValue()}, true);
 				},
-				remove: () => {
+				remove: ($this) => {
 					this.applySettings({elements: $this.getValue()}, true);
 				}
 			}
