@@ -58,33 +58,6 @@ get_header(); ?>
 			line-height: 1.5;
 			color: #6a6a6a;
 		}
-		.tab-panel[data-name=perfil]::before {
-			position: absolute;
-			content: "\f0c0";
-			font: normal normal normal 14px/1 FontAwesome;
-			color: #95959545;
-			top: calc(100% - 280px);
-			right: 20px;
-			font-size: 280px;
-		}
-		.tab-panel[data-name=ambito]::before {
-			position: absolute;
-			content: "\f013";
-			font: normal normal normal 14px/1 FontAwesome;
-			color: #95959545;
-			top: calc(100% - 280px);
-			right: 20px;
-			font-size: 280px;
-		}
-		.tab-panel[data-name=certificaciones]::before {
-			position: absolute;
-			content: "\f19d";
-			font: normal normal normal 14px/1 FontAwesome;
-			color: #95959545;
-			top: calc(100% - 280px);
-			right: 20px;
-			font-size: 280px;
-		}
 		h1 {
 			color: #fff;
 		}
@@ -367,29 +340,13 @@ get_header(); ?>
 		<div class="content">
 			<div class="tabs style-1">
 				<div class="tabs-heading">
-					<button class="tab" data-target="perfil" data-active>Perfil de egreso</button>
-					<button class="tab" data-target="ambito">Ámbito laboral</button>
-					<button class="tab" data-target="certificaciones">Certificaciones</button>
-					<button class="tab" data-target="plan-estudios">Plan de estudios</button>
-					<button class="tab" data-target="horario-clases">Horario de clases</button>
+					<button class="tab" data-target="plan-estudios" data-active>Plan de estudios</button>
 					<button class="tab" data-target="matricula">Matrícula</button>
 					<button class="tab" data-target="oficio">Oficio de autorización</button>
 				</div>
 				<div class="tabs-body">
-					<div class="tab-panel" data-name="perfil">
-						<?php echo get_post_meta(get_the_ID(), '_career-perfil-egresado', true); ?>
-					</div>
-					<div class="tab-panel" data-name="ambito">
-						<?php echo get_post_meta(get_the_ID(), '_career-ambito-laboral', true); ?>
-					</div>
-					<div class="tab-panel" data-name="certificaciones">
-						<?php echo get_post_meta(get_the_ID(), '_career-certificaciones', true); ?>
-					</div>
 					<div class="tab-panel" data-name="plan-estudios">
 						<?php echo get_post_meta(get_the_ID(), '_career-plan-estudios', true); ?>
-					</div>
-					<div class="tab-panel" data-name="horario-clases">
-						<?php echo get_post_meta(get_the_ID(), '_career-horario-clases', true); ?>
 					</div>
 					<div class="tab-panel" data-name="matricula">
 						<?php echo get_post_meta(get_the_ID(), '_career-matricula', true); ?>
