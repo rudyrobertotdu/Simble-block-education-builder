@@ -325,7 +325,7 @@ get_header(); ?>
                 	    <?php
                 	        $link = get_permalink();
                 	    ?>
-                	    <i class="fa fa-file-text-o fa-3x"></i>
+                	    <i class="fa fa-book fa-3x"></i>
                 	</header>
                 	<div class="entry-content">
                 	    <div>
