@@ -47,6 +47,29 @@ get_header(); ?>
 			flex: 1;
 			background: rgba(0,0,0,0.16);
 		}
+		.book-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 30px;
+			align-items: start;
+			margin-bottom: 30px;
+		}
+		.book-grid__image img {
+			width: 100%;
+			height: auto;
+			display: block;
+			border-radius: 8px;
+		}
+		.book-grid__text {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+		@media screen and (max-width: 768px) {
+			.book-grid {
+				grid-template-columns: 1fr;
+			}
+		}
 		h1 {
 			font-family: Roboto Flex;
 			font-size: 40px;
@@ -268,14 +291,18 @@ get_header(); ?>
 	</section>
 	<section>
 		<div class="content">
-            <div class="image" data-block="image" style="margin-bottom: 15px">
-	            <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px">
-	        </div>
-            <div class="heading" style="margin-bottom: 10px">
-                <h2><?php the_title(); ?></h2>
-            </div>
-            <div class="paragraph" data-block="paragraph">
-                <?php the_content(); ?>
+            <div class="book-grid">
+                <div class="book-grid__image" data-block="image">
+                    <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" />
+                </div>
+                <div class="book-grid__text">
+                    <div class="heading" style="margin-bottom: 10px">
+                        <h2><?php the_title(); ?></h2>
+                    </div>
+                    <div class="paragraph" data-block="paragraph">
+                        <?php the_content(); ?>
+                    </div>
+                </div>
             </div>
             <?php 
                 $availability = get_post_meta(get_the_ID(), '_book_availability', true);
