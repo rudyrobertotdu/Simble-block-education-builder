@@ -333,12 +333,10 @@ get_header(); ?>
                 	    </div>
                 	    <div class="description">
                 	        <?php 
-                 	            $documents = get_post_meta(get_the_ID(), '_transparency_documents', true);
-                 	            $documents = json_decode($documents, true);
-                 	            $amount = is_array($documents) ? count($documents) : 0;
-                 	            $label = $amount === 1 ? 'adjunto en total' : 'adjuntos en total';
+                 	            $availability = get_post_meta(get_the_ID(), '_book_availability', true);
+                 	            $status = ($availability === 'available') ? 'Disponible' : 'No disponible';
                  	        ?>
-                 	        <?php echo $amount . ' ' . $label; ?>
+                 	        <?php echo $status; ?>
                 	    </div>
                 	    <div class="button" data-block="button">
                 	        <a class="link" href="<?php echo $link ?>" target="_blank">Ver libro</a>
