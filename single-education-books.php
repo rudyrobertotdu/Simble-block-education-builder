@@ -296,7 +296,7 @@ get_header(); ?>
                     <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" />
                 </div>
                 <div class="book-grid__text">
-                    <div class="heading" style="margin-bottom: 10px">
+                    <div class="heading" style="margin-bottom: -15px">
                         <h2><?php the_title(); ?></h2>
                     </div>
                     <div class="paragraph" data-block="paragraph">
@@ -313,7 +313,7 @@ get_header(); ?>
                 Disponibilidad: <?php echo $status; ?>
             </div>
             <div class="heading" data-block="heading">
-                <h3>Listado de libros</h3>
+                <h3>Archivos adjuntos</h3>
             </div>
             <div class="attachments">
 			<?php 
