@@ -122,14 +122,17 @@ if (!function_exists('_log')) {
 				'singular_name'  => __('Libro de educación'),
 				'add_new'        => __('Nuevo libro de educación'),
 				'add_new_item'   => __('Añadir nuevo libro de educación'),
-				'edit_item'      => __('Editar libro de educación')
+				'edit_item'      => __('Editar libro de educación'),
+				'featured_image' => __('Imagen destacada del libro de educación')
 			),
 			'public'      => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-book',
 			'rewrite'     => ['slug' => 'libros'],
-			'supports'    => array('title', 'editor')
+			'supports'    => array('title', 'editor', 'thumbnail')
 		));
+
+		
 	}
 	add_action('init', 'education_register_post_types');
 
