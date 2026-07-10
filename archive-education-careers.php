@@ -120,7 +120,7 @@ get_header(); ?>
     <section class="no-padding-y" style="min-height: 100px; background-image: url(<?php echo get_template_directory_uri() .'/img/edu-banner.jpg'; ?>); background-size: cover; background-position: center; position: relative;">
 		<div class="overlay" style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3)"></div>
 		<div class="content" style="align-items: flex-start; justify-content: center; height: 300px; position: relative;">
-			<h1 class="">PROGRAMAS DE ESTUDIO</h1>
+			<h1 class="">CAPACITACIONES</h1>
 		</div>
 	</section>
 	<section class="theme-bg no-padding-y">

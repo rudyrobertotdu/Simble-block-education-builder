@@ -67,18 +67,18 @@ if (!function_exists('_log')) {
 
 		register_post_type('education-careers', array(
 			'labels' => array(
-				'name'           => __('Programa de estudios'),
-				'all_items'      => __('Todos los programas de estudios'),
-				'singular_name'  => __('Programa de estudios'),
-				'add_new'        => __('Nuevo programa de estudios'),
-				'add_new_item'   => __('Añadir nuevo programa de estudios'),
-				'edit_item'      => __('Editar programa de estudios'),
-				'featured_image' => __('Imagen destacada del programa de estudios')
+				'name'           => __('Capacitaciones'),
+				'all_items'      => __('Todas las capacitaciones'),
+				'singular_name'  => __('Capacitaciones'),
+				'add_new'        => __('Nueva capacitación'),
+				'add_new_item'   => __('Añadir nueva capacitación'),
+				'edit_item'      => __('Editar capacitación'),
+				'featured_image' => __('Imagen destacada de la capacitación')
 			),
 			'public'      => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-welcome-learn-more',
-			'rewrite'     => ['slug' => 'programas-estudio'],
+			'rewrite'     => ['slug' => 'capacitaciones'],
 			'supports'    => array('title', 'thumbnail', 'editor')
 		));
 
@@ -86,7 +86,7 @@ if (!function_exists('_log')) {
 			'labels' => array(
 				'name'           => __('Diplomados'),
 				'all_items'      => __('Todos los diplomados'),
-				'singular_name'  => __('Diplomado'),
+				'singular_name'  => __('Diplomados'),
 				'add_new'        => __('Nuevo diplomado'),
 				'add_new_item'   => __('Añadir nuevo diplomado'),
 				'edit_item'      => __('Editar diplomado'),
@@ -103,7 +103,7 @@ if (!function_exists('_log')) {
 			'labels' => array(
 				'name'           => __('Noticias'),
 				'all_items'      => __('Todas las noticias'),
-				'singular_name'  => __('Noticia'),
+				'singular_name'  => __('Noticias'),
 				'add_new'        => __('Nueva noticia'),
 				'add_new_item'   => __('Añadir nueva noticia'),
 				'edit_item'      => __('Editar noticia'),
@@ -134,13 +134,13 @@ if (!function_exists('_log')) {
 
 		register_post_type('education-books', array(
 			'labels' => array(
-				'name'           => __('Libros de educación'),
-				'all_items'      => __('Todos los libros de educación'),
-				'singular_name'  => __('Libros de educación'),
-				'add_new'        => __('Nuevo libro de educación'),
-				'add_new_item'   => __('Añadir nuevo libro de educación'),
-				'edit_item'      => __('Editar libro de educación'),
-				'featured_image' => __('Imagen destacada del libro de educación')
+				'name'           => __('Libros'),
+				'all_items'      => __('Todos los libros'),
+				'singular_name'  => __('Libros'),
+				'add_new'        => __('Nuevo libro'),
+				'add_new_item'   => __('Añadir nuevo libro'),
+				'edit_item'      => __('Editar libro'),
+				'featured_image' => __('Imagen destacada del libro')
 			),
 			'public'      => true,
 			'has_archive' => true,
@@ -783,7 +783,7 @@ if (!function_exists('_log')) {
                 position: relative;
             }
             #login h1 a::after {
-                content: 'C.P.P.E "SABER"';
+                content: 'C.P.P.E "SABER-CLAIP"';
                 width: 100%;
                 text-align: center;
                 position: absolute;
