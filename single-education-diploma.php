@@ -1,126 +1,123 @@
 <?php
 /**
- * archive-education-careers.php
+ * single-education-diploma.php
  *
- * Archivo de archivo para el custom post type `education-careers`.
+ * Plantilla singular para mostrar un diplomado (`education-diploma`).
  * Propósito:
- * - Mostrar programas de estudio en un layout de tarjetas
- * - Utiliza estilos inline para controlar la presentación localmente
+ * - Renderizar un hero con la imagen destacada y secciones tabuladas con
+ *   información del programa (perfil, ámbito, certificaciones, etc.).
+ * - Utiliza estilos inline que priorizan la presentación del contenido
+ *   educativo.
  */
 get_header(); ?>
-
-<?php if ( have_posts() ) : ?>
-<style>
-    article {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        border-radius: 8px;
-        border: 1px solid #bebebe;
-        margin-bottom: 14px;
-        overflow: hidden;
-    }
-    article .entry-header {
-        min-width: 0;
-        flex-grow: 1;
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 4 / 1;
-        flex-shrink: 0;
-        min-height: 0;
-        flex-grow: 0;
-        padding: 10px;
-        background: var(--text-color);
-    }
-    article .entry-header i {
-        color: #fff;
-    }
-    article .entry-content {
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-    article .button {
-        margin-top: auto;
-    }
-    article i {
-        color: var(--text-color);
-    }
-    article img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-    article .entry-title {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    article .description {
-        text-align: center;
-        font-family: Roboto Flex;
-        font-size: 18px;
-        color: #656565;
-        margin-bottom: 10px;
-    }
-    article .entry-content > div:first-child {
-        min-height: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    article .entry-content > div:first-child h2 {
-        margin: 0;
-    }
-    article a {
-        text-decoration: none;
-        color: #515151;
-        font-family: Roboto Flex;
-        font-size: 18px;
-    }
-    h1  {
-        font-family: Roboto Flex;
-        color: #fff;
-        font-size: 40px;
-    }
-    h2  {
-        font-family: Roboto Flex;
-        color: #383838;
-        font-size: 18px;
-        margin-top: 0;
-        text-align: center;
-    }
-    .button a {
-        display: block;
-        font-size: 16px;
-        text-align: center;
-        font-size: 16px;
-    }
-    .documents-page-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 20px
-    }
-    @media screen and (max-width: 768px) {
-        .documents-page-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            grid-gap: 20px
-        }
-    }
-</style>
-    <section class="no-padding-y" style="min-height: 100px; background-image: url(<?php echo get_template_directory_uri() .'/img/edu-banner.jpg'; ?>); background-size: cover; background-position: center; position: relative;">
+<main> 
+	<style>
+		.tabs {
+			display: flex;
+			flex-direction: column;
+		}
+		.tabs .tab-header {
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+		}
+		.tabs .tab {
+			border: none;
+			background: none;
+			padding: 12px 14px;
+			border: 1px solid;
+			background: #efefef;
+			color: #848484;
+			color: #676767;
+			border-radius: 8px 8px 0 0;
+			font-size: 17px;
+			font-family: Open Sans;
+			cursor: pointer;
+			outline: none;
+			border-color: #b6b6b6;
+			border-color: #a1a1a1;
+		}
+		.tabs .tab[data-active] {
+			background: #a12c2f;
+			background: var(--text-color);
+			border-color: var(--text-color);
+			color: #fff;
+		}
+		.tabs-body .tab-panel:not(:first-child) {
+			display: none;
+		}
+		.tabs-body .tab-panel {
+			min-height: 250px;
+			padding: 30px;
+			background: #ebebeb;
+			background: #fff;
+			position: relative;
+			overflow: hidden;
+			font-family: Open Sans;
+			font-size: 15px;
+			line-height: 1.5;
+			color: #6a6a6a;
+		}
+		h1 {
+			color: #fff;
+		}
+		.post-content * {
+            font-family: Open Sans;
+            font-family: 'Roboto Flex';
+            font-family: 'Source Sans Pro';
+            font-size: 18px;
+            color: #6d6d6d;
+		}
+		h1 {
+			font-family: Roboto Flex;
+			font-size: 40px;
+		}
+		.post-content p {
+		    text-align: justify !important;
+		    margin: 0 0 10px 0;
+		}
+		.tabs.style-1 .tab {
+		    border-radius: 8px;
+		}
+		.tabs.style-1 .tab-panel {
+		    border-radius: 8px;
+		}
+		.tabs.style-1 .tabs-body {
+		    margin-top: 8px;
+		}
+		.tabs .tab-panel  * {
+            font-family: 'Source Sans Pro';
+            font-size: 18px;
+            color: #6d6d6d;
+            text-align: justify;
+		}
+		.tabs .tab-panel p {
+		    margin: 0 0 15px;
+		}
+		.tabs .tab-panel p:last-child {
+		    margin-bottom: 0px;
+		}
+		@media (max-width: 768px) {
+		    
+		    .tabs .tabs-heading {
+		        display: flex;
+		        overflow-x: auto;
+		        gap: 6px;
+		    }
+		    .tabs .tabs-heading .tab {
+		        flex-shrink: 0;
+		        min-width: 37vw;
+		    }
+		    .tabs .tab-panel {
+		        padding: 20px;
+		    }
+		}
+	</style>
+	<?php the_post(); ?>
+	<section class="no-padding-y" style="min-height: 100px; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>); background-size: cover; background-position: center; position: relative;">
 		<div class="overlay" style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3)"></div>
 		<div class="content" style="align-items: flex-start; justify-content: center; height: 300px; position: relative;">
-			<h1 class="">PROGRAMAS DE ESTUDIO</h1>
+			<h1 class=""><?php echo get_the_title(); ?></h1>
 		</div>
 	</section>
 	<section class="theme-bg no-padding-y">
@@ -142,6 +139,7 @@ get_header(); ?>
                     $breadcrumb_trail = '';
                     $category_links   = '';
                 
+
                     $wp_the_query   = $GLOBALS['wp_the_query'];
                     $queried_object = $wp_the_query->get_queried_object();
                 
@@ -322,34 +320,67 @@ get_header(); ?>
 		    ?>
 		</div>
 	</section>
-	<section style="z-index: 1; position: relative;" class="careers-list">
-	    <div class="content">
-	        <div class="documents-page-grid">
-    	    <?php
-    	        while (have_posts()) :
-    	            the_post();
-    	    ?>
-        		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                	<header class="entry-header">
-                	    <?php
-                	        $link = get_permalink();
-                	    ?>
-                	    <i class="fa fa-graduation-cap fa-3x"></i>
-                	</header>
-                	<div class="entry-content">
-                	    <div>
-                	        <h2><?php the_title(); ?></h2>
-                	    </div>
-                	    <div class="button" data-block="button">
-                	        <a class="link" href="<?php echo $link ?>">Ver más</a>
-                	    </div>
-                	</div>
-                </article>
-    	    <?php 
-    	        endwhile;
-    	    ?>
-    	    </div>
-        </div>
-    </section>
-<?php endif; ?>
+	<section class="">
+		<div class="content">
+			<div class="columns" data-block="columns">
+				<div class="column" data-block="column">
+					<div class="image" data-block="image">
+						<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px">
+					</div>
+				</div>
+				<div class="column" data-block="column" style="display: flex; align-items: center;">
+					<div class="post-content">
+						<?php the_content(); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="dark-bg">
+		<div class="content">
+			<div class="tabs style-1">
+				<div class="tabs-heading">
+					<button class="tab" data-target="plan-estudios" data-active>Plan de estudios</button>
+					<button class="tab" data-target="matricula">Matrícula</button>
+					<button class="tab" data-target="oficio">Oficio de autorización</button>
+				</div>
+				<div class="tabs-body">
+					<div class="tab-panel" data-name="plan-estudios">
+						<?php echo get_post_meta(get_the_ID(), '_career-plan-estudios', true); ?>
+					</div>
+					<div class="tab-panel" data-name="matricula">
+						<?php echo get_post_meta(get_the_ID(), '_career-matricula', true); ?>
+					</div>
+					<div class="tab-panel" data-name="oficio">
+						<?php echo get_post_meta(get_the_ID(), '_oficio-autorizacion', true); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			(function($) {
+
+				let $tabs = $('.tabs');
+				let $tabsButtons = $('button.tab');
+				let $tabsPanels = $tabs.find('.tab-panel');
+
+				$tabsButtons.on('click', function() {
+
+					var target = this.dataset.target;
+					
+					var $panel = $tabs[0].querySelector(`.tab-panel[data-name=${target}]`);
+					var $tabsS = $tabs.find(`.tab:not([data-target=${target}])`);
+					var $siblings = $tabs.find(`.tab-panel:not([data-name=${target}])`);
+
+					$siblings.css('display', 'none');
+					$tabsS.removeAttr('data-active', '');
+					$(this).attr('data-active', '');
+					$panel.style.display = 'block';
+
+					console.log($siblings);
+				});
+			})(jQuery);
+		</script>
+	</section>
+</main>
 <?php get_footer(); ?>

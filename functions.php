@@ -82,6 +82,23 @@ if (!function_exists('_log')) {
 			'supports'    => array('title', 'thumbnail', 'editor')
 		));
 
+		register_post_type('education-diploma', array(
+			'labels' => array(
+				'name'           => __('Diplomados'),
+				'all_items'      => __('Todos los diplomados'),
+				'singular_name'  => __('Diplomado'),
+				'add_new'        => __('Nuevo diplomado'),
+				'add_new_item'   => __('Añadir nuevo diplomado'),
+				'edit_item'      => __('Editar diplomado'),
+				'featured_image' => __('Imagen destacada del diplomado')
+			),
+			'public'      => true,
+			'has_archive' => true,
+			'menu_icon'   => 'dashicons-awards',
+			'rewrite'     => ['slug' => 'diplomados'],
+			'supports'    => array('title', 'thumbnail', 'editor')
+		));
+
 		register_post_type('education-news', array(
 			'labels' => array(
 				'name'           => __('Noticias'),
@@ -119,7 +136,7 @@ if (!function_exists('_log')) {
 			'labels' => array(
 				'name'           => __('Libros de educación'),
 				'all_items'      => __('Todos los libros de educación'),
-				'singular_name'  => __('Libro de educación'),
+				'singular_name'  => __('Libros de educación'),
 				'add_new'        => __('Nuevo libro de educación'),
 				'add_new_item'   => __('Añadir nuevo libro de educación'),
 				'edit_item'      => __('Editar libro de educación'),
@@ -139,6 +156,7 @@ if (!function_exists('_log')) {
 	function education_add_meta_boxes() {
 
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
+		add_meta_box('education-diploma-data', 'DATOS DEL DIPLOMADO', 'render_career_data_metabox', 'education-diploma', 'normal', 'high');
 
 		add_meta_box('education-document-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
 
@@ -716,6 +734,7 @@ if (!function_exists('_log')) {
 	}
 
 	add_action('save_post_education-careers', 'save_post_education_career');
+	add_action('save_post_education-diploma', 'save_post_education_career');
 
 	function save_post_education_document($post_id) {
 

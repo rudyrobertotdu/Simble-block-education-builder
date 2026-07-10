@@ -64,12 +64,25 @@ get_header(); ?>
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+    article .entry-content > div:first-child {
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    article .entry-content > div:first-child h2 {
+        margin: 0;
+    }
     article .description {
         text-align: center;
         font-family: Roboto Flex;
         font-size: 18px;
         color: #656565;
         margin-bottom: 10px;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     article a {
         text-decoration: none;
@@ -333,7 +346,8 @@ get_header(); ?>
                 	    </div>
                 	    <div class="description">
                 	        <?php 
-                	            $amount = count(json_decode(get_post_meta(get_the_ID(), '_transparency_documents', true)));
+                	            $documents_meta = get_post_meta(get_the_ID(), '_transparency_documents', true);
+                	            $amount = ($documents_meta) ? count(json_decode($documents_meta, true)) : 0;
                 	        ?>
                 	        <?php echo $amount ?> documentos en total.
                 	    </div>

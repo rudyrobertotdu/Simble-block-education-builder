@@ -1,8 +1,8 @@
 <?php
 /**
- * archive-education-careers.php
+ * archive-education-diploma.php
  *
- * Archivo de archivo para el custom post type `education-careers`.
+ * Archivo de archivo para el custom post type `education-diploma`.
  * Propósito:
  * - Mostrar programas de estudio en un layout de tarjetas
  * - Utiliza estilos inline para controlar la presentación localmente
@@ -120,7 +120,7 @@ get_header(); ?>
     <section class="no-padding-y" style="min-height: 100px; background-image: url(<?php echo get_template_directory_uri() .'/img/edu-banner.jpg'; ?>); background-size: cover; background-position: center; position: relative;">
 		<div class="overlay" style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3)"></div>
 		<div class="content" style="align-items: flex-start; justify-content: center; height: 300px; position: relative;">
-			<h1 class="">PROGRAMAS DE ESTUDIO</h1>
+			<h1 class="">DIPLOMADOS</h1>
 		</div>
 	</section>
 	<section class="theme-bg no-padding-y">
@@ -322,7 +322,7 @@ get_header(); ?>
 		    ?>
 		</div>
 	</section>
-	<section style="z-index: 1; position: relative;" class="careers-list">
+	<section style="z-index: 1; position: relative;" class="diploma-list">
 	    <div class="content">
 	        <div class="documents-page-grid">
     	    <?php
@@ -334,7 +334,7 @@ get_header(); ?>
                 	    <?php
                 	        $link = get_permalink();
                 	    ?>
-                	    <i class="fa fa-graduation-cap fa-3x"></i>
+                	    <i class="fa fa-certificate fa-3x"></i>
                 	</header>
                 	<div class="entry-content">
                 	    <div>
