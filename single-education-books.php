@@ -12,6 +12,7 @@
 get_header(); ?>
 <main>
 	<?php the_post(); ?>
+	<?php $has_post_thumbnail = has_post_thumbnail(); ?>
 	<style>
 		.attachments {
 			display: grid;
@@ -53,6 +54,9 @@ get_header(); ?>
 			gap: 30px;
 			align-items: start;
 			margin-bottom: 30px;
+		}
+		.book-grid.no-image {
+			grid-template-columns: 1fr;
 		}
 		.book-grid__image img {
 			width: 100%;
@@ -291,12 +295,14 @@ get_header(); ?>
 	</section>
 	<section>
 		<div class="content">
-            <div class="book-grid">
+            <div class="book-grid<?php echo $has_post_thumbnail ? '' : ' no-image'; ?>">
+                <?php if ( $has_post_thumbnail ) : ?>
                 <div class="book-grid__image" data-block="image">
-                    <a href="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" class="lightbox-image">
-                        <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="cursor: pointer;" />
+                    <a href="<?php echo esc_url( get_the_post_thumbnail_url(get_the_ID()) ); ?>" class="lightbox-image">
+                        <img src="<?php echo esc_url( get_the_post_thumbnail_url(get_the_ID()) ); ?>" alt="" style="cursor: pointer;" />
                     </a>
                 </div>
+                <?php endif; ?>
                 <div class="book-grid__text">
                     <div class="heading" style="margin-bottom: -15px">
                         <h2><?php the_title(); ?></h2>

@@ -114,7 +114,8 @@ get_header(); ?>
 		}
 	</style>
 	<?php the_post(); ?>
-	<section class="no-padding-y" style="min-height: 100px; background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>); background-size: cover; background-position: center; position: relative;">
+	<?php $hero_image_url = get_the_post_thumbnail_url(get_the_ID()); ?>
+	<section class="no-padding-y" style="min-height: 100px; position: relative; <?php if ( $hero_image_url ) : ?>background-image: url(<?php echo esc_url( $hero_image_url ); ?>); background-size: cover; background-position: center;<?php else : ?>background-color: var(--primary-color);<?php endif; ?>">
 		<div class="overlay" style="position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.3)"></div>
 		<div class="content" style="align-items: flex-start; justify-content: center; height: 300px; position: relative;">
 			<h1 class=""><?php echo get_the_title(); ?></h1>
@@ -322,11 +323,12 @@ get_header(); ?>
 	</section>
 	<section class="">
 		<div class="content">
+			<?php if ( has_post_thumbnail() ) : ?>
 			<div class="columns" data-block="columns">
 				<div class="column" data-block="column">
 					<div class="image" data-block="image">
-						<a href="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" class="lightbox-image">
-							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px; cursor: pointer;">
+						<a href="<?php echo esc_url( get_the_post_thumbnail_url(get_the_ID()) ); ?>" class="lightbox-image">
+							<img src="<?php echo esc_url( get_the_post_thumbnail_url(get_the_ID()) ); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px; cursor: pointer;">
 						</a>
 					</div>
 				</div>
@@ -336,6 +338,11 @@ get_header(); ?>
 					</div>
 				</div>
 			</div>
+			<?php else : ?>
+			<div class="post-content" style="width: 100%;">
+				<?php the_content(); ?>
+			</div>
+			<?php endif; ?>
 		</div>
 	</section>
 	<section class="dark-bg">
