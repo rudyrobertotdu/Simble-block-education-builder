@@ -325,7 +325,9 @@ get_header(); ?>
 			<div class="columns" data-block="columns">
 				<div class="column" data-block="column">
 					<div class="image" data-block="image">
-						<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px">
+						<a href="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" class="lightbox-image">
+							<img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px; cursor: pointer;">
+						</a>
 					</div>
 				</div>
 				<div class="column" data-block="column" style="display: flex; align-items: center;">
@@ -340,9 +342,9 @@ get_header(); ?>
 		<div class="content">
 			<div class="tabs style-1">
 				<div class="tabs-heading">
-					<button class="tab" data-target="plan-estudios" data-active>Plan de estudios</button>
+					<button class="tab" data-target="plan-estudios" data-active>Temario</button>
 					<button class="tab" data-target="matricula">Matrícula</button>
-					<button class="tab" data-target="oficio">Oficio de autorización</button>
+					<button class="tab" data-target="oficio">Resolución de autorización</button>
 				</div>
 				<div class="tabs-body">
 					<div class="tab-panel" data-name="plan-estudios">

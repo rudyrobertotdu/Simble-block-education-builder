@@ -269,7 +269,14 @@ get_header(); ?>
             	<header class="entry-header">
             	    <?php
             	        $link = get_permalink();
-            	        the_post_thumbnail()
+            	        $thumb_url = get_the_post_thumbnail_url();
+            	        if ($thumb_url) {
+            	            echo '<a href="' . esc_url($thumb_url) . '" class="lightbox-image" style="display: block; width: 100%; height: 100%;">';
+            	            the_post_thumbnail();
+            	            echo '</a>';
+            	        } else {
+            	            the_post_thumbnail();
+            	        }
             	    ?>
             	</header>
             	<div class="entry-content">

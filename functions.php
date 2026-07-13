@@ -340,7 +340,7 @@ if (!function_exists('_log')) {
 
 		<br>
 		<div class="uix-field">
-			<label for="">Plan de estudios:</label>
+			<label for="">Temario:</label>
 		</div>
 		<div class="editor-1">
     		<div style="display: flex; gap: 10px; padding-block: 10px">
@@ -588,7 +588,7 @@ if (!function_exists('_log')) {
         </script>
         <br>
         <div class="uix-field">
-			<label for="">Oficio de Autorización:</label>
+			<label for="">Resolución de Autorización:</label>
 		</div>
         <div class="editor-10">
     		<div style="display: flex; gap: 10px; padding-block: 10px">
@@ -826,4 +826,26 @@ if (!function_exists('_log')) {
 <?php
     }
     add_action('wp_before_admin_bar_render', 'wpb_custom_logo');
+
+    function load_lightbox_scripts() {
+        $ver = '2.9.0';
+        $path = get_template_directory_uri() . '/classes/blocks-editor/lib/simple-lightbox';
+        
+        wp_enqueue_style('simple-lightbox-css', $path . '/simple-lightbox.min.css', false, $ver);
+        wp_enqueue_script('simple-lightbox-js', $path . '/simple-lightbox.min.js', array('jquery'), $ver, true);
+        
+        wp_add_inline_script('simple-lightbox-js', "
+            jQuery(document).ready(function($) {
+                // Inicializar lightbox para imágenes con clase 'lightbox-image'
+                var lightbox = new SimpleLightbox('.lightbox-image', {
+                    animationSpeed: 250,
+                    animationSlide: true,
+                    scrollZoom: false,
+                    showCounter: false,
+                    captionsData: 'title'
+                });
+            });
+        ");
+    }
+    add_action('wp_enqueue_scripts', 'load_lightbox_scripts');
 ?>

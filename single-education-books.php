@@ -293,7 +293,9 @@ get_header(); ?>
 		<div class="content">
             <div class="book-grid">
                 <div class="book-grid__image" data-block="image">
-                    <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" />
+                    <a href="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" class="lightbox-image">
+                        <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="cursor: pointer;" />
+                    </a>
                 </div>
                 <div class="book-grid__text">
                     <div class="heading" style="margin-bottom: -15px">

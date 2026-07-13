@@ -230,7 +230,9 @@ get_header(); ?>
 	<section>
 	    <div class="content">
 	        <div class="image" data-block="image" style="margin-bottom: 15px">
-	            <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px">
+	            <a href="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" class="lightbox-image">
+	                <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="" style="width: 100%; height: auto; display: block; border-radius: 8px; cursor: pointer;">
+	            </a>
 	        </div>
 	        <div class="heading" style="margin-bottom: 10px">
 	            <h2><?php the_title(); ?></h2>

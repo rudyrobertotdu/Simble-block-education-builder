@@ -595,7 +595,7 @@
 				$parsed = self::parse_template($tpl_html[0]['template_html']);
 				return do_shortcode($parsed);
 			} else {
-				return 'vacio';
+				return 'Vacío. Por favor cree una plantilla y asígnela a esta página';
 			}
 		}
 		
