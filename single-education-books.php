@@ -312,6 +312,24 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
+            <?php if (!empty(get_post_meta(get_the_ID(), '_book_isbn', true))) : ?>
+            <div class="heading" data-block="heading">
+                <h3>ISBN</h3>
+            </div>
+            <div class="paragraph" data-block="paragraph">
+                <?php 
+                    $isbn = get_post_meta(get_the_ID(), '_book_isbn', true);
+                    $isbn_url = get_post_meta(get_the_ID(), '_book_isbn_url', true);
+                    if (!empty($isbn_url)) : 
+                ?>
+                    <a href="<?php echo esc_url($isbn_url); ?>" target="_blank" style="color: var(--text-color); text-decoration: none; font-weight: 600; font-family: Roboto Flex;">
+                        <?php echo esc_html($isbn); ?>
+                    </a>
+                <?php else : ?>
+                    <span style="color: var(--text-color); font-weight: 600; font-family: Roboto Flex;"><?php echo esc_html($isbn); ?></span>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
             <?php 
                 $availability = get_post_meta(get_the_ID(), '_book_availability', true);
                 $status = ($availability === 'available') ? 'Disponible' : 'No disponible';
@@ -327,20 +345,34 @@ get_header(); ?>
 			<?php 
 				$ids = json_decode(get_post_meta(get_the_ID(), '_transparency_documents', true));
 				
-				foreach ($ids as $key => $id) {
+				if ($ids && is_array($ids) && count($ids) > 0) {
+					foreach ($ids as $key => $id) {
 
-					$attch = get_post($id);
+						$attch = get_post($id);
 
-					echo 
-					"<div class='item'>
-						<a class='attachment' href='{$attch->guid}' target='_blank'>
-							<i class='fa fa-file-pdf-o fa-2x' style='flex-grow: 0; padding: 20px; display: flex; align-items: center; justify-content: center; color: #545454; border: 1px solid #a4a4a4; border-right: none; border-radius: 8px 0 0 8px'></i>
-							<div style='flex-grow:1; background-color: var(--text-color); color: #fff; border-radius: 0 8px 8px 0; color: #fff; font-family: Roboto Flex; padding: 15px;font-size: 14px; line-height: 1.4;'>$attch->post_title</div>
-						</a>
-					</div>";
+						echo 
+						"<div class='item'>
+							<a class='attachment' href='{$attch->guid}' target='_blank'>
+								<i class='fa fa-file-pdf-o fa-2x' style='flex-grow: 0; padding: 20px; display: flex; align-items: center; justify-content: center; color: #545454; border: 1px solid #a4a4a4; border-right: none; border-radius: 8px 0 0 8px'></i>
+								<div style='flex-grow:1; background-color: var(--text-color); color: #fff; border-radius: 0 8px 8px 0; color: #fff; font-family: Roboto Flex; padding: 15px;font-size: 14px; line-height: 1.4;'>$attch->post_title</div>
+							</a>
+						</div>";
+					}
+				} else {
+					echo "<p style=\"color: #999; font-style: italic;\">No hay archivos adjuntos.</p>";
 				}
 			?>
             </div>
+            <?php if (!empty(get_post_meta(get_the_ID(), '_book_purchase_link', true))) : ?>
+            <div class="heading" data-block="heading">
+                <h3>Link de Compra</h3>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url(get_post_meta(get_the_ID(), '_book_purchase_link', true)); ?>" target="_blank" style="display: inline-block; background-color: var(--primary-color); color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-family: Roboto Flex; transition: 0.3s;">
+                    <i class="fa fa-shopping-cart" style="margin-right: 8px;"></i>Comprar
+                </a>
+            </div>
+            <?php endif; ?>
 		</div>
 	</section>
 </main>

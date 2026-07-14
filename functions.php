@@ -163,6 +163,8 @@ if (!function_exists('_log')) {
 		add_meta_box('education-book-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-books', 'normal', 'high');
 
 		add_meta_box('education-book-availability', 'DISPONIBILIDAD', 'render_book_availability_metabox', 'education-books', 'normal', 'high');
+
+		add_meta_box('education-book-data', 'DATOS DEL LIBRO', 'render_book_data_metabox', 'education-books', 'normal', 'high');
 	}
 
 	function render_book_availability_metabox($post) {
@@ -178,6 +180,53 @@ if (!function_exists('_log')) {
 				<input type="checkbox" id="book-available" name="book_availability" value="available" <?php checked( $checked ); ?> />
 				<span>Disponible</span>
 			</label>
+		</div>
+		<?php
+	}
+
+	function render_book_data_metabox($post) {
+		$isbn = get_post_meta($post->ID, '_book_isbn', true);
+		$isbn_url = get_post_meta($post->ID, '_book_isbn_url', true);
+		$purchase_link = get_post_meta($post->ID, '_book_purchase_link', true);
+		?>
+		<style>
+			.uix-field {
+				margin-bottom: 16px;
+			}
+			.uix-field label {
+				display: block;
+				font-weight: 600;
+				font-size: 14px;
+				margin-bottom: 6px;
+			}
+			.uix-field input[type="text"],
+			.uix-field input[type="url"] {
+				width: 100%;
+				max-width: 100%;
+				padding: 8px;
+				font-size: 14px;
+				border: 1px solid #b4b4b4;
+				border-radius: 4px;
+				box-sizing: border-box;
+			}
+			.uix-field input[type="text"]:focus,
+			.uix-field input[type="url"]:focus {
+				border-color: #0073aa;
+				outline: none;
+				box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
+			}
+		</style>
+		<div class="uix-field">
+			<label for="book-isbn">ISBN:</label>
+			<input type="text" id="book-isbn" name="book_isbn" value="<?php echo esc_attr($isbn); ?>" placeholder="Ej: 978-84-1234567-8" />
+		</div>
+		<div class="uix-field">
+			<label for="book-isbn-url">URL del ISBN (opcional):</label>
+			<input type="url" id="book-isbn-url" name="book_isbn_url" value="<?php echo esc_attr($isbn_url); ?>" placeholder="Ej: https://www.isbn.org/..." />
+		</div>
+		<div class="uix-field">
+			<label for="book-purchase-link">Link de compra:</label>
+			<input type="url" id="book-purchase-link" name="book_purchase_link" value="<?php echo esc_attr($purchase_link); ?>" placeholder="Ej: https://www.amazon.com/..." />
 		</div>
 		<?php
 	}
@@ -764,6 +813,32 @@ if (!function_exists('_log')) {
 			update_post_meta($post_id, '_book_availability', $availability);
 		} else {
 			delete_post_meta($post_id, '_book_availability');
+		}
+
+		// Guardado de datos del libro (ISBN, URL ISBN, Link de compra).
+		if (isset($_POST['book_isbn'])) {
+			$isbn = sanitize_text_field($_POST['book_isbn']);
+			if (!empty($isbn)) {
+				update_post_meta($post_id, '_book_isbn', $isbn);
+			} else {
+				delete_post_meta($post_id, '_book_isbn');
+			}
+		}
+		if (isset($_POST['book_isbn_url'])) {
+			$isbn_url = esc_url_raw($_POST['book_isbn_url']);
+			if (!empty($isbn_url)) {
+				update_post_meta($post_id, '_book_isbn_url', $isbn_url);
+			} else {
+				delete_post_meta($post_id, '_book_isbn_url');
+			}
+		}
+		if (isset($_POST['book_purchase_link'])) {
+			$purchase_link = esc_url_raw($_POST['book_purchase_link']);
+			if (!empty($purchase_link)) {
+				update_post_meta($post_id, '_book_purchase_link', $purchase_link);
+			} else {
+				delete_post_meta($post_id, '_book_purchase_link');
+			}
 		}
 	}
 	add_action('save_post_education-documents', 'save_post_education_document');
