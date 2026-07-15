@@ -76,6 +76,7 @@ if (!function_exists('_log')) {
 				'featured_image' => __('Imagen destacada de la capacitación')
 			),
 			'public'      => true,
+			'show_in_menu' => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-welcome-learn-more',
 			'rewrite'     => ['slug' => 'capacitaciones'],
@@ -93,9 +94,28 @@ if (!function_exists('_log')) {
 				'featured_image' => __('Imagen destacada del diplomado')
 			),
 			'public'      => true,
+			'show_in_menu' => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-awards',
 			'rewrite'     => ['slug' => 'diplomados'],
+			'supports'    => array('title', 'thumbnail', 'editor')
+		));
+
+		register_post_type('education-specializa', array(
+			'labels' => array(
+				'name'           => __('Especializaciones'),
+				'all_items'      => __('Todas las especializaciones'),
+				'singular_name'  => __('Especializaciones'),
+				'add_new'        => __('Nueva especialización'),
+				'add_new_item'   => __('Añadir nueva especialización'),
+				'edit_item'      => __('Editar especialización'),
+				'featured_image' => __('Imagen destacada de la especialización')
+			),
+			'public'      => true,
+			'show_in_menu' => true,
+			'has_archive' => true,
+			'menu_icon'   => 'dashicons-welcome-learn-more',
+			'rewrite'     => ['slug' => 'especializaciones'],
 			'supports'    => array('title', 'thumbnail', 'editor')
 		));
 
@@ -110,6 +130,7 @@ if (!function_exists('_log')) {
 				'featured_image' => __('Imagen destacada de la noticia')
 			),
 			'public'      => true,
+			'show_in_menu' => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-welcome-widgets-menus',
 			'rewrite'     => ['slug' => 'noticias'],
@@ -126,6 +147,7 @@ if (!function_exists('_log')) {
 				'edit_item'      => __('Editar pagina de transparencia')
 			),
 			'public'      => true,
+			'show_in_menu' => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-media-spreadsheet',
 			'rewrite'     => ['slug' => 'transparencia'],
@@ -143,6 +165,7 @@ if (!function_exists('_log')) {
 				'featured_image' => __('Imagen destacada del libro')
 			),
 			'public'      => true,
+			'show_in_menu' => true,
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-book',
 			'rewrite'     => ['slug' => 'libros'],
@@ -156,8 +179,11 @@ if (!function_exists('_log')) {
 	function education_add_meta_boxes() {
 
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
+		
 		add_meta_box('education-diploma-data', 'DATOS DEL DIPLOMADO', 'render_career_data_metabox', 'education-diploma', 'normal', 'high');
 
+		add_meta_box('education-specialization-data', 'DATOS DE LA ESPECIALIZACIÓN', 'render_career_data_metabox', 'education-specializa', 'normal', 'high');
+		
 		add_meta_box('education-document-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
 
 		add_meta_box('education-book-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-books', 'normal', 'high');
@@ -784,6 +810,7 @@ if (!function_exists('_log')) {
 
 	add_action('save_post_education-careers', 'save_post_education_career');
 	add_action('save_post_education-diploma', 'save_post_education_career');
+	add_action('save_post_education-specializa', 'save_post_education_career');
 
 	function save_post_education_document($post_id) {
 
