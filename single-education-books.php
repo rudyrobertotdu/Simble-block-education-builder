@@ -333,7 +333,7 @@ get_header(); ?>
             <?php 
                 $availability = get_post_meta(get_the_ID(), '_book_availability', true);
                 $status = ($availability === 'available') ? 'Disponible' : 'No disponible';
-                $bg_color = ($availability === 'available') ? '#4CAF50' : '#ff8800';
+                $bg_color = ($availability === 'available') ? 'var(--text-color)' : 'var(--primary-color)';
             ?>
             <div style="background-color: <?php echo $bg_color; ?>; color: #ffffff; padding: 12px 20px; border-radius: 6px; margin: 20px 0; font-weight: 700; font-family: Roboto Flex; font-size: 16px; display: inline-block; width: fit-content;">
                 Disponibilidad: <?php echo $status; ?>

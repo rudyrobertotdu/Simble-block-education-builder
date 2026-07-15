@@ -839,7 +839,11 @@ if (!function_exists('_log')) {
 			}
 			update_post_meta($post_id, '_book_availability', $availability);
 		} else {
-			delete_post_meta($post_id, '_book_availability');
+			// Si la casilla no viene en el POST significa que el usuario la
+			// desmarcó; guardamos explícitamente el estado "unavailable"
+			// para que el valor no vuelva al comportamiento por defecto al
+			// renderizar la metabox.
+			update_post_meta($post_id, '_book_availability', 'unavailable');
 		}
 
 		// Guardado de datos del libro (ISBN, URL ISBN, Link de compra).
