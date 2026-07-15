@@ -338,14 +338,16 @@ get_header(); ?>
             <div style="background-color: <?php echo $bg_color; ?>; color: #ffffff; padding: 12px 20px; border-radius: 6px; margin: 20px 0; font-weight: 700; font-family: Roboto Flex; font-size: 16px; display: inline-block; width: fit-content;">
                 Disponibilidad: <?php echo $status; ?>
             </div>
-            <div class="heading" data-block="heading">
-                <h3>Archivos adjuntos</h3>
-            </div>
-            <div class="attachments">
 			<?php 
 				$ids = json_decode(get_post_meta(get_the_ID(), '_transparency_documents', true));
 				
 				if ($ids && is_array($ids) && count($ids) > 0) {
+                    echo "
+                    <div class='heading' data-block='heading'>
+                        <h3>Archivos adjuntos</h3>
+                    </div>
+                    <div class='attachments'>
+                    ";
 					foreach ($ids as $key => $id) {
 
 						$attch = get_post($id);
@@ -358,11 +360,11 @@ get_header(); ?>
 							</a>
 						</div>";
 					}
-				} else {
-					echo "<p style=\"color: #999; font-style: italic;\">No hay archivos adjuntos.</p>";
-				}
+
+                echo "</div>";
+				} 
 			?>
-            </div>
+            
             <?php if (!empty(get_post_meta(get_the_ID(), '_book_purchase_link', true))) : ?>
             <div class="heading" data-block="heading">
                 <h3>Link de Compra</h3>
