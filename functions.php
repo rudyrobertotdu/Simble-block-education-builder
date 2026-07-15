@@ -80,6 +80,7 @@ if (!function_exists('_log')) {
 			'has_archive' => true,
 			'menu_icon'   => 'dashicons-welcome-learn-more',
 			'rewrite'     => ['slug' => 'capacitaciones'],
+			'taxonomies'  => array('career_category'),
 			'supports'    => array('title', 'thumbnail', 'editor')
 		));
 
@@ -175,6 +176,33 @@ if (!function_exists('_log')) {
 		
 	}
 	add_action('init', 'education_register_post_types');
+
+	function education_register_taxonomies() {
+		$labels = array(
+			'name'              => __('Categorías de capacitaciones'),
+			'singular_name'     => __('Categoría de capacitación'),
+			'search_items'      => __('Buscar categorías'),
+			'all_items'         => __('Todas las categorías'),
+			'parent_item'       => __('Categoría superior'),
+			'parent_item_colon' => __('Categoría superior:'),
+			'edit_item'         => __('Editar categoría'),
+			'update_item'       => __('Actualizar categoría'),
+			'add_new_item'      => __('Añadir nueva categoría'),
+			'new_item_name'     => __('Nombre de nueva categoría'),
+			'menu_name'         => __('Categorías de capacitación'),
+		);
+
+		register_taxonomy('career_category', array('education-careers'), array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_nav_menus' => true,
+			'query_var'         => true,
+			'rewrite'           => array('slug' => 'categorias-capacitaciones'),
+		));
+	}
+	add_action('init', 'education_register_taxonomies');
 
 	function education_add_meta_boxes() {
 
