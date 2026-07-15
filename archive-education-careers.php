@@ -322,34 +322,156 @@ get_header(); ?>
 		    ?>
 		</div>
 	</section>
-	<section style="z-index: 1; position: relative;" class="careers-list">
-	    <div class="content">
-	        <div class="documents-page-grid">
-    	    <?php
-    	        while (have_posts()) :
-    	            the_post();
-    	    ?>
-        		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                	<header class="entry-header">
-                	    <?php
-                	        $link = get_permalink();
-                	    ?>
-                	    <i class="fa fa-graduation-cap fa-3x"></i>
-                	</header>
-                	<div class="entry-content">
-                	    <div>
-                	        <h2><?php the_title(); ?></h2>
-                	    </div>
-                	    <div class="button" data-block="button">
-                	        <a class="link" href="<?php echo $link ?>">Ver más</a>
-                	    </div>
-                	</div>
+<section style="z-index: 1; position: relative;" class="careers-list">
+    <div class="content">
+        <?php
+        $categories = get_terms(array(
+            'taxonomy'   => 'career_category',
+            'hide_empty' => true,
+            'parent'     => 0,
+        ));
+
+        if (!empty($categories) && !is_wp_error($categories)) :
+            foreach ($categories as $category) :
+                $children = get_terms(array(
+                    'taxonomy'   => 'career_category',
+                    'hide_empty' => true,
+                    'parent'     => $category->term_id,
+                ));
+        ?>
+        <div class="career-category-section">
+            <h2 class="career-category-title"><?php echo esc_html($category->name); ?></h2>
+            <?php if (!empty($children) && !is_wp_error($children)) : ?>
+                <?php foreach ($children as $child) : ?>
+                    <div class="career-subcategory-section">
+                        <h3 class="career-subcategory-title"><?php echo esc_html($child->name); ?></h3>
+                        <div class="documents-page-grid">
+                        <?php
+                            $child_query = new WP_Query(array(
+                                'post_type'      => 'education-careers',
+                                'tax_query'      => array(
+                                    array(
+                                        'taxonomy' => 'career_category',
+                                        'field'    => 'term_id',
+                                        'terms'    => $child->term_id,
+                                    ),
+                                ),
+                                'posts_per_page' => -1,
+                            ));
+                            if ($child_query->have_posts()) :
+                                while ($child_query->have_posts()) :
+                                    $child_query->the_post();
+                        ?>
+                            <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                                <header class="entry-header">
+                                    <i class="fa fa-graduation-cap fa-3x"></i>
+                                </header>
+                                <div class="entry-content">
+                                    <div>
+                                        <h2><?php the_title(); ?></h2>
+                                    </div>
+                                    <div class="button" data-block="button">
+                                        <a class="link" href="<?php echo esc_url(get_permalink()); ?>">Ver más</a>
+                                    </div>
+                                </div>
+                            </article>
+                        <?php
+                                endwhile;
+                                wp_reset_postdata();
+                            endif;
+                        ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php
+            $parent_query = new WP_Query(array(
+                'post_type'      => 'education-careers',
+                'tax_query'      => array(
+                    array(
+                        'taxonomy'         => 'career_category',
+                        'field'            => 'term_id',
+                        'terms'            => $category->term_id,
+                        'include_children' => false,
+                    ),
+                ),
+                'posts_per_page' => -1,
+            ));
+            if ($parent_query->have_posts()) :
+            ?>
+            <div class="documents-page-grid">
+            <?php
+                while ($parent_query->have_posts()) :
+                    $parent_query->the_post();
+            ?>
+                <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                    <header class="entry-header">
+                        <i class="fa fa-graduation-cap fa-3x"></i>
+                    </header>
+                    <div class="entry-content">
+                        <div>
+                            <h2><?php the_title(); ?></h2>
+                        </div>
+                        <div class="button" data-block="button">
+                            <a class="link" href="<?php echo esc_url(get_permalink()); ?>">Ver más</a>
+                        </div>
+                    </div>
                 </article>
-    	    <?php 
-    	        endwhile;
-    	    ?>
-    	    </div>
+            <?php
+                endwhile;
+                wp_reset_postdata();
+            ?>
+            </div>
+            <?php endif; ?>
         </div>
-    </section>
+        <?php
+            endforeach;
+        endif;
+
+        $uncategorized_query = new WP_Query(array(
+            'post_type'      => 'education-careers',
+            'tax_query'      => array(
+                array(
+                    'taxonomy' => 'career_category',
+                    'operator' => 'NOT EXISTS',
+                ),
+            ),
+            'posts_per_page' => -1,
+        ));
+
+        if ($uncategorized_query->have_posts()) :
+        ?>
+        <div class="career-category-section">
+            <h2 class="career-category-title">Sin categoría</h2>
+            <div class="documents-page-grid">
+                <?php
+                    while ($uncategorized_query->have_posts()) :
+                        $uncategorized_query->the_post();
+                ?>
+                    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                        <header class="entry-header">
+                            <i class="fa fa-graduation-cap fa-3x"></i>
+                        </header>
+                        <div class="entry-content">
+                            <div>
+                                <h2><?php the_title(); ?></h2>
+                            </div>
+                            <div class="button" data-block="button">
+                                <a class="link" href="<?php echo esc_url(get_permalink()); ?>">Ver más</a>
+                            </div>
+                        </div>
+                    </article>
+                <?php
+                    endwhile;
+                    wp_reset_postdata();
+                ?>
+            </div>
+        </div>
+        <?php
+            wp_reset_postdata();
+        endif;
+        ?>
+    </div>
+</section>
 <?php endif; ?>
 <?php get_footer(); ?>
