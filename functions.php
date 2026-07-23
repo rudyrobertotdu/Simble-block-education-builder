@@ -199,10 +199,40 @@ if (!function_exists('_log')) {
 			'show_admin_column' => true,
 			'show_in_nav_menus' => true,
 			'query_var'         => true,
+			'meta_box_cb'       => 'education_career_category_meta_box',
 			'rewrite'           => array('slug' => 'categorias-capacitaciones'),
 		));
 	}
 	add_action('init', 'education_register_taxonomies');
+
+	function education_career_category_meta_box($post) {
+		if (!taxonomy_exists('career_category')) {
+			return;
+		}
+
+		$selected_terms = wp_get_object_terms($post->ID, 'career_category', array('fields' => 'ids'));
+		if (is_wp_error($selected_terms)) {
+			$selected_terms = array();
+		}
+		?>
+		<div id="taxonomy-career_category" class="categorydiv">
+			<div id="career_category-all" class="tabs-panel">
+				<ul id="career_categorychecklist" class="categorychecklist form-no-clear">
+					<?php
+					wp_terms_checklist(
+						$post->ID,
+						array(
+							'taxonomy'      => 'career_category',
+							'selected_cats' => $selected_terms,
+							'checked_ontop' => false,
+						)
+					);
+					?>
+				</ul>
+			</div>
+		</div>
+		<?php
+	}
 
 	function education_add_meta_boxes() {
 
