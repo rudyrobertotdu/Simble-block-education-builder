@@ -109,6 +109,38 @@ get_header(); ?>
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 20px
     }
+    .career-category-title {
+        margin: 0 0 18px;
+        padding-left: 14px;
+        color: var(--text-color);
+        font-family: Roboto Flex;
+        font-size: 30px;
+        font-weight: 700;
+        border-left: 4px solid var(--primary-color);
+    }
+    .career-subcategory-title {
+        margin: 0 0 14px 20px;
+        padding-left: 12px;
+        color: #2f2f2f;
+        font-family: Roboto Flex;
+        font-size: 24px;
+        font-weight: 700;
+        border-left: 3px solid #b4b4b4;
+    }
+    .career-subsubcategory-title {
+        margin: 0 0 12px 40px;
+        padding-left: 12px;
+        color: #505050;
+        font-family: Roboto Flex;
+        font-size: 20px;
+        font-weight: 700;
+        border-left: 2px solid #d8d8d8;
+    }
+    .career-category-section,
+    .career-subcategory-section,
+    .career-subsubcategory-section {
+        margin-bottom: 26px;
+    }
     @media screen and (max-width: 768px) {
         .documents-page-grid {
             display: grid;
@@ -353,7 +385,7 @@ get_header(); ?>
                 ));
         ?>
         <div class="career-category-section">
-            <h2 class="career-category-title"><?php echo esc_html($top_level_term->name); ?></h2>
+            <h2 id="<?php echo esc_attr($top_level_term->slug); ?>" class="career-category-title"><?php echo esc_html($top_level_term->name); ?></h2>
 
             <?php if (!empty($top_level_posts)) : ?>
                 <div class="documents-page-grid">
@@ -398,7 +430,7 @@ get_header(); ?>
                     ));
                     ?>
                     <div class="career-subcategory-section">
-                        <h3 class="career-subcategory-title"><?php echo esc_html($child_term->name); ?></h3>
+                        <h3 id="<?php echo esc_attr($child_term->slug); ?>" class="career-subcategory-title"><?php echo esc_html($child_term->name); ?></h3>
 
                         <?php if (!empty($child_posts)) : ?>
                             <div class="documents-page-grid">
@@ -437,7 +469,7 @@ get_header(); ?>
                                 ));
                                 ?>
                                 <div class="career-subsubcategory-section">
-                                    <h4 class="career-subsubcategory-title"><?php echo esc_html($grandchild_term->name); ?></h4>
+                                    <h4 id="<?php echo esc_attr($grandchild_term->slug); ?>" class="career-subsubcategory-title"><?php echo esc_html($grandchild_term->name); ?></h4>
                                     <?php if (!empty($grandchild_posts)) : ?>
                                         <div class="documents-page-grid">
                                             <?php foreach ($grandchild_posts as $grandchild_post) : ?>
