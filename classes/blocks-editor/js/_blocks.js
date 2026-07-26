@@ -345,10 +345,10 @@ class Block {
 						}
 						if (parentInstance && parentInstance.settings) {
 							if (typeof parentInstance.settings.columns !== 'undefined') {
-								parentInstance.applySettings({ columns: Math.max(1, parentInstance.items.length) }, true);
+								parentInstance.applySettings({ columns: parentInstance.items.length }, true);
 							}
 							if (typeof parentInstance.settings.amount !== 'undefined') {
-								parentInstance.applySettings({ amount: Math.max(1, parentInstance.items.length) }, true);
+								parentInstance.applySettings({ amount: parentInstance.items.length }, true);
 							}
 						}
 						// Remover del DOM
@@ -475,10 +475,10 @@ class Block {
 						}
 						if (parentInstance && parentInstance.settings) {
 							if (typeof parentInstance.settings.columns !== 'undefined') {
-								parentInstance.applySettings({ columns: Math.max(1, parentInstance.items.length) }, true);
+								parentInstance.applySettings({ columns: parentInstance.items.length }, true);
 							}
 							if (typeof parentInstance.settings.amount !== 'undefined') {
-								parentInstance.applySettings({ amount: Math.max(1, parentInstance.items.length) }, true);
+								parentInstance.applySettings({ amount: parentInstance.items.length }, true);
 							}
 						}
 						// Remover del DOM
@@ -1144,7 +1144,7 @@ class Columns extends ContainerBlock {
 		let {
 			columns = 3
 		} = settings;
-		columns = Math.max(1, Number(columns));
+		columns = Math.max(0, Number(columns));
 		this.settings.columns = columns;
 
 		let colsList = [];
