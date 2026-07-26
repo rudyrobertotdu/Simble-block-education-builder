@@ -2861,6 +2861,22 @@ class BlocksEditor {
 		return recurse(BlocksEditor.$editorDocument);
 	}
 
+	static findParentInstance(targetInstance) {
+		function recurse(parent) {
+			if (!parent || !parent.items) return null;
+			for (let i = 0; i < parent.items.length; i++) {
+				if (parent.items[i] === targetInstance) {
+					return parent;
+				}
+				const found = recurse(parent.items[i]);
+				if (found) return found;
+			}
+			return null;
+		}
+
+		return recurse(BlocksEditor.$editorDocument);
+	}
+
 	static reapplySelection() {
 		try {
 			if (!BlocksEditor.selectedBlock) return;

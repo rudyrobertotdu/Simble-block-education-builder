@@ -335,9 +335,21 @@ class Block {
 							BlocksEditor.selectedBlock = null;
 							this.isSelected = false;
 						}
-						// Remover de la estructura en memoria
+						// Remover de la estructura en memoria y ajustar contadores de bloques padre
+						let parentInstance = null;
+						if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.findParentInstance === 'function') {
+							parentInstance = BlocksEditor.findParentInstance(this);
+						}
 						if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {
 							BlocksEditor.removeInstance(this);
+						}
+						if (parentInstance && parentInstance.settings) {
+							if (typeof parentInstance.settings.columns !== 'undefined') {
+								parentInstance.applySettings({ columns: Math.max(1, parentInstance.items.length) }, true);
+							}
+							if (typeof parentInstance.settings.amount !== 'undefined') {
+								parentInstance.applySettings({ amount: Math.max(1, parentInstance.items.length) }, true);
+							}
 						}
 						// Remover del DOM
 						if (this.$block && this.$block.parentNode) {
@@ -452,9 +464,22 @@ class Block {
 							BlocksEditor.selectedBlock = null;
 							this.isSelected = false;
 						}
+						// Ajustar los contadores del padre antes de eliminar de la estructura
+						let parentInstance = null;
+						if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.findParentInstance === 'function') {
+							parentInstance = BlocksEditor.findParentInstance(this);
+						}
 						// Remover de la estructura en memoria
 						if (typeof BlocksEditor !== 'undefined' && typeof BlocksEditor.removeInstance === 'function') {
 							BlocksEditor.removeInstance(this);
+						}
+						if (parentInstance && parentInstance.settings) {
+							if (typeof parentInstance.settings.columns !== 'undefined') {
+								parentInstance.applySettings({ columns: Math.max(1, parentInstance.items.length) }, true);
+							}
+							if (typeof parentInstance.settings.amount !== 'undefined') {
+								parentInstance.applySettings({ amount: Math.max(1, parentInstance.items.length) }, true);
+							}
 						}
 						// Remover del DOM
 						if (this.$block && this.$block.parentNode) {
@@ -1119,30 +1144,31 @@ class Columns extends ContainerBlock {
 		let {
 			columns = 3
 		} = settings;
+		columns = Math.max(1, Number(columns));
+		this.settings.columns = columns;
 
 		let colsList = [];
 
-		for (let i = 0; i < columns; i++) {
-
-			//colsList.push(BlocksEditor.create('Column', {}, '')); //Dar soporte luego
-
-			if (this.items[i])
-				continue;
-
-			colsList.push({
-				type: 'Column',
-				settings: {},
-				html: '',
-				items: [
-					/*{
-						type: 'ImageBox',
-						settings: {},
-						html: ''
-					}*/
-				]
-			});
+		if (this.items.length > columns) {
+			for (let i = this.items.length - 1; i >= columns; i--) {
+				try {
+					this.items[i].getBlock().remove();
+				} catch (e) {
+					console.warn('Could not remove extra column', e);
+				}
+				this.items.splice(i, 1);
+			}
+		} else if (this.items.length < columns) {
+			for (let i = this.items.length; i < columns; i++) {
+				colsList.push({
+					type: 'Column',
+					settings: {},
+					html: '',
+					items: []
+				});
+			}
+			this.addBlockItems(colsList);
 		}
-		this.addBlockItems(colsList);
 
 		//let count = this.items.length
 
