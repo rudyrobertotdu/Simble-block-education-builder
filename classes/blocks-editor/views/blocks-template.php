@@ -416,65 +416,66 @@
 					$postName = $('.blocks-data').find("select[name='data[post_name]']"),
     				$formPostPage = $(this).find("input[name='data[post_page]']"),
     				$formPostType = $(this).find("input[name='data[post_type]']"),
-    				$formPostName = $(this).find("input[name='data[post_name]']");
-    				$formTplName = $(this).find("input[name='data[template_name]']"),
-    				$formTplSection = $(this).find("input[name='data[template_section]']");
-    
-    			console.log(this);
-    			console.log($tplHTML);
-    			console.log($tplStructure);
-    
-    			$formPostPage.val($postPage.val());
-    			$formPostType.val($postType.val());
-    			$formPostName.val($postName.val());
-    			$formTplName.val($tplName.val());
-    			$formTplSection.val($tplSection.val());
-				$tplName.val($tplName.val());
-				$tplSection.val($tplSection.val());
-				try {
-					try {
-						console.log('[BlocksEditor][Save] items settings snapshot:', BlocksEditor.$editorDocument.items.map(b => ({ type: b.constructor.name, settings: b.settings })) );
-						let scNodes = [];
-						try {
-							const clone = BlocksEditor.$editorDocument.getBlock().cloneNode(true);
-							clone.querySelectorAll('[data-block="shortcode"]').forEach(n => {
-								scNodes.push({ attr: n.getAttribute('data-shortcode'), text: (n.textContent||'').trim().slice(0,200) });
-							});
-						} catch (e) {
-							console.warn('Could not clone DOM for shortcode inspection', e);
-						}
-						console.log('[BlocksEditor][Save] shortcode DOM snapshot:', scNodes);
-					} catch (e) { console.warn('Shortcode pre-save snapshot failed', e); }
+				$formPostName = $(this).find("input[name='data[post_name]']"),
+				$formTplName = $(this).find("input[name='data[template_name]']"),
+				$formTplSection = $(this).find("input[name='data[template_section]']");
 
-					const saved = BlocksEditor.$editorDocument.getSaveBlock().outerHTML;
-					console.log('[BlocksEditor][Save] savedHTML length:', saved.length, 'snippet:', saved.slice(0,200));
-					$tplHTML.val(saved);
-				} catch (e) {
-					console.error('Error serializing save block:', e);
-					$tplHTML.val('');
+			let templateNameValue = $tplName.val() ? $tplName.val().trim() : '';
+
+			if (!templateNameValue) {
+				if (typeof $UI !== 'undefined' && $UI.dialog && typeof $UI.dialog.alert === 'function') {
+					$UI.dialog.alert('Error', 'El nombre de plantilla no puede quedar en blanco.');
+				} else {
+					alert('El nombre de plantilla no puede quedar en blanco.');
 				}
-    			$tplStructure.val(JSON.stringify([BlocksEditor.$editorDocument.saveConfig]));
+				$tplName.focus();
+				return false;
+			}
 
-		    } catch (e) {
-		        
-		        $UI.dialog.alert(
-		            'Error',
-		            'A ocurrido un inconveniente al guardar, copie los detalles de este mensaje, recarge la pagina y contacte con el desarrollador: \n'+ e.message
-		        );
-		        return false;
-		    }
-			return true;
-		});
+			try {
+				console.log('[BlocksEditor][Save] items settings snapshot:', BlocksEditor.$editorDocument.items.map(b => ({ type: b.constructor.name, settings: b.settings })) );
+				let scNodes = [];
+				try {
+					const clone = BlocksEditor.$editorDocument.getBlock().cloneNode(true);
+					clone.querySelectorAll('[data-block="shortcode"]').forEach(n => {
+						scNodes.push({ attr: n.getAttribute('data-shortcode'), text: (n.textContent||'').trim().slice(0,200) });
+					});
+				} catch (e) {
+					console.warn('Could not clone DOM for shortcode inspection', e);
+				}
+				console.log('[BlocksEditor][Save] shortcode DOM snapshot:', scNodes);
+			} catch (e) {
+				console.warn('Shortcode pre-save snapshot failed', e);
+			}
 
-		$tabsButtons.on('click', function() {
+			try {
+				const saved = BlocksEditor.$editorDocument.getSaveBlock().outerHTML;
+				console.log('[BlocksEditor][Save] savedHTML length:', saved.length, 'snippet:', saved.slice(0,200));
+				$tplHTML.val(saved);
+			} catch (e) {
+				console.error('Error serializing save block:', e);
+				$tplHTML.val('');
+			}
 
-			var target = this.dataset.target;
-			console.log($tabs);
-			var $panel = $tabs[0].querySelector(`.tab-panel[data-name=${target}]`);
-			var $tabsS = $tabs.find(`.tab:not([data-target=${target}])`);
-			var $siblings = $tabs.find(`.tab-panel:not([data-name=${target}])`);
+			$formPostPage.val($postPage.val());
+			$formPostType.val($postType.val());
+			$formPostName.val($postName.val());
+			$formTplName.val(templateNameValue);
+			$formTplSection.val($tplSection.val());
+			$tplName.val(templateNameValue);
+			$tplSection.val($tplSection.val());
+			$tplStructure.val(JSON.stringify([BlocksEditor.$editorDocument.saveConfig]));
 
-			$siblings.css('display', 'none');
+	    } catch (e) {
+			if (typeof $UI !== 'undefined' && $UI.dialog && typeof $UI.dialog.alert === 'function') {
+				$UI.dialog.alert(
+					'Error',
+					'A ocurrido un inconveniente al guardar, copie los detalles de este mensaje, recarge la pagina y contacte con el desarrollador: \n' + e.message
+				);
+			} else {
+				alert('A ocurrido un inconveniente al guardar, copie los detalles de este mensaje, recarge la pagina y contacte con el desarrollador: \n' + e.message);
+			}
+			return false;
 			$tabsS.removeAttr('data-active', '');
 			$(this).attr('data-active', '');
 			$panel.style.display = 'block';

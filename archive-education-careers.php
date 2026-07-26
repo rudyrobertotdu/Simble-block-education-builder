@@ -114,7 +114,7 @@ get_header(); ?>
         padding-left: 14px;
         color: var(--text-color);
         font-family: Roboto Flex;
-        font-size: 30px;
+        font-size: 28px;
         font-weight: 700;
         border-left: 4px solid var(--primary-color);
     }
@@ -136,9 +136,19 @@ get_header(); ?>
         font-weight: 700;
         border-left: 2px solid #d8d8d8;
     }
+    .career-level-4-title {
+        margin: 0 0 10px 60px;
+        padding-left: 10px;
+        color: #6a6a6a;
+        font-family: Roboto Flex;
+        font-size: 18px;
+        font-weight: 700;
+        border-left: 2px dashed #cfcfcf;
+    }
     .career-category-section,
     .career-subcategory-section,
-    .career-subsubcategory-section {
+    .career-subsubcategory-section,
+    .career-level-4-section {
         margin-bottom: 26px;
     }
     @media screen and (max-width: 768px) {
@@ -489,6 +499,55 @@ get_header(); ?>
                                             <?php endforeach; ?>
                                         </div>
                                     <?php endif; ?>
+
+                                    <?php
+                                    $level_4_terms = get_terms(array(
+                                        'taxonomy'   => 'career_category',
+                                        'hide_empty' => true,
+                                        'parent'     => $grandchild_term->term_id,
+                                    ));
+
+                                    if (!empty($level_4_terms) && !is_wp_error($level_4_terms)) :
+                                        foreach ($level_4_terms as $level_4_term) :
+                                            $level_4_posts = get_posts(array(
+                                                'post_type'      => 'education-careers',
+                                                'posts_per_page' => -1,
+                                                'tax_query'      => array(
+                                                    array(
+                                                        'taxonomy'         => 'career_category',
+                                                        'field'            => 'term_id',
+                                                        'terms'            => $level_4_term->term_id,
+                                                        'include_children' => false,
+                                                    ),
+                                                ),
+                                            ));
+                                    ?>
+                                    <div class="career-level-4-section">
+                                        <h5 id="<?php echo esc_attr($level_4_term->slug); ?>" class="career-level-4-title"><?php echo esc_html($level_4_term->name); ?></h5>
+                                        <?php if (!empty($level_4_posts)) : ?>
+                                            <div class="documents-page-grid">
+                                                <?php foreach ($level_4_posts as $level_4_post) : ?>
+                                                    <article id="post-<?php echo esc_attr($level_4_post->ID); ?>" <?php post_class('', $level_4_post->ID); ?>>
+                                                        <header class="entry-header">
+                                                            <i class="fa fa-graduation-cap fa-3x"></i>
+                                                        </header>
+                                                        <div class="entry-content">
+                                                            <div>
+                                                                <h2><?php echo esc_html(get_the_title($level_4_post->ID)); ?></h2>
+                                                            </div>
+                                                            <div class="button" data-block="button">
+                                                                <a class="link" href="<?php echo esc_url(get_permalink($level_4_post->ID)); ?>">Ver más</a>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
                                 </div>
                             <?php endforeach; ?>
                         <?php endif; ?>

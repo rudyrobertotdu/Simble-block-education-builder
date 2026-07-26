@@ -417,61 +417,61 @@
 						_log('[TEMP] create-blocks-template processed template_html length: ' . strlen($data['template_html']));
 					}
 
-					if ($data['template_id'] == '0') {
+			$template_name = trim(sanitize_text_field($data['template_name'] ?? ''));
+			if ($template_name === '') {
+				wp_die('El nombre de plantilla no puede quedar en blanco');
+			}
 
-						$template_id = $db->insert('blocks_editor_templates', [
-							'template_name' => $data['template_name'],
-							'template_section' => $data['template_section'],
-							'template_structure' => stripslashes($data['template_structure']),
-							'template_html' => stripslashes($data['template_html']),
-						]);
+			if ($data['template_id'] == '0') {
+				$template_id = $db->insert('blocks_editor_templates', [
+					'template_name' => $template_name,
+					'template_section' => $data['template_section'],
+					'template_structure' => stripslashes($data['template_structure']),
+					'template_html' => stripslashes($data['template_html']),
+				]);
 
-						if ($template_id) {
+				if ($template_id) {
+					$db->insert('blocks_editor_specificity', [
+						'post_page' => $data['post_page'],
+						'post_type' => $data['post_type'],
+						'post_name' => $data['post_name'],
+						'template_id' => $template_id
+					]);
+				}
 
-							$db->insert('blocks_editor_specificity', [
-								'post_page' => $data['post_page'],
-								'post_type' => $data['post_type'],
-								'post_name' => $data['post_name'],
-								'template_id' => $template_id
-							]);
-						}
+				wp_redirect(admin_url("admin.php?page=blocks-template&action=update&id=$template_id"));
+				exit;
+			} else {
+				$tpl_id = intval($data['template_id']);
+				$db->update('blocks_editor_templates', [
+					'template_name' => $template_name,
+					'template_section' => $data['template_section'] ?? '',
+					'template_structure' => stripslashes($data['template_structure'] ?? ''),
+					'template_html' => stripslashes($data['template_html'] ?? '')
+				], [
+					'ID' => $tpl_id
+				]);
 
-						wp_redirect(admin_url("admin.php?page=blocks-template&action=update&id=$template_id"));
-						exit;
+				$spec_rows = $db->fetch('blocks_editor_specificity', 'template_id = '. $tpl_id, 'ID');
+				if (!empty($spec_rows)) {
+					$db->update('blocks_editor_specificity', [
+						'post_page' => $data['post_page'] ?? '',
+						'post_type' => $data['post_type'] ?? '',
+						'post_name' => $data['post_name'] ?? ''
+					], [ 'template_id' => $tpl_id ]);
+				} else {
+					$db->insert('blocks_editor_specificity', [
+						'post_page' => $data['post_page'] ?? '',
+						'post_type' => $data['post_type'] ?? '',
+						'post_name' => $data['post_name'] ?? '',
+						'template_id' => $tpl_id
+					]);
+				}
+			}
 
-					} else {
-
-						$tpl_id = intval($data['template_id']);
-						$db->update('blocks_editor_templates', [
-							'template_name' => $data['template_name'] ?? '',
-							'template_section' => $data['template_section'] ?? '',
-							'template_structure' => stripslashes($data['template_structure'] ?? ''),
-							'template_html' => stripslashes($data['template_html'] ?? '')
-						], [
-							'ID' => $tpl_id
-						]);
-
-						$spec_rows = $db->fetch('blocks_editor_specificity', 'template_id = '. $tpl_id, 'ID');
-						if (!empty($spec_rows)) {
-							$db->update('blocks_editor_specificity', [
-								'post_page' => $data['post_page'] ?? '',
-								'post_type' => $data['post_type'] ?? '',
-								'post_name' => $data['post_name'] ?? ''
-							], [ 'template_id' => $tpl_id ]);
-						} else {
-							$db->insert('blocks_editor_specificity', [
-								'post_page' => $data['post_page'] ?? '',
-								'post_type' => $data['post_type'] ?? '',
-								'post_name' => $data['post_name'] ?? '',
-								'template_id' => $tpl_id
-							]);
-						}
-
-						wp_redirect(admin_url("admin.php?page=blocks-template&action=update&id={$tpl_id}"));
-						exit;
-					}
-
-				break;
+			wp_redirect(admin_url("admin.php?page=blocks-template&action=update&id={$tpl_id}"));
+				exit;
+			break;
 
 				case 'render-server-block':
 
