@@ -476,25 +476,38 @@
 				alert('A ocurrido un inconveniente al guardar, copie los detalles de este mensaje, recarge la pagina y contacte con el desarrollador: \n' + e.message);
 			}
 			return false;
+			}
+			return true;
+		});
+
+		$tabsButtons.on('click', function() {
+			var target = this.dataset.target;
+			console.log($tabs);
+			var $panel = $tabs[0].querySelector(`.tab-panel[data-name=${target}]`);
+			var $tabsS = $tabs.find(`.tab:not([data-target=${target}])`);
+			var $siblings = $tabs.find(`.tab-panel:not([data-name=${target}])`);
+
+			$siblings.css('display', 'none');
 			$tabsS.removeAttr('data-active', '');
 			$(this).attr('data-active', '');
 			$panel.style.display = 'block';
 
 			console.log($siblings);
 		});
+
 		$('#load-template').on('click', function() {
 
-			let $tplSection = $('.blocks-data').find("select[name='data[template_section]']");
-			let $tplPost = $('.blocks-data').find("select[name='data[post_name]']");
+			let $tplSection = $('.blocks-data').find("select[name=\'data[template_section]\']");
+			let $tplPost = $('.blocks-data').find("select[name=\'data[post_name]\']");
 
 			if ($tplSection.val() == 'content') {
 
 				BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
-
 				var contentTemplates = parsedBlocks2['content'] || {};
 				var unnamedContent = (typeof parsedBlocks !== 'undefined' && Array.isArray(parsedBlocks)) ? parsedBlocks : null;
 				var postKey = $tplPost.val();
 				var selectedTemplates = null;
+
 				if (postKey && contentTemplates[postKey]) {
 					selectedTemplates = contentTemplates[postKey];
 				} else {
@@ -526,8 +539,8 @@
 					});
 				}
 
-					if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (load-template content)');
-			
+				if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (load-template content)');
+
 			} else {
 
 				BlocksEditor.$editorDocument = BlocksEditor.create('Canvas', {}, '');
@@ -545,7 +558,6 @@
 				if (!renderCanvas()) console.warn('Editor viewport no listo para renderizar (load-template section)');
 			}
 		});
-
 		var pageAction = '<?php echo $action; ?>';
 		var templateId = '<?php echo $_GET['id'] ?? '0'; ?>';
 		if (pageAction === 'create' && (templateId === '' || templateId === '0')) {
