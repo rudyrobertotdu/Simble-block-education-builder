@@ -3203,14 +3203,17 @@ function $createUI(component) {
                 				$okButton = document.createElement('button'),
                 				$postLink = null, postLink;
 
-                			$picker.className = 'field-dropdown';
-                			$picker.style.cssText = 'display: none; position: fixed; min-height: 20px; background: #fff; border: 1px solid #b1b1b1; /*clip-path: inset(1px -100vw -100vh);*/ z-index: 10; padding: 10px';
+							$picker.className = 'field-dropdown';
+							// Reduced padding, smaller font and limited max-width to make picker more compact
+							$picker.style.cssText = 'display: none; position: fixed; min-height: 20px; max-width: 420px; width: auto; background: #fff; border: 1px solid #b1b1b1; z-index: 10; padding: 6px; font-size: 13px;';
 
-                			$bottomBar.className = 'bottom-bar';
-                			$bottomBar.style.cssText = 'display: flex; margin: 8px -10px -10px';
+							$bottomBar.className = 'bottom-bar';
+							// tighten margins and align actions to the right
+							$bottomBar.style.cssText = 'display: flex; margin: 6px -8px -8px; justify-content: flex-end;';
 
-                			$okButton.textContent = 'Aceptar';
-                			$okButton.style.cssText = 'border: 1px solid #919191;padding: 4px 12px;font-size: 14px;border-radius: 3px;background: #f9f9f9;color: #444444';
+							$okButton.textContent = 'Aceptar';
+							// slightly smaller button padding and font
+							$okButton.style.cssText = 'border: 1px solid #919191; padding: 4px 10px; font-size: 13px; border-radius: 3px; background: #f9f9f9; color: #444444;';
                 			$okButton.addEventListener('click', function() {
                 				setValue(postLink);
                 				collapse();
