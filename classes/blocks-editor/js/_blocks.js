@@ -2477,21 +2477,23 @@ class Paragraph extends Block {
 			$block.setAttribute('data-shortcode', shortcode);
 		}
 
-		// Try to retrieve the freshest HTML from any active Simditor instance
-		// in the controls panel (this will call Simditor.sync() via getValue()).
+		// If this paragraph is currently selected, sync the active Simditor editor value.
 		try {
-			var mainDoc = Block.mainDocument || document;
-			var textareas = mainDoc.querySelectorAll('textarea');
-			for (var i = 0; i < textareas.length; i++) {
-				var ta = textareas[i];
-				if (window.jQuery) {
-					var inst = window.jQuery(ta).data && window.jQuery(ta).data('simditor');
-					if (inst && typeof inst.getValue === 'function') {
-						var v = inst.getValue();
-						if (v !== undefined && v !== null && String(v).trim() !== '') {
-							text = v;
-							break;
+			if (typeof BlocksEditor !== 'undefined' && BlocksEditor.selectedBlock === this) {
+				var mainDoc = Block.mainDocument || document;
+				var textarea = mainDoc.querySelector('.blocks-controls textarea');
+				if (textarea) {
+					if (window.jQuery) {
+						var inst = window.jQuery(textarea).data && window.jQuery(textarea).data('simditor');
+						if (inst && typeof inst.getValue === 'function') {
+							var v = inst.getValue();
+							if (v !== undefined && v !== null) {
+								text = v;
+							}
 						}
+					}
+					if (!text && textarea.value !== undefined) {
+						text = textarea.value;
 					}
 				}
 			}
