@@ -1836,7 +1836,8 @@ function $createUI(component) {
 											'ul',
 											'ol',
 											'alignment',
-											'hr'
+											'hr',
+											'link'
 										],
 										allowedTags: []
 									});
