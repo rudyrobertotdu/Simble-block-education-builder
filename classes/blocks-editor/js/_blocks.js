@@ -514,8 +514,8 @@ class Block {
 						//body.style.overflowX = 'auto';
 						body.style.width = '300px';
 					}
-					var ta = controlsPanel.querySelector('textarea');
-					if (ta) { ta.style.whiteSpace = 'nowrap'; ta.style.overflowX = 'auto'; ta.style.width = '1000px'; }
+					//var ta = controlsPanel.querySelector('textarea');
+					//if (ta) { ta.style.whiteSpace = 'nowrap'; ta.style.overflowX = 'auto'; ta.style.width = '1000px'; }
 				}
 			} catch (e) { console.warn('Could not expand paragraph editor area', e); }
 		}, 80);
