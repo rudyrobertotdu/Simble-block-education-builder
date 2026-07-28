@@ -501,6 +501,25 @@ class Block {
 		} catch (e) { console.warn('No se pudo añadir el botón Eliminar bloque:', e); }
 
 		console.log(this.controls, $formControls);
+
+		// If editing a Paragraph block, expand the htmleditor area to allow horizontal scrolling
+		setTimeout(function(){
+			try {
+				var controlsPanel = mainDoc.querySelector('.blocks-controls');
+				if (controlsPanel && controlsPanel.getAttribute && controlsPanel.getAttribute('data-current-block') === 'paragraph') {
+					var editorWrap = controlsPanel.querySelector('.simditor') || controlsPanel;
+					var body = (editorWrap && (editorWrap.querySelector('.simditor-body') || editorWrap.querySelector('[contenteditable]'))) || controlsPanel.querySelector('textarea');
+					if (body) {
+						//body.style.whiteSpace = 'nowrap';
+						//body.style.overflowX = 'auto';
+						body.style.width = '300px';
+					}
+					var ta = controlsPanel.querySelector('textarea');
+					if (ta) { ta.style.whiteSpace = 'nowrap'; ta.style.overflowX = 'auto'; ta.style.width = '1000px'; }
+				}
+			} catch (e) { console.warn('Could not expand paragraph editor area', e); }
+		}, 80);
+		////////////
 	}
 	createControls(name) {
 
