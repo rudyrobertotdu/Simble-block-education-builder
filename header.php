@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon" href="/wp-content/themes/educacion-editor/img/5_150x150.png">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CENTRO PROFESIONAL Y PROMOCIÓN EDUCATIVA "SABER"</title>
+	<!--<title>CENTRO PROFESIONAL Y PROMOCIÓN EDUCATIVA "SABER-CLAIP"</title>-->
 	<?php wp_head(); ?>
 	<style>
 		.hero {
