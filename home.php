@@ -8,4 +8,4 @@
  */
 
 ?>
-home.php
+por favor establezca una página de inicio en Ajustes → Lectura.
