@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<!--
-	header.php
-
-	Cabecera global del tema: incluye meta tags, `wp_head()` y estilos
-	básicos para la presentación del hero y page-hero.
-
-	Notas:
-	- Evitar añadir lógica pesada aquí; `Blocks_Editor::get_template('header')`
-		se encarga de la composición dinámica del header.
--->
 <html lang="en">
 <head>
     <link rel="icon" type="image/x-icon" href="/wp-content/themes/educacion-editor/img/5_150x150.png">
