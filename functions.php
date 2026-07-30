@@ -60,6 +60,7 @@ if (!function_exists('_log')) {
         wp_enqueue_script('simditor-module-scripts', $path .'/lib/simditor/js/module.js', array('jquery'), $ver, false);
         wp_enqueue_script('simditor-hotkeys-scripts', $path .'/lib/simditor/js/hotkeys.js', array('jquery'), $ver, false);
         wp_enqueue_script('simditor-scripts', $path .'/lib/simditor/js/simditor.js', array('jquery'), $ver, false);
+        wp_add_inline_script('simditor-scripts', "if (typeof Simditor !== 'undefined') { Simditor.locale = 'en-US'; } if (typeof Uploader !== 'undefined') { Uploader.locale = 'en-US'; } if (typeof Module !== 'undefined') { Module.locale = 'en-US'; }");
 	}
 	add_action('admin_enqueue_scripts', 'load_backend_scripts');
 	
@@ -498,8 +499,7 @@ if (!function_exists('_log')) {
                 
                 var $editor = new Simditor({
     					textarea: document.querySelector('textarea[name=career-plan-estudios]'),
-						locale: 'en-US',
-    					toolbar: [
+						toolbar: [
     						'bold',
     						'italic',
     						'ul',
@@ -622,7 +622,6 @@ if (!function_exists('_log')) {
                 
                 var $editor = new Simditor({
 					textarea: document.querySelector('textarea[name=career-matricula]'),
-					locale: 'en-US',
 					toolbar: [
 						'bold',
 						'italic',
@@ -744,7 +743,6 @@ if (!function_exists('_log')) {
                 
                 var $editor = new Simditor({
 					textarea: document.querySelector('textarea[name=oficio-autorizacion]'),
-					locale: 'en-US',
 					toolbar: [
 						'bold',
 						'italic',
