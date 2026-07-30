@@ -589,10 +589,12 @@ if (!function_exists('_log')) {
             	}
             	$(btn).on('click', function() {
             	    
-            	    openLibrary(function(file) {
-            	        
-            	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
-            	    }, false);
+					openLibrary(function(file) {
+                
+						// `file.url` is already normalized inside openLibrary before
+						// calling the callback, so use it directly here.
+						$editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ file.url +'"></iframe>');
+					}, false);
             	});
             })(jQuery);
         </script>
@@ -712,10 +714,10 @@ if (!function_exists('_log')) {
             	}
             	$(btn).on('click', function() {
             	    
-            	    openLibrary(function(file) {
-            	        
-            	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
-            	    }, false);
+					openLibrary(function(file) {
+                
+						$editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ file.url +'"></iframe>');
+					}, false);
             	});
             	
             })(jQuery);
@@ -834,10 +836,10 @@ if (!function_exists('_log')) {
             	
             	$(btn).on('click', function() {
             	    
-            	    openLibrary(function(file) {
-            	        
-            	        $editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ normalizeUrl(file.url) +'"></iframe>');
-            	    }, false);
+					openLibrary(function(file) {
+                
+						$editor.setValue($editor.getValue() + '<iframe style="display: block; width: 100%; height: 300px" src="'+ file.url +'"></iframe>');
+					}, false);
             	});
             	
             })(jQuery);
