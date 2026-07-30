@@ -498,6 +498,7 @@ if (!function_exists('_log')) {
                 
                 var $editor = new Simditor({
     					textarea: document.querySelector('textarea[name=career-plan-estudios]'),
+						locale: 'en-US',
     					toolbar: [
     						'bold',
     						'italic',
@@ -621,6 +622,7 @@ if (!function_exists('_log')) {
                 
                 var $editor = new Simditor({
 					textarea: document.querySelector('textarea[name=career-matricula]'),
+					locale: 'en-US',
 					toolbar: [
 						'bold',
 						'italic',
@@ -742,6 +744,7 @@ if (!function_exists('_log')) {
                 
                 var $editor = new Simditor({
 					textarea: document.querySelector('textarea[name=oficio-autorizacion]'),
+					locale: 'en-US',
 					toolbar: [
 						'bold',
 						'italic',
