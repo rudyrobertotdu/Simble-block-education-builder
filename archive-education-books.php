@@ -343,7 +343,10 @@ get_header(); ?>
                         <?php
                             $link = get_permalink();
                         ?>
-                        <?php if ( has_post_thumbnail() ) : ?>
+                        
+                        <?php if ( get_post_meta(get_the_ID(), '_replace_thumbnail_with_icon', true) === '1' ) : ?>
+                            <i class="fa fa-book fa-3x"></i>
+                        <?php elseif ( has_post_thumbnail() ) : ?>
                             <?php the_post_thumbnail( 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                         <?php else : ?>
                             <i class="fa fa-book fa-3x"></i>

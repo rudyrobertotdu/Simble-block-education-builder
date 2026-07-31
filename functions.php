@@ -238,16 +238,24 @@ if (!function_exists('_log')) {
 	function education_add_meta_boxes() {
 
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
+
+		add_meta_box('education-career-data-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-careers', 'normal', 'high');
 		
 		add_meta_box('education-diploma-data', 'DATOS DEL DIPLOMADO', 'render_career_data_metabox', 'education-diploma', 'normal', 'high');
 
+		add_meta_box('education-diploma-data-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-diploma', 'normal', 'high');
+
 		add_meta_box('education-specialization-data', 'DATOS DE LA ESPECIALIZACIÓN', 'render_career_data_metabox', 'education-specializa', 'normal', 'high');
+
+		add_meta_box('education-specialization-data-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-specializa', 'normal', 'high');
 		
 		add_meta_box('education-document-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
 
 		add_meta_box('education-book-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-books', 'normal', 'high');
 
 		add_meta_box('education-book-availability', 'DISPONIBILIDAD', 'render_book_availability_metabox', 'education-books', 'normal', 'high');
+
+		add_meta_box('education-book-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-books', 'normal', 'high');
 
 		add_meta_box('education-book-data', 'DATOS DEL LIBRO', 'render_book_data_metabox', 'education-books', 'normal', 'high');
 	}
@@ -264,6 +272,24 @@ if (!function_exists('_log')) {
 			<label style="display:flex; align-items:center; gap:8px;">
 				<input type="checkbox" id="book-available" name="book_availability" value="available" <?php checked( $checked ); ?> />
 				<span>Disponible</span>
+			</label>
+		</div>
+		<?php
+	}
+
+	function render_icon_replace_metabox($post) {
+		$replace = get_post_meta($post->ID, '_replace_thumbnail_with_icon', true);
+		?>
+		<div class="uix-field">
+			<label style="display:flex; align-items:center; gap:8px;">
+				<input
+					type="checkbox"
+					id="replace-thumbnail-with-icon"
+					name="replace_thumbnail_with_icon"
+					value="1"
+					<?php checked($replace, '1'); ?>
+				/>
+				<span>Reemplazar miniatura con icono por defecto</span>
 			</label>
 		</div>
 		<?php
@@ -851,6 +877,14 @@ if (!function_exists('_log')) {
 
 	function save_post_education_career($post_id) {
 
+		// Guardado de reemplazo de miniatura con ícono.
+		if (isset($_POST['replace_thumbnail_with_icon'])) {
+			$replace = sanitize_text_field($_POST['replace_thumbnail_with_icon']);
+			update_post_meta($post_id, '_replace_thumbnail_with_icon', $replace);
+		} else {
+			delete_post_meta($post_id, '_replace_thumbnail_with_icon');
+		}
+
 	    if (array_key_exists('career-plan-estudios', $_POST)) {
 			$data5 = $_POST['career-plan-estudios'];
 			if ($data5 !== '') {
@@ -915,6 +949,13 @@ if (!function_exists('_log')) {
 			// para que el valor no vuelva al comportamiento por defecto al
 			// renderizar la metabox.
 			update_post_meta($post_id, '_book_availability', 'unavailable');
+		}
+		// Guardado de reemplazo de miniatura con ícono.
+		if (isset($_POST['replace_thumbnail_with_icon'])) {
+			$replace = sanitize_text_field($_POST['replace_thumbnail_with_icon']);
+			update_post_meta($post_id, '_replace_thumbnail_with_icon', $replace);
+		} else {
+			delete_post_meta($post_id, '_replace_thumbnail_with_icon');
 		}
 
 		// Guardado de datos del libro (ISBN, URL ISBN, Link de compra).

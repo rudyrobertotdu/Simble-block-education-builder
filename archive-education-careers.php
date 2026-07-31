@@ -407,7 +407,9 @@ get_header(); ?>
                     <?php foreach ($top_level_posts as $top_level_post) : ?>
                         <article id="post-<?php echo esc_attr($top_level_post->ID); ?>" <?php post_class('', $top_level_post->ID); ?>>
                             <header class="entry-header">
-                                <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
+                                <?php if ( get_post_meta($top_level_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
+                                    <i class="fa fa-graduation-cap fa-3x"></i>
+                                <?php elseif ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
                                     <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                 <?php else : ?>
                                     <i class="fa fa-graduation-cap fa-3x"></i>
@@ -456,8 +458,10 @@ get_header(); ?>
                                 <?php foreach ($child_posts as $child_post) : ?>
                                     <article id="post-<?php echo esc_attr($child_post->ID); ?>" <?php post_class('', $child_post->ID); ?>>
                                         <header class="entry-header">
-                                            <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
-                                                <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                                            <?php if ( get_post_meta($child_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
+                                                <i class="fa fa-graduation-cap fa-3x"></i>
+                                            <?php elseif ( has_post_thumbnail( $child_post->ID ) ) : ?>
+                                                <?php echo get_the_post_thumbnail( $child_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                             <?php else : ?>
                                                 <i class="fa fa-graduation-cap fa-3x"></i>
                                             <?php endif; ?>
@@ -498,8 +502,10 @@ get_header(); ?>
                                             <?php foreach ($grandchild_posts as $grandchild_post) : ?>
                                                 <article id="post-<?php echo esc_attr($grandchild_post->ID); ?>" <?php post_class('', $grandchild_post->ID); ?>>
                                                     <header class="entry-header">
-                                                        <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
-                                                            <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                                                        <?php if ( get_post_meta($grandchild_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
+                                                            <i class="fa fa-graduation-cap fa-3x"></i>
+                                                        <?php elseif ( has_post_thumbnail( $grandchild_post->ID ) ) : ?>
+                                                            <?php echo get_the_post_thumbnail( $grandchild_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                                         <?php else : ?>
                                                             <i class="fa fa-graduation-cap fa-3x"></i>
                                                         <?php endif; ?>
@@ -546,7 +552,9 @@ get_header(); ?>
                                                 <?php foreach ($level_4_posts as $level_4_post) : ?>
                                                     <article id="post-<?php echo esc_attr($level_4_post->ID); ?>" <?php post_class('', $level_4_post->ID); ?>>
                                                         <header class="entry-header">
-                                                            <?php if ( has_post_thumbnail( $level_4_post->ID ) ) : ?>
+                                                            <?php if ( get_post_meta($level_4_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
+                                                                <i class="fa fa-graduation-cap fa-3x"></i>
+                                                            <?php elseif ( has_post_thumbnail( $level_4_post->ID ) ) : ?>
                                                                 <?php echo get_the_post_thumbnail( $level_4_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                                             <?php else : ?>
                                                                 <i class="fa fa-graduation-cap fa-3x"></i>
@@ -599,8 +607,12 @@ get_header(); ?>
                 <?php while ($uncategorized_query->have_posts()) : $uncategorized_query->the_post(); ?>
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <header class="entry-header">
-                            <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
-                                <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                            <?php if ( get_post_meta(get_the_ID(), '_replace_thumbnail_with_icon', true) === '1' ) : ?>
+                                <i class="fa fa-graduation-cap fa-3x"></i>
+                            <?php elseif ( has_post_thumbnail() ) : ?>
+                                <?php the_post_thumbnail('medium', array(
+                                    'class' => 'entry-header-image'
+                                )); ?>
                             <?php else : ?>
                                 <i class="fa fa-graduation-cap fa-3x"></i>
                             <?php endif; ?>
