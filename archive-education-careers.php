@@ -407,8 +407,13 @@ get_header(); ?>
                     <?php foreach ($top_level_posts as $top_level_post) : ?>
                         <article id="post-<?php echo esc_attr($top_level_post->ID); ?>" <?php post_class('', $top_level_post->ID); ?>>
                             <header class="entry-header">
+                                <?php
+                                    $alt_thumb_id = (int) get_post_meta($top_level_post->ID, '_alternative_thumbnail_id', true);
+                                ?>
                                 <?php if ( get_post_meta($top_level_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
                                     <i class="fa fa-graduation-cap fa-3x"></i>
+                                <?php elseif ($alt_thumb_id > 0) : ?>
+                                    <?php echo wp_get_attachment_image($alt_thumb_id,'medium',false,array('class' => 'entry-header-image')); ?>
                                 <?php elseif ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
                                     <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                 <?php else : ?>
@@ -458,8 +463,13 @@ get_header(); ?>
                                 <?php foreach ($child_posts as $child_post) : ?>
                                     <article id="post-<?php echo esc_attr($child_post->ID); ?>" <?php post_class('', $child_post->ID); ?>>
                                         <header class="entry-header">
+                                            <?php
+                                                $alt_thumb_id = (int) get_post_meta($child_post->ID, '_alternative_thumbnail_id', true);
+                                            ?>
                                             <?php if ( get_post_meta($child_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
                                                 <i class="fa fa-graduation-cap fa-3x"></i>
+                                            <?php elseif ($alt_thumb_id > 0) : ?>
+                                                <?php echo wp_get_attachment_image($alt_thumb_id, 'medium', false, array('class' => 'entry-header-image')); ?>
                                             <?php elseif ( has_post_thumbnail( $child_post->ID ) ) : ?>
                                                 <?php echo get_the_post_thumbnail( $child_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                             <?php else : ?>
@@ -502,8 +512,13 @@ get_header(); ?>
                                             <?php foreach ($grandchild_posts as $grandchild_post) : ?>
                                                 <article id="post-<?php echo esc_attr($grandchild_post->ID); ?>" <?php post_class('', $grandchild_post->ID); ?>>
                                                     <header class="entry-header">
+                                                        <?php
+                                                            $alt_thumb_id = (int) get_post_meta($grandchild_post->ID, '_alternative_thumbnail_id', true);
+                                                        ?>
                                                         <?php if ( get_post_meta($grandchild_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
                                                             <i class="fa fa-graduation-cap fa-3x"></i>
+                                                        <?php elseif ($alt_thumb_id > 0) : ?>
+                                                            <?php echo wp_get_attachment_image( $alt_thumb_id, 'medium', false, array('class' => 'entry-header-image')); ?>
                                                         <?php elseif ( has_post_thumbnail( $grandchild_post->ID ) ) : ?>
                                                             <?php echo get_the_post_thumbnail( $grandchild_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                                         <?php else : ?>
@@ -552,8 +567,13 @@ get_header(); ?>
                                                 <?php foreach ($level_4_posts as $level_4_post) : ?>
                                                     <article id="post-<?php echo esc_attr($level_4_post->ID); ?>" <?php post_class('', $level_4_post->ID); ?>>
                                                         <header class="entry-header">
+                                                            <?php
+                                                                $alt_thumb_id = (int) get_post_meta($level_4_post->ID, '_alternative_thumbnail_id', true);
+                                                            ?>
                                                             <?php if ( get_post_meta($level_4_post->ID, '_replace_thumbnail_with_icon', true) === '1' ) : ?>
                                                                 <i class="fa fa-graduation-cap fa-3x"></i>
+                                                            <?php elseif ($alt_thumb_id > 0) : ?>
+                                                                <?php echo wp_get_attachment_image($alt_thumb_id, 'medium', false, array('class' => 'entry-header-image')); ?>
                                                             <?php elseif ( has_post_thumbnail( $level_4_post->ID ) ) : ?>
                                                                 <?php echo get_the_post_thumbnail( $level_4_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                                                             <?php else : ?>
@@ -607,8 +627,13 @@ get_header(); ?>
                 <?php while ($uncategorized_query->have_posts()) : $uncategorized_query->the_post(); ?>
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <header class="entry-header">
+                            <?php
+                                $alt_thumb_id = (int) get_post_meta(get_the_ID(), '_alternative_thumbnail_id', true);
+                            ?>
                             <?php if ( get_post_meta(get_the_ID(), '_replace_thumbnail_with_icon', true) === '1' ) : ?>
                                 <i class="fa fa-graduation-cap fa-3x"></i>
+                            <?php elseif ($alt_thumb_id > 0) : ?>
+                                <?php echo wp_get_attachment_image($alt_thumb_id, 'medium', false, array('class' => 'entry-header-image')); ?>
                             <?php elseif ( has_post_thumbnail() ) : ?>
                                 <?php the_post_thumbnail('medium', array(
                                     'class' => 'entry-header-image'
@@ -627,6 +652,7 @@ get_header(); ?>
                         </div>
                     </article>
                 <?php endwhile; ?>
+                <?php wp_reset_postdata(); ?>
             </div>
         </div>
         <?php endif; ?>

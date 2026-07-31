@@ -240,14 +240,20 @@ if (!function_exists('_log')) {
 		add_meta_box('education-career-data', 'DATOS DEL PROGRAMA DE ESTUDIOS', 'render_career_data_metabox', 'education-careers', 'normal', 'high');
 
 		add_meta_box('education-career-data-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-careers', 'normal', 'high');
+
+		add_meta_box('education-career-alt-thumbnail', 'MINIATURA ALTERNATIVA', 'render_alternative_thumbnail_metabox', 'education-careers', 'side', 'default');
 		
 		add_meta_box('education-diploma-data', 'DATOS DEL DIPLOMADO', 'render_career_data_metabox', 'education-diploma', 'normal', 'high');
 
 		add_meta_box('education-diploma-data-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-diploma', 'normal', 'high');
 
+		add_meta_box('education-diploma-alt-thumbnail', 'MINIATURA ALTERNATIVA', 'render_alternative_thumbnail_metabox', 'education-diploma', 'side', 'default');
+
 		add_meta_box('education-specialization-data', 'DATOS DE LA ESPECIALIZACIÓN', 'render_career_data_metabox', 'education-specializa', 'normal', 'high');
 
 		add_meta_box('education-specialization-data-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-specializa', 'normal', 'high');
+
+		add_meta_box('education-specialization-alt-thumbnail', 'MINIATURA ALTERNATIVA', 'render_alternative_thumbnail_metabox', 'education-specializa', 'side', 'default');
 		
 		add_meta_box('education-document-attachments', 'ARCHIVOS ADJUNTOS', 'render_transparency_files_metabox', 'education-documents', 'normal', 'high');
 
@@ -258,6 +264,92 @@ if (!function_exists('_log')) {
 		add_meta_box('education-book-thumbnail-replace', 'REEMPLAZAR MINIATURA', 'render_icon_replace_metabox', 'education-books', 'normal', 'high');
 
 		add_meta_box('education-book-data', 'DATOS DEL LIBRO', 'render_book_data_metabox', 'education-books', 'normal', 'high');
+	}
+
+	function render_alternative_thumbnail_metabox($post) {
+		wp_enqueue_media();
+
+		$alt_id = (int) get_post_meta($post->ID, '_alternative_thumbnail_id', true);
+		$preview_html = '<p style="margin:0; color:#666;">No hay miniatura alternativa seleccionada.</p>';
+
+		if ($alt_id > 0) {
+			$image = wp_get_attachment_image_src($alt_id, 'medium');
+			if (!empty($image[0])) {
+				$preview_html = '<img src="' . esc_url($image[0]) . '" alt="" style="max-width:100%; height:auto; display:block; border:1px solid #ddd; margin-bottom:12px;">';
+			}
+		}
+		?>
+		<div id="alternative-thumbnail-metabox" class="uix-field">
+			<input type="hidden" id="alternative-thumbnail-id" name="alternative_thumbnail_id" value="<?php echo esc_attr($alt_id); ?>">
+			<div id="alternative-thumbnail-preview"><?php echo $preview_html; ?></div>
+
+			<div style="display:flex; gap:8px; flex-wrap:wrap;">
+				<button type="button" class="button button-secondary" data-action="select-alt-thumbnail">
+					Seleccionar miniatura
+				</button>
+
+				<button
+					type="button"
+					class="button button-link-delete"
+					data-action="remove-alt-thumbnail"
+					<?php disabled($alt_id <= 0); ?>
+				>
+					Quitar
+				</button>
+			</div>
+		</div>
+
+		<script>
+		(function($) {
+			var $box = $('#alternative-thumbnail-metabox');
+			var $input = $('#alternative-thumbnail-id');
+			var $preview = $('#alternative-thumbnail-preview');
+			var frame;
+
+			function renderPreview(attachment) {
+				if (!attachment || !attachment.id) {
+					$preview.html('<p style="margin:0; color:#666;">No hay miniatura alternativa seleccionada.</p>');
+					$input.val('');
+					$box.find('[data-action="remove-alt-thumbnail"]').prop('disabled', true);
+					return;
+				}
+
+				$input.val(attachment.id);
+				$preview.html('<img src="' + attachment.url + '" alt="" style="max-width:100%; height:auto; display:block; border:1px solid #ddd;">');
+				$box.find('[data-action="remove-alt-thumbnail"]').prop('disabled', false);
+			}
+
+			$box.on('click', '[data-action="select-alt-thumbnail"]', function(e) {
+				e.preventDefault();
+
+				if (frame) {
+					frame.open();
+					return;
+				}
+
+				frame = wp.media({
+					multiple: false,
+					library: {
+						type: 'image'
+					},
+					title: 'Seleccionar miniatura alternativa'
+				});
+
+				frame.on('select', function() {
+					var attachment = frame.state().get('selection').first().toJSON();
+					renderPreview(attachment);
+				});
+
+				frame.open();
+			});
+
+			$box.on('click', '[data-action="remove-alt-thumbnail"]', function(e) {
+				e.preventDefault();
+				renderPreview(null);
+			});
+		})(jQuery);
+		</script>
+		<?php
 	}
 
 	function render_book_availability_metabox($post) {
@@ -876,6 +968,17 @@ if (!function_exists('_log')) {
 	add_action('add_meta_boxes', 'education_add_meta_boxes');
 
 	function save_post_education_career($post_id) {
+		
+		// Guardado de miniatura alternativa.
+		if (array_key_exists('alternative_thumbnail_id', $_POST)) {
+			$alt_id = absint($_POST['alternative_thumbnail_id']);
+
+			if ($alt_id > 0) {
+				update_post_meta($post_id, '_alternative_thumbnail_id', $alt_id);
+			} else {
+				delete_post_meta($post_id, '_alternative_thumbnail_id');
+			}
+		}
 
 		// Guardado de reemplazo de miniatura con ícono.
 		if (isset($_POST['replace_thumbnail_with_icon'])) {

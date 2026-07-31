@@ -337,10 +337,13 @@ get_header(); ?>
         		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 	<header class="entry-header">
                         <?php
+                            $alt_thumb_id = (int) get_post_meta(get_the_ID(), '_alternative_thumbnail_id', true);
                             $link = get_permalink();
                         ?>
                         <?php if ( get_post_meta(get_the_ID(), '_replace_thumbnail_with_icon', true) === '1' ) : ?>
                             <i class="fa fa-graduation-cap fa-3x"></i>
+                        <?php elseif ( $alt_thumb_id > 0 ) : ?>
+                            <?php echo wp_get_attachment_image($alt_thumb_id, 'medium', false, array('class' => 'entry-header-image')); ?>
                         <?php elseif ( has_post_thumbnail() ) : ?>
                             <?php the_post_thumbnail( 'medium', array( 'class' => 'entry-header-image' ) ); ?>
                         <?php else : ?>
