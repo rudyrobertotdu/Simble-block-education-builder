@@ -27,18 +27,23 @@ get_header(); ?>
         display: flex;
         align-items: center;
         justify-content: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 4 / 1;
-        flex-shrink: 0;
+        aspect-ratio: 4 / 3;
         min-height: 0;
         flex-grow: 0;
-        padding: 10px;
+        padding: 0;
         background: var(--text-color);
+        overflow: hidden;
     }
     article .entry-header i {
         color: #fff;
+    }
+    article .entry-header img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+        background: #fff;
     }
     article .entry-content {
         padding: 12px;
@@ -331,11 +336,15 @@ get_header(); ?>
     	    ?>
         		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 	<header class="entry-header">
-                	    <?php
-                	        $link = get_permalink();
-                	    ?>
-                	    <i class="fa fa-graduation-cap fa-3x"></i>
-                	</header>
+                        <?php
+                            $link = get_permalink();
+                        ?>
+                        <?php if ( has_post_thumbnail() ) : ?>
+                            <?php the_post_thumbnail( 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                        <?php else : ?>
+                            <i class="fa fa-graduation-cap fa-3x"></i>
+                        <?php endif; ?>
+                    </header>
                 	<div class="entry-content">
                 	    <div>
                 	        <h2><?php the_title(); ?></h2>

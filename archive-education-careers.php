@@ -27,18 +27,23 @@ get_header(); ?>
         display: flex;
         align-items: center;
         justify-content: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 4 / 1;
-        flex-shrink: 0;
+        aspect-ratio: 4 / 3;
         min-height: 0;
         flex-grow: 0;
-        padding: 10px;
+        padding: 0;
         background: var(--text-color);
+        overflow: hidden;
     }
     article .entry-header i {
         color: #fff;
+    }
+    article .entry-header img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+        background: #fff;
     }
     article .entry-content {
         padding: 12px;
@@ -402,7 +407,11 @@ get_header(); ?>
                     <?php foreach ($top_level_posts as $top_level_post) : ?>
                         <article id="post-<?php echo esc_attr($top_level_post->ID); ?>" <?php post_class('', $top_level_post->ID); ?>>
                             <header class="entry-header">
-                                <i class="fa fa-graduation-cap fa-3x"></i>
+                                <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
+                                    <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                                <?php else : ?>
+                                    <i class="fa fa-graduation-cap fa-3x"></i>
+                                <?php endif; ?>
                             </header>
                             <div class="entry-content">
                                 <div>
@@ -447,7 +456,11 @@ get_header(); ?>
                                 <?php foreach ($child_posts as $child_post) : ?>
                                     <article id="post-<?php echo esc_attr($child_post->ID); ?>" <?php post_class('', $child_post->ID); ?>>
                                         <header class="entry-header">
-                                            <i class="fa fa-graduation-cap fa-3x"></i>
+                                            <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
+                                                <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                                            <?php else : ?>
+                                                <i class="fa fa-graduation-cap fa-3x"></i>
+                                            <?php endif; ?>
                                         </header>
                                         <div class="entry-content">
                                             <div>
@@ -485,7 +498,11 @@ get_header(); ?>
                                             <?php foreach ($grandchild_posts as $grandchild_post) : ?>
                                                 <article id="post-<?php echo esc_attr($grandchild_post->ID); ?>" <?php post_class('', $grandchild_post->ID); ?>>
                                                     <header class="entry-header">
-                                                        <i class="fa fa-graduation-cap fa-3x"></i>
+                                                        <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
+                                                            <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                                                        <?php else : ?>
+                                                            <i class="fa fa-graduation-cap fa-3x"></i>
+                                                        <?php endif; ?>
                                                     </header>
                                                     <div class="entry-content">
                                                         <div>
@@ -529,7 +546,11 @@ get_header(); ?>
                                                 <?php foreach ($level_4_posts as $level_4_post) : ?>
                                                     <article id="post-<?php echo esc_attr($level_4_post->ID); ?>" <?php post_class('', $level_4_post->ID); ?>>
                                                         <header class="entry-header">
-                                                            <i class="fa fa-graduation-cap fa-3x"></i>
+                                                            <?php if ( has_post_thumbnail( $level_4_post->ID ) ) : ?>
+                                                                <?php echo get_the_post_thumbnail( $level_4_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                                                            <?php else : ?>
+                                                                <i class="fa fa-graduation-cap fa-3x"></i>
+                                                            <?php endif; ?>
                                                         </header>
                                                         <div class="entry-content">
                                                             <div>
@@ -578,7 +599,11 @@ get_header(); ?>
                 <?php while ($uncategorized_query->have_posts()) : $uncategorized_query->the_post(); ?>
                     <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                         <header class="entry-header">
-                            <i class="fa fa-graduation-cap fa-3x"></i>
+                            <?php if ( has_post_thumbnail( $top_level_post->ID ) ) : ?>
+                                <?php echo get_the_post_thumbnail( $top_level_post->ID, 'medium', array( 'class' => 'entry-header-image' ) ); ?>
+                            <?php else : ?>
+                                <i class="fa fa-graduation-cap fa-3x"></i>
+                            <?php endif; ?>
                         </header>
                         <div class="entry-content">
                             <div>
