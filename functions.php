@@ -851,21 +851,31 @@ if (!function_exists('_log')) {
 
 	function save_post_education_career($post_id) {
 
-	    if (!empty($_POST['career-plan-estudios'])) {
-
+	    if (array_key_exists('career-plan-estudios', $_POST)) {
 			$data5 = $_POST['career-plan-estudios'];
-			update_post_meta($post_id, '_career-plan-estudios', $data5);
+			if ($data5 !== '') {
+				update_post_meta($post_id, '_career-plan-estudios', $data5);
+			} else {
+				delete_post_meta($post_id, '_career-plan-estudios');
+			}
 		}
 
-		if (!empty($_POST['career-matricula'])) {
-
+		if (array_key_exists('career-matricula', $_POST)) {
 			$data7 = $_POST['career-matricula'];
-			update_post_meta($post_id, '_career-matricula', $data7);
+			if ($data7 !== '') {
+				update_post_meta($post_id, '_career-matricula', $data7);
+			} else {
+				delete_post_meta($post_id, '_career-matricula');
+			}
 		}
-		if (!empty($_POST['oficio-autorizacion'])) {
 
+		if (array_key_exists('oficio-autorizacion', $_POST)) {
 			$data8 = $_POST['oficio-autorizacion'];
-			update_post_meta($post_id, '_oficio-autorizacion', $data8);
+			if ($data8 !== '') {
+				update_post_meta($post_id, '_oficio-autorizacion', $data8);
+			} else {
+				delete_post_meta($post_id, '_oficio-autorizacion');
+			}
 		}
 	}
 
