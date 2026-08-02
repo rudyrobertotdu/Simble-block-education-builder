@@ -172,7 +172,7 @@ a.icon-box[data-block] {
 .image-box-group[data-block] {
 	--grid-gutter: 12px;
 	--columns-number: 3;
-	padding: 10px;
+	padding: 15px;
 	display: grid;
 	grid-template-columns: repeat(var(--columns-number), 1fr);
 	grid-gap: var(--grid-gutter);
@@ -222,6 +222,7 @@ a.icon-box[data-block] {
 	flex-wrap: wrap;
 	row-gap: 20px;
 	column-gap: 20px;
+	padding-top: 15px;
 }
 .column[data-block] {
 	flex-grow: 1;

@@ -1149,7 +1149,7 @@ class Columns extends ContainerBlock {
 				}
 			}
 		});
-
+		
 		/*this.addControl('columns', '', {
 			type: '',
 			label: 'Columnas por fila'
